@@ -30,15 +30,15 @@ brightness.
 
 Latest Vite build:
 
-| Asset         |       Raw |      Gzip |
-| ------------- | --------: | --------: |
-| HTML          |   1.83 kB |   0.68 kB |
-| CSS           |  18.56 kB |   4.71 kB |
-| Main JS       | 294.25 kB |  97.54 kB |
-| Lazy 3D JS    | 976.54 kB | 259.62 kB |
-| Audio assets  |      0 kB |      0 kB |
-| Font assets   |      0 kB |      0 kB |
-| Metadata art  | 122.03 kB |    On demand |
+| Asset        |       Raw |      Gzip |
+| ------------ | --------: | --------: |
+| HTML         |   1.83 kB |   0.68 kB |
+| CSS          |  18.56 kB |   4.71 kB |
+| Main JS      | 294.25 kB |  97.54 kB |
+| Lazy 3D JS   | 976.54 kB | 259.62 kB |
+| Audio assets |      0 kB |      0 kB |
+| Font assets  |      0 kB |      0 kB |
+| Metadata art | 122.03 kB | On demand |
 
 Approximate first-view compressed application payload is 362.55 kB. A repeat view with
 hashed assets cached primarily revalidates the 0.68 kB compressed HTML. The complete `dist`

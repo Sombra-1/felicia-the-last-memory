@@ -28,8 +28,12 @@ test('complete Hope-first journey, sound lifecycle, focus, and replay', async ({
     const text = message.text()
     const harmlessReadbackNotice =
       text.includes('GL Driver Message') && text.includes('GPU stall due to ReadPixels')
+    const harmlessSitesCookieNotice =
+      text.includes('Cookie “__cf_bm” has been rejected for invalid domain.') &&
+      page.url().endsWith('.chatgpt.site/')
     if (
       !harmlessReadbackNotice &&
+      !harmlessSitesCookieNotice &&
       (message.type() === 'error' || message.type() === 'warning')
     ) {
       problems.push(`${message.type()}: ${text}`)

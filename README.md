@@ -9,8 +9,7 @@ of a dying artificial intelligence. Visitors recover Identity, Fear, and Hope in
 Their choices reshape the chamber and determine which memory becomes the foundation of
 FELICIA's reconstructed consciousness.
 
-**Live demo:** deployment URL recorded in
-[submission readiness](docs/SUBMISSION-READINESS.md)
+**Live demo:** <https://felicia-the-last-memory.ayx1.chatgpt.site>
 
 **Source:** <https://github.com/Sombra-1/felicia-the-last-memory>
 

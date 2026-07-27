@@ -7,6 +7,7 @@
     "type": "git",
     "url": "https://github.com/Sombra-1/felicia-the-last-memory.git"
   },
+  "homepage": "https://felicia-the-last-memory.ayx1.chatgpt.site",
   "type": "module",
   "engines": {
     "node": ">=20.19.0"

@@ -26,6 +26,11 @@ The WebGL capability probe was adjusted after Firefox correctly warned when a te
 probe context was explicitly lost. The final probe simply releases its local reference and
 the warning is gone.
 
+On the public Sites URL, Firefox reports that Cloudflare's provider-generated `__cf_bm`
+bot-management cookie is rejected for the parent domain. The complete FELICIA journey still
+passes and the application emits no errors. Production automation filters only that exact
+hosting-layer notice; every other warning or error remains a failure.
+
 ### WebKit 26.5 — unavailable on this host
 
 The Playwright WebKit binary downloaded successfully. Launch was attempted, but this host is

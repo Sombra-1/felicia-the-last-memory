@@ -80,3 +80,16 @@ Against the deployed URL, verify:
 
 All six orders are exhaustively covered locally; production smoke testing uses representative
 orders to avoid redundant public traffic.
+
+Run the committed production journey against both installed engines:
+
+```bash
+PLAYWRIGHT_BASE_URL=https://example.com \
+  npx playwright test -c playwright.production.config.ts
+```
+
+Capture the five final submission frames from the actual deployment:
+
+```bash
+PLAYWRIGHT_BASE_URL=https://example.com node scripts/capture-production.mjs
+```

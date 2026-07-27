@@ -6,7 +6,9 @@ FELICIA is a static Vite application deployed through OpenAI Sites. The hosting 
 Cloudflare-backed source and deployment infrastructure and requires no server runtime,
 environment variables, database, authentication, or API keys.
 
-The exact production URL and commit are recorded in
+Production URL: <https://felicia-the-last-memory.ayx1.chatgpt.site>
+
+The exact production commit and verification record are maintained in
 [SUBMISSION-READINESS.md](SUBMISSION-READINESS.md).
 
 ## Build contract

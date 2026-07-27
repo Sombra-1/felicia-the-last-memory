@@ -142,7 +142,7 @@ and sound.
 
 ## Links
 
-- Live site: recorded in [SUBMISSION-READINESS.md](SUBMISSION-READINESS.md)
+- Live site: <https://felicia-the-last-memory.ayx1.chatgpt.site>
 - Source code: <https://github.com/Sombra-1/felicia-the-last-memory>
 - Demo video: `docs/evidence/phase5/hope-first-walkthrough.webm`
 
