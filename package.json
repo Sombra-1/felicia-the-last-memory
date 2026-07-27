@@ -1,0 +1,61 @@
+{
+  "name": "felicia-the-last-memory",
+  "private": true,
+  "version": "0.1.0",
+  "description": "An immersive 3D narrative inside the final memory of a dying artificial intelligence.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Sombra-1/felicia-the-last-memory.git"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint . --max-warnings 0",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:visual": "playwright test",
+    "test:visual:chromium": "playwright test --project=chromium",
+    "test:visual:cross-browser": "playwright test tests/e2e/cross-browser.spec.ts",
+    "test:visual:webkit": "playwright test -c playwright.webkit.config.ts",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.6.1",
+    "@react-three/postprocessing": "^3.0.4",
+    "gsap": "^3.15.0",
+    "postprocessing": "^6.39.3",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "three": "0.182.0",
+    "zustand": "^5.0.14"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.62.0",
+    "@testing-library/jest-dom": "^7.0.0",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@types/three": "0.182.0",
+    "@vitejs/plugin-react": "^6.0.4",
+    "eslint": "^10.8.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.3",
+    "globals": "^17.8.0",
+    "jsdom": "^30.0.0",
+    "prettier": "^3.9.6",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.65.0",
+    "vite": "^8.1.5",
+    "vitest": "^4.1.10"
+  }
+}

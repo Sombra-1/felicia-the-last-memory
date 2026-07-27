@@ -1,0 +1,16 @@
+{
+  "name": "FELICIA: The Last Memory",
+  "short_name": "FELICIA",
+  "description": "An immersive 3D narrative inside the final memory of a dying artificial intelligence.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#08080b",
+  "theme_color": "#08080b",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

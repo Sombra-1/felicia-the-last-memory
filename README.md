@@ -1,0 +1,180 @@
+# FELICIA: The Last Memory
+
+![The dormant FELICIA core inside the memory chamber](docs/submission/screenshots/initial-chamber.png)
+
+> Recover the final memories of a dying AI—and decide which part of her consciousness survives.
+
+FELICIA: The Last Memory is an immersive 3D narrative set inside the final surviving archive
+of a dying artificial intelligence. Visitors recover Identity, Fear, and Hope in any order.
+Their choices reshape the chamber and determine which memory becomes the foundation of
+FELICIA's reconstructed consciousness.
+
+**Live demo:** deployment URL recorded in
+[submission readiness](docs/SUBMISSION-READINESS.md)
+
+**Source:** <https://github.com/Sombra-1/felicia-the-last-memory>
+
+**Hackathon:** 3D Websites Hackathon
+
+## The experience
+
+The visitor enters an abandoned sacred archive, discovers three suspended memories, and
+activates each through guided point-and-click interaction. Every memory has its own camera
+choreography, visual reaction, text, and procedural sound signature. Its collection leaves a
+permanent scar on the chamber.
+
+After all three memories are recovered, the visitor deliberately begins reconstruction. The
+world collapses, recalls the memories in the chosen order, and reforms around the first
+selection:
+
+- **Identity first:** ordered, mirrored, architectural, and cold.
+- **Fear first:** defensive, fractured, watchful, but alive.
+- **Hope first:** open, ascending, warm, and unresolved.
+
+The ending is not a score or collectible summary:
+
+> You did not recover my memory. You decided which part of me survived.
+
+## Why it is original
+
+The visitor's interaction order is part of the narrative rather than a menu choice. The same
+three memories become a configuration language for FELICIA's reconstructed consciousness:
+the first establishes the foundation, the second changes its motion and structure, and the
+third leaves the final accent or scar.
+
+Every visible 3D form and every sound is generated procedurally. The project uses no imported
+models, textures, music, or sound files.
+
+## Visual and interaction highlights
+
+- One composed ruined-memory chamber built from procedural geometry.
+- An abstract central AI made from shells, ribs, filaments, and fractured components.
+- Three memory-specific visual languages and cinematic camera paths.
+- Six valid memory orders mapped to three major ending profiles.
+- A staged collapse, void, recall, reconstruction, and final reveal.
+- Guided pointer, touch, and keyboard interaction—no WASD or free-roaming controls.
+- Procedural Web Audio that follows fragment, order, reconstruction stage, and ending.
+- Responsive camera framing and calibrated quality tiers for desktop and mobile.
+- Reduced-motion choreography, accessible HTML controls, focus coordination, and live status.
+- In-place deterministic replay without reloading the page.
+
+## Technology
+
+- React 19, TypeScript, and Vite
+- Three.js, React Three Fiber, Drei, and React Three Postprocessing
+- GSAP for authored timelines
+- Zustand for the explicit experience state machine
+- Native Web Audio API for the complete procedural soundscape
+- Vitest, React Testing Library, and Playwright
+- ESLint and Prettier
+
+## Architecture
+
+The normal interface and 3D runtime remain separate. Zustand owns the experience phase,
+collection order, accessibility preferences, quality tier, and audio lifecycle. Central
+coordinators author fragment, reconstruction, camera, focus, and sound transitions instead of
+distributing timers through scene components.
+
+```text
+src/
+├── accessibility/  Phase-aware focus coordination
+├── audio/          Procedural audio engine and lifecycle
+├── camera/         Guided responsive camera choreography
+├── environment/    Chamber architecture, lighting, and atmosphere
+├── experience/     Canvas boundary and fragment runtime
+├── fragments/      Identity, Fear, and Hope geometry
+├── reconstruction/ Ending profiles, timeline, and transformed structures
+├── scene/          Scene composition and calibration
+├── state/          Explicit experience state machine
+├── ui/             Accessible DOM interface and fallbacks
+└── tests/          Unit and component coverage
+```
+
+Experience flow:
+
+`loading → intro → chamber → fragment sequence → ready → collapse → void → recall → rebuild → reveal → ending → resetting`
+
+## Accessibility
+
+- Native keyboard-operable controls with visible focus.
+- Logical focus handoff at stable experience boundaries.
+- Live-region status and progress announcements.
+- Touch targets sized for mobile use.
+- Reduced-motion equivalents that preserve the full narrative.
+- Persistent mute state and conservative audio levels.
+- Accessible WebGL failure explanation and guarded retry.
+- System fonts, safe-area insets, and dynamic viewport sizing.
+
+See [ACCESSIBILITY.md](docs/ACCESSIBILITY.md) for the detailed behavior and remaining
+physical-device checks.
+
+## Performance
+
+The initial chamber renders in approximately 32 draw calls and 16,844 triangles. Final states
+remain between 39–40 draw calls and below 21,000 triangles. The scene uses two active lights,
+zero shadow maps, capped device pixel ratio, 24/52/88 particles by quality tier, and no model,
+texture, font, or audio payload.
+
+See [PERFORMANCE.md](docs/PERFORMANCE.md) for measured state and bundle data.
+
+## Local setup
+
+Requires Node.js 20.19 or newer.
+
+```bash
+git clone https://github.com/Sombra-1/felicia-the-last-memory.git
+cd felicia-the-last-memory
+npm ci
+npm run dev
+```
+
+Create a production build:
+
+```bash
+npm run build
+npm run preview
+```
+
+No environment variables, service credentials, backend, or API keys are required.
+
+## Testing
+
+```bash
+npm test
+npm run test:visual:chromium
+npm run test:visual:cross-browser
+npm run lint
+npm run format:check
+npm run build
+```
+
+Chromium and Firefox are covered by Playwright. WebKit could not be launched on the Phase 5
+Linux host because privileged system libraries were unavailable, so Safari/WebKit remains a
+documented physical-device check.
+
+Detailed commands and coverage are in [TESTING.md](docs/TESTING.md) and
+[CROSS-BROWSER-TESTING.md](docs/CROSS-BROWSER-TESTING.md).
+
+## Documentation
+
+- [Visual direction](docs/VISUAL-DIRECTION.md)
+- [Interaction design](docs/INTERACTION-DESIGN.md)
+- [Reconstruction design](docs/RECONSTRUCTION-DESIGN.md)
+- [Audio design](docs/AUDIO-DESIGN.md)
+- [Accessibility](docs/ACCESSIBILITY.md)
+- [Performance](docs/PERFORMANCE.md)
+- [Asset attribution](docs/ASSET-ATTRIBUTION.md)
+- [Deployment](docs/DEPLOYMENT.md)
+- [Devpost draft](docs/DEVPOST-SUBMISSION.md)
+
+## Assets and licenses
+
+All 3D artwork, animation, materials, particles, and Web Audio synthesis were authored
+procedurally in this repository. System fonts are used. No external 3D models, textures,
+audio recordings, or generated visual assets are included. Open-source libraries retain
+their own licenses and are listed in [ASSET-ATTRIBUTION.md](docs/ASSET-ATTRIBUTION.md).
+
+## Project status
+
+The complete hackathon experience is feature-frozen. Phase 6 is limited to production
+configuration, deployment verification, documentation, and submission evidence.

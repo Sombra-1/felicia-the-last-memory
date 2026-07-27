@@ -1,0 +1,146 @@
+import { useFrame } from '@react-three/fiber'
+import { useLayoutEffect, useMemo, useRef } from 'react'
+import {
+  BufferGeometry,
+  Float32BufferAttribute,
+  Group,
+  InstancedMesh,
+  MathUtils,
+  Object3D,
+} from 'three'
+import { PALETTE } from '../scene/config/visual'
+import { sequenceRuntime } from '../experience/sequenceRuntime'
+import { useExperienceStore } from '../state/experienceStore'
+
+function HopeMotes({ active, collected }: { active: boolean; collected: boolean }) {
+  const motes = useRef<Group>(null)
+  const reducedMotion = useExperienceStore((state) => state.reducedMotion)
+  const geometry = useMemo(() => {
+    const positions = Array.from({ length: 12 }, (_, index) => {
+      const angle = index * 2.399
+      const radius = 0.18 + (index % 4) * 0.11
+      return [Math.cos(angle) * radius, index * 0.12 - 0.5, Math.sin(angle) * radius]
+    }).flat()
+    const moteGeometry = new BufferGeometry()
+    moteGeometry.setAttribute('position', new Float32BufferAttribute(positions, 3))
+    return moteGeometry
+  }, [])
+
+  useFrame(({ clock }) => {
+    if (!motes.current) return
+    const reveal = active ? sequenceRuntime.visualProgress : 0
+    motes.current.position.y =
+      reveal * 0.45 +
+      (reducedMotion || collected ? 0 : Math.sin(clock.elapsedTime * 0.8) * 0.025)
+    motes.current.scale.setScalar(0.75 + reveal * 0.65)
+  })
+
+  return (
+    <group ref={motes}>
+      <points geometry={geometry}>
+        <pointsMaterial
+          color={PALETTE.hopeSoft}
+          size={0.035}
+          transparent
+          opacity={0.55}
+          depthWrite={false}
+          toneMapped={false}
+        />
+      </points>
+    </group>
+  )
+}
+
+interface HopeFragmentProps {
+  hovered: boolean
+  active: boolean
+  collected: boolean
+}
+
+export function HopeFragment({ hovered, active, collected }: HopeFragmentProps) {
+  const group = useRef<Group>(null)
+  const petals = useRef<InstancedMesh>(null)
+  const reducedMotion = useExperienceStore((state) => state.reducedMotion)
+
+  useLayoutEffect(() => {
+    if (!petals.current) return
+    const transform = new Object3D()
+
+    for (let index = 0; index < 6; index += 1) {
+      const angle = (index / 6) * Math.PI * 2
+      transform.position.set(Math.cos(angle) * 0.34, Math.sin(angle) * 0.34, 0)
+      transform.rotation.set(0, 0, angle)
+      transform.scale.set(0.12, 0.44, 0.075)
+      transform.updateMatrix()
+      petals.current.setMatrixAt(index, transform.matrix)
+    }
+    petals.current.instanceMatrix.needsUpdate = true
+  }, [])
+
+  useFrame(({ clock }, delta) => {
+    if (!group.current || !petals.current) return
+    const time = clock.elapsedTime
+    const reveal = active ? sequenceRuntime.visualProgress : 0
+    group.current.rotation.y = MathUtils.damp(
+      group.current.rotation.y,
+      active
+        ? MathUtils.lerp(0.18, 0.72, reveal)
+        : reducedMotion || collected
+          ? 0.2
+          : Math.sin(time * 0.32) * 0.32,
+      1,
+      delta,
+    )
+    const opening = active ? 1 + reveal * 0.36 : hovered ? 1.1 : 1
+    group.current.scale.x = MathUtils.damp(group.current.scale.x, opening, 3, delta)
+    group.current.scale.y = MathUtils.damp(group.current.scale.y, opening, 3, delta)
+    group.current.position.y = MathUtils.damp(
+      group.current.position.y,
+      active ? reveal * 0.32 : 0,
+      2.5,
+      delta,
+    )
+
+    const transform = new Object3D()
+    for (let index = 0; index < 6; index += 1) {
+      const angle = (index / 6) * Math.PI * 2
+      const radius = 0.34 + reveal * 0.18
+      transform.position.set(
+        Math.cos(angle) * radius,
+        Math.sin(angle) * radius + reveal * 0.08,
+        0,
+      )
+      transform.rotation.set(0, reveal * 0.35, angle)
+      transform.scale.set(0.12, 0.44 + reveal * 0.12, 0.075)
+      transform.updateMatrix()
+      petals.current.setMatrixAt(index, transform.matrix)
+    }
+    petals.current.instanceMatrix.needsUpdate = true
+  })
+
+  return (
+    <group ref={group}>
+      <instancedMesh ref={petals} args={[undefined, undefined, 6]}>
+        <sphereGeometry args={[1, 20, 12]} />
+        <meshStandardMaterial
+          color="#a88e6a"
+          emissive={PALETTE.hope}
+          emissiveIntensity={hovered ? 1.15 : 0.78}
+          metalness={0.42}
+          roughness={0.36}
+          transparent
+          opacity={0.66}
+        />
+      </instancedMesh>
+      <mesh rotation={[Math.PI / 2, 0, 0.2]}>
+        <torusKnotGeometry args={[0.28, 0.025, 64, 6, 2, 3]} />
+        <meshBasicMaterial color={PALETTE.hopeSoft} transparent opacity={0.56} />
+      </mesh>
+      <mesh scale={0.13}>
+        <sphereGeometry args={[1, 16, 12]} />
+        <meshBasicMaterial color={PALETTE.hopeSoft} toneMapped={false} />
+      </mesh>
+      <HopeMotes active={active} collected={collected} />
+    </group>
+  )
+}

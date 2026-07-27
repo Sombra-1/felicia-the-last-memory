@@ -1,0 +1,12 @@
+node_modules
+dist
+coverage
+playwright-report
+test-results
+.DS_Store
+*.local
+*.log
+
+# Playwright trace archives contain machine-local stack paths. Keep local evidence,
+# screenshots, and video, but exclude trace ZIPs from the public source repository.
+docs/evidence/**/*.zip
