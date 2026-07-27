@@ -5,10 +5,10 @@
 - Public website URL: <https://felicia-the-last-memory.ayx1.chatgpt.site>
 - Source repository URL: <https://github.com/Sombra-1/felicia-the-last-memory>
 - Deployment platform: OpenAI Sites, Cloudflare-backed
-- Deployment time: 2026-07-27 20:59 UTC for the first successful public version
-- Production commit: pending
+- Deployment time: 2026-07-27 21:21 UTC for the final production version
+- Production commit: `64a4db8af52714c28d08aeed0b7ebb779720d513`
 - Browser coverage: Chromium and Firefox; WebKit unverified
-- Lighthouse: pending final canonical release
+- Lighthouse: Performance 69, Accessibility 100, Best Practices 81, SEO 100
 - Video: clean WebM walkthrough retained; public video hosting optional
 - Devpost copy: complete draft, not submitted
 - Asset attribution: complete
@@ -22,6 +22,20 @@
 3. `docs/submission/screenshots/hope-first-ending.png`
 
 Supporting frames include the Hope reveal and mobile Hope ending.
+
+## Verification results
+
+- Unit and integration: 48/48 passed
+- Local Chromium Playwright: 25/25 passed, including all six collection orders
+- Local Firefox journey: passed
+- Public Chromium and Firefox journeys: 2/2 passed
+- ESLint: zero warnings
+- Prettier: passed
+- Production build: passed with no source maps
+- Dependency audit: zero vulnerabilities
+- Secret-pattern scan: no secrets found
+- Public HTTPS, canonical metadata, social preview, favicon, manifest, direct refresh, and
+  hashed assets: verified
 
 ## Known limitations
 
@@ -43,7 +57,7 @@ Supporting frames include the Hope reveal and mobile Hope ending.
 - [x] Three screenshots ready
 - [x] Video status recorded
 - [x] Attribution complete
-- [ ] Production tested
+- [x] Production tested
 - [x] Devpost answers ready
 - [ ] Eligibility confirmed separately by participant
 - [x] Submission not yet accidentally finalized without participant review

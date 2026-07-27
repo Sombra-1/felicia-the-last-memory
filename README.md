@@ -175,5 +175,5 @@ their own licenses and are listed in [ASSET-ATTRIBUTION.md](docs/ASSET-ATTRIBUTI
 
 ## Project status
 
-The complete hackathon experience is feature-frozen. Phase 6 is limited to production
-configuration, deployment verification, documentation, and submission evidence.
+The complete hackathon experience is feature-frozen, publicly deployed, and ready for
+participant review before Devpost submission.

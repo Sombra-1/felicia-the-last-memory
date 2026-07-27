@@ -51,3 +51,10 @@ npm run test:visual:webkit
 - OLED versus lifted LCD near-blacks;
 - real headphone and laptop-speaker balance;
 - VoiceOver and TalkBack focus announcements.
+
+## Production smoke test
+
+The final public Sites URL completed the same Hope → Fear → Identity journey in Playwright
+Chromium and Firefox, including real WebGL, autoplay-safe Web Audio, final reconstruction,
+focus, and replay. Both engines passed. The Firefox Cloudflare-cookie notice described above
+is the only provider-generated console exception.

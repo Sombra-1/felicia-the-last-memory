@@ -48,4 +48,4 @@ fallbacks when any preferred font is absent.
 The 3D environment itself has no spatial screen-reader description beyond the narrative,
 labels, and controls. This is intentional: no essential operation depends on interpreting
 unlabeled canvas geometry. Physical screen-reader passes on VoiceOver and TalkBack remain
-for Phase 6 readiness review.
+for production-readiness review.

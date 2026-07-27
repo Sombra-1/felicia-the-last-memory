@@ -32,24 +32,46 @@ Latest Vite build:
 
 | Asset        |       Raw |      Gzip |
 | ------------ | --------: | --------: |
-| HTML         |   1.83 kB |   0.68 kB |
+| HTML         |   2.16 kB |   0.74 kB |
 | CSS          |  18.56 kB |   4.71 kB |
-| Main JS      | 294.25 kB |  97.54 kB |
+| Main JS      | 294.22 kB |  97.53 kB |
 | Lazy 3D JS   | 976.54 kB | 259.62 kB |
 | Audio assets |      0 kB |      0 kB |
 | Font assets  |      0 kB |      0 kB |
 | Metadata art | 122.03 kB | On demand |
 
-Approximate first-view compressed application payload is 362.55 kB. A repeat view with
-hashed assets cached primarily revalidates the 0.68 kB compressed HTML. The complete `dist`
+Approximate first-view compressed application payload is 362.60 kB. A repeat view with
+hashed assets cached primarily revalidates the 0.74 kB compressed HTML. The complete `dist`
 directory is approximately 1.4 MB. Production source maps are disabled; the social preview
 and project thumbnail are fetched only by metadata consumers or direct requests.
 
 The evidence directory is documentation and is not part of Vite's production output.
 
-## Diagnostics
+## Production Lighthouse diagnostic
+
+Lighthouse 13.4.1 ran against the final public Sites release in headless Chromium 151 using
+its simulated Moto G Power mobile profile:
+
+| Category       | Score |
+| -------------- | ----: |
+| Performance    |    69 |
+| Accessibility  |   100 |
+| Best Practices |    81 |
+| SEO            |   100 |
+
+- First Contentful Paint: 1.4 seconds
+- Largest Contentful Paint: 1.4 seconds
+- Cumulative Layout Shift: 0.001
+- Speed Index: 3.0 seconds
+
+The continuously rendered WebGL canvas produces a high throttled Total Blocking Time in the
+synthetic trace. Best Practices deductions also include deprecated APIs in Cloudflare's
+injected challenge script and intentionally missing production source maps. Canonical
+metadata, HTTPS, console, contrast, button names, and the visible-label audit all pass.
+
+## Runtime diagnostics
 
 Direct browser diagnostics are more representative for this WebGL artwork than a single
-Lighthouse score. Lighthouse is not installed in the project and was not added as a
-dependency for Phase 5. Chromium viewport, console, quality, rendering, and payload checks
-are automated instead.
+score. Chromium viewport, console, quality, rendering, and payload checks remain automated.
+Lighthouse was invoked through `npx` for the release audit and was not added to the project
+dependency graph.
