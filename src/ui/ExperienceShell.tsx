@@ -39,7 +39,7 @@ export function ExperienceShell({ children }: PropsWithChildren) {
       {children}
 
       <header className="site-header">
-        <a className="wordmark" href="#memory" aria-label="FELICIA THE LAST MEMORY home">
+        <a className="wordmark" href="#memory">
           <span>FELICIA</span>
           <small>The Last Memory</small>
         </a>
