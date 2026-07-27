@@ -13,16 +13,18 @@ The exact production URL and commit are recorded in
 
 - Install: `npm ci`
 - Build: `npm run build`
-- Static output: `dist/`
+- Browser assets: `dist/client/`
+- Static asset worker: `dist/server/index.js`
 - Node.js: 20.19 or newer
 - SPA fallback: `/* → /index.html`
 - Hashed assets: one-year immutable cache
 - HTML: revalidate on every request
 - Production source maps: disabled
 
-The repository includes `public/_headers` and `public/_redirects` as portable static-host
-defaults. The host is also expected to provide HTTPS, compression, correct MIME types, and
-directory-listing protection.
+The release build adds a minimal Cloudflare-compatible worker around the static Vite output.
+It delegates files to the host's `ASSETS` binding, provides an SPA fallback for extensionless
+routes, and applies the security headers directly. The repository also includes
+`public/_headers` and `public/_redirects` as portable static-host defaults.
 
 ## Release process
 
@@ -55,6 +57,6 @@ validated version and deploying it; do not rebuild an old working tree under a n
 
 ## Host portability
 
-The built `dist/` directory can also be deployed to Cloudflare Pages, Netlify, or Vercel as a
-static site. Preserve the cache policy, SPA fallback, and security headers when changing
-hosts.
+The built `dist/client/` directory can also be deployed directly to Cloudflare Pages,
+Netlify, or Vercel as a static site. Preserve the cache policy, SPA fallback, and security
+headers when changing hosts.

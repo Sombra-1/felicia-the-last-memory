@@ -54,8 +54,11 @@ npm run build
 npm audit --audit-level=high
 ```
 
-The build must contain no source maps, secret files, server bundle, imported models,
-textures, fonts, or audio assets.
+The build must contain no source maps, secret files, application server bundle, imported
+models, textures, fonts, or audio assets.
+
+The only server-side deployment file is the 3 kB-or-smaller static asset worker generated at
+`dist/server/index.js`; it contains no application state, endpoint, or backend service.
 
 Playwright trace ZIPs are intentionally ignored by Git. They remain useful local diagnostics
 but embed absolute test-runner paths that do not belong in the public source repository.
