@@ -101,8 +101,9 @@ Headless Chromium diagnostics on the Phase 4 evidence run:
 | Fear-first ending      |         40 |    20,044 |
 | Hope-first ending      |         39 |    19,004 |
 
-Every state uses two active lights, zero shadow-casting lights, zero shadow maps, and the
-existing 88 / 52 / 24 high / medium / low particle tiers.
+That historical Phase 4 evidence used two active lights. The approved release uses three
+non-shadow-casting lights, zero shadow maps, and the existing 88 / 52 / 24 high / medium /
+low particle tiers; current renderer measurements are in `PERFORMANCE.md`.
 
 ## Known visual risks
 

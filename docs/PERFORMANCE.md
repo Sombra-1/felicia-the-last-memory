@@ -43,10 +43,11 @@ Latest Vite build:
 | Font assets  |      0 kB |      0 kB |
 | Metadata art | 122.03 kB | On demand |
 
-Approximate first-view compressed application payload is 367.56 kB. A repeat view with
-hashed assets cached primarily revalidates the 0.74 kB compressed HTML. The complete `dist`
-directory is approximately 1.4 MB. Production source maps are disabled; the social preview
-and project thumbnail are fetched only by metadata consumers or direct requests.
+Approximate first-view compressed application payload is 367.56 kB. Assets are content
+hashed, although the current Sites edge responds with `max-age=0, must-revalidate` rather
+than exposing the worker's requested immutable policy. The complete `dist` directory is
+approximately 1.4 MB. Production source maps are disabled; the social preview and project
+thumbnail are fetched only by metadata consumers or direct requests.
 
 The evidence directory is documentation and is not part of Vite's production output.
 
@@ -57,15 +58,15 @@ its simulated Moto G Power mobile profile:
 
 | Category       | Score |
 | -------------- | ----: |
-| Performance    |    69 |
+| Performance    |    63 |
 | Accessibility  |   100 |
 | Best Practices |    81 |
 | SEO            |   100 |
 
 - First Contentful Paint: 1.4 seconds
-- Largest Contentful Paint: 1.4 seconds
+- Largest Contentful Paint: 1.5 seconds
 - Cumulative Layout Shift: 0.001
-- Speed Index: 3.0 seconds
+- Speed Index: 6.6 seconds
 
 The continuously rendered WebGL canvas produces a high throttled Total Blocking Time in the
 synthetic trace. Best Practices deductions also include deprecated APIs in Cloudflare's

@@ -19,7 +19,8 @@ The exact production commit and verification record are maintained in
 - Static asset worker: `dist/server/index.js`
 - Node.js: 20.19 or newer
 - SPA fallback: `/* → /index.html`
-- Hashed assets: one-year immutable cache
+- Hashed assets: stable content-versioned filenames; the current Sites edge revalidates them
+  despite the worker's requested immutable cache policy
 - HTML: revalidate on every request
 - Production source maps: disabled
 

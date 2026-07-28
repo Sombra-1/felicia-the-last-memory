@@ -80,10 +80,11 @@ the final accent, leaving visible tension inside every foundation.
 
 ## Lighting
 
-The scene uses exactly two active lights:
+The scene uses exactly three active lights:
 
 - One low-intensity ambient fill for graphite readability.
 - One narrow, highly feathered spot source from above-left.
+- One restrained violet rim point for shell and background separation.
 
 Fragment emphasis is primarily emissive. No light casts a shadow. This avoids multiple
 competing color pools and keeps the procedural geometry inexpensive.

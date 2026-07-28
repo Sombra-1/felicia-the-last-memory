@@ -1,21 +1,28 @@
 import { defineConfig } from '@playwright/test'
 
-const baseURL =
+const productionURL =
   process.env.PLAYWRIGHT_BASE_URL ?? 'https://felicia-the-last-memory.ayx1.chatgpt.site'
 
 export default defineConfig({
   testDir: './tests/e2e',
-  testMatch: /cross-browser\.spec\.ts/,
-  workers: 1,
-  retries: 1,
-  timeout: 60_000,
+  fullyParallel: false,
+  workers: 2,
+  retries: 0,
+  timeout: 30_000,
   use: {
-    baseURL,
+    baseURL: productionURL,
     colorScheme: 'dark',
     screenshot: 'only-on-failure',
   },
   projects: [
-    { name: 'production-chromium', use: { browserName: 'chromium' } },
-    { name: 'production-firefox', use: { browserName: 'firefox' } },
+    {
+      name: 'chromium',
+      use: { browserName: 'chromium' },
+    },
+    {
+      name: 'firefox',
+      testMatch: /cross-browser\.spec\.ts/,
+      use: { browserName: 'firefox' },
+    },
   ],
 })

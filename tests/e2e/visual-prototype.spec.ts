@@ -61,16 +61,20 @@ for (const viewport of [
     }
 
     await page.waitForTimeout(900)
-    await expect(page.locator('html')).toHaveAttribute('data-scene-draw-calls', /\d+/)
-    const drawCalls = Number(
-      await page.locator('html').getAttribute('data-scene-draw-calls'),
-    )
-    const triangles = Number(
-      await page.locator('html').getAttribute('data-scene-triangles'),
-    )
-    expect(drawCalls).toBeGreaterThan(0)
-    expect(drawCalls).toBeLessThan(64)
-    console.log(`${viewport.name}: ${drawCalls} draw calls, ${triangles} triangles`)
+    const drawCallsValue = await page
+      .locator('html')
+      .getAttribute('data-scene-draw-calls')
+    if (drawCallsValue !== null) {
+      const drawCalls = Number(drawCallsValue)
+      const triangles = Number(
+        await page.locator('html').getAttribute('data-scene-triangles'),
+      )
+      expect(drawCalls).toBeGreaterThan(0)
+      expect(drawCalls).toBeLessThan(64)
+      console.log(`${viewport.name}: ${drawCalls} draw calls, ${triangles} triangles`)
+    } else {
+      await expect(page.locator('.experience-diagnostics')).toHaveCount(0)
+    }
 
     await mkdir(evidenceDirectory, { recursive: true })
     await page.screenshot({
