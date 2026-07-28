@@ -11,6 +11,7 @@ vi.mock('../experience/ExperienceCanvas', () => ({
 
 describe('App shell', () => {
   beforeEach(() => {
+    vi.restoreAllMocks()
     window.localStorage.clear()
     feliciaAudioEngine.dispose()
     useExperienceStore.getState().resetExperience()
@@ -26,6 +27,23 @@ describe('App shell', () => {
     expect(await screen.findByTestId('experience-canvas')).toBeInTheDocument()
   })
 
+  it('directly unlocks audio and acknowledges entry from the primary click', async () => {
+    const unlock = vi.spyOn(feliciaAudioEngine, 'unlock').mockResolvedValue(true)
+    const signature = vi
+      .spyOn(feliciaAudioEngine, 'playActivationSignature')
+      .mockReturnValue(true)
+    const user = userEvent.setup()
+    render(<App />)
+
+    await user.click(await screen.findByRole('button', { name: /enter memory/i }))
+
+    expect(unlock).toHaveBeenCalled()
+    expect(signature).toHaveBeenCalledOnce()
+    expect(
+      screen.getByText(/sound enabled. entering felicia’s memory/i),
+    ).toBeInTheDocument()
+  })
+
   it('exposes an accessible sound toggle', async () => {
     const user = userEvent.setup()
     render(<App />)
@@ -36,6 +54,9 @@ describe('App shell', () => {
       status: 'running',
       ambientStartCount: 1,
       lastEvent: 'ambient-start',
+      masterGain: 0.34,
+      ambientGain: 0.68,
+      cueGain: 0.4,
     })
     const toggle = await screen.findByRole('button', {
       name: /mute ambient sound/i,
@@ -44,7 +65,7 @@ describe('App shell', () => {
 
     expect(screen.getByRole('button', { name: /enable ambient sound/i })).toHaveAttribute(
       'aria-pressed',
-      'true',
+      'false',
     )
   })
 

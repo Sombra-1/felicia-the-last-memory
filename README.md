@@ -100,7 +100,7 @@ Experience flow:
 - Live-region status and progress announcements.
 - Touch targets sized for mobile use.
 - Reduced-motion equivalents that preserve the full narrative.
-- Persistent mute state and conservative audio levels.
+- Persistent mute state, truthful playback status, and limiter-protected audio levels.
 - Accessible WebGL failure explanation and guarded retry.
 - System fonts, safe-area insets, and dynamic viewport sizing.
 
@@ -109,10 +109,11 @@ physical-device checks.
 
 ## Performance
 
-The initial chamber renders in approximately 32 draw calls and 16,844 triangles. Final states
-remain between 39–40 draw calls and below 21,000 triangles. The scene uses two active lights,
-zero shadow maps, capped device pixel ratio, 24/52/88 particles by quality tier, and no model,
-texture, font, or audio payload.
+The rescued high-quality chamber renders in approximately 56 draw calls and 29,988
+triangles; dormant collected fragments reduce the recovered chamber to 46 calls, and final
+states settle at 52–53 calls with no more than 27,300 triangles. The scene uses two active
+lights, zero shadow maps, capped device pixel ratio, 24/52/88 particles by quality tier, and
+no model, texture, font, or audio asset payload.
 
 See [PERFORMANCE.md](docs/PERFORMANCE.md) for measured state and bundle data.
 

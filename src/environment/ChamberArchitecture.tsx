@@ -10,14 +10,14 @@ import {
 } from 'three'
 import { PALETTE, VISUAL_CALIBRATION } from '../scene/config/visual'
 import { deriveEndingConfiguration } from '../reconstruction/endingProfiles'
+import { entranceRuntime } from '../experience/entranceRuntime'
 import { reconstructionRuntime } from '../reconstruction/reconstructionRuntime'
 import { useExperienceStore } from '../state/experienceStore'
 
 const ringArcs = [
-  { radius: 3.2, arc: Math.PI * 1.34, rotation: 0.48, opacity: 0.28 },
-  { radius: 3.65, arc: Math.PI * 0.82, rotation: -0.72, opacity: 0.2 },
-  { radius: 4.12, arc: Math.PI * 1.12, rotation: 1.45, opacity: 0.13 },
-  { radius: 4.62, arc: Math.PI * 0.62, rotation: 2.6, opacity: 0.09 },
+  { radius: 3.25, arc: Math.PI * 0.78, rotation: 0.58, opacity: 0.24 },
+  { radius: 3.78, arc: Math.PI * 0.58, rotation: 2.18, opacity: 0.17 },
+  { radius: 4.3, arc: Math.PI * 0.46, rotation: 4.22, opacity: 0.11 },
 ] as const
 
 function StructuralRibs() {
@@ -28,12 +28,12 @@ function StructuralRibs() {
     const transform = new Object3D()
 
     for (let index = 0; index < 14; index += 1) {
-      const angle = (index / 14) * Math.PI * 2
+      const angle = ((index + 0.5) / 14) * Math.PI * 2
       const radius = 5.15
       transform.position.set(
         Math.sin(angle) * radius,
         0.15,
-        Math.cos(angle) * radius - 0.8,
+        -Math.abs(Math.cos(angle)) * radius - 0.8,
       )
       transform.rotation.set(0, angle, Math.sin(angle * 2) * 0.025)
       transform.scale.set(1, 1 + (index % 3) * 0.08, 1)
@@ -47,7 +47,13 @@ function StructuralRibs() {
   return (
     <instancedMesh ref={ribs} args={[undefined, undefined, 14]}>
       <boxGeometry args={[0.08, 7.4, 0.18]} />
-      <meshStandardMaterial color={PALETTE.metal} roughness={0.78} metalness={0.7} />
+      <meshStandardMaterial
+        color="#393741"
+        emissive="#18161d"
+        emissiveIntensity={0.24}
+        roughness={0.66}
+        metalness={0.78}
+      />
     </instancedMesh>
   )
 }
@@ -105,6 +111,7 @@ function FracturedFloor() {
 function FloatingDebris() {
   const debris = useRef<InstancedMesh>(null)
   const reducedMotion = useExperienceStore((state) => state.reducedMotion)
+  const phase = useExperienceStore((state) => state.phase)
 
   const transforms = useMemo(
     () =>
@@ -139,7 +146,9 @@ function FloatingDebris() {
   }, [transforms])
 
   useFrame(({ clock }) => {
-    if (!debris.current || reducedMotion) return
+    if (!debris.current) return
+    debris.current.visible = phase !== 'ending'
+    if (reducedMotion) return
     debris.current.rotation.y = Math.sin(clock.elapsedTime * 0.08) * 0.035
     debris.current.position.y = Math.sin(clock.elapsedTime * 0.18) * 0.035
   })
@@ -149,6 +158,106 @@ function FloatingDebris() {
       <tetrahedronGeometry args={[1, 0]} />
       <meshStandardMaterial color="#34323a" metalness={0.72} roughness={0.58} />
     </instancedMesh>
+  )
+}
+
+function DepthSilhouettes() {
+  const monuments = useRef<InstancedMesh>(null)
+
+  useLayoutEffect(() => {
+    if (!monuments.current) return
+    const transform = new Object3D()
+    const placements = [
+      [-5.2, 0.1, 1.5, -0.18],
+      [5.15, 0.1, 1.2, 0.2],
+      [-4.55, 0.3, -2.4, -0.1],
+      [4.7, 0.35, -2.8, 0.14],
+      [-3.5, 1.4, -5.1, -0.06],
+      [3.7, 1.2, -5.3, 0.08],
+    ] as const
+
+    placements.forEach(([x, y, z, rotation], index) => {
+      transform.position.set(x, y, z)
+      transform.rotation.set(0, rotation, index % 2 ? 0.035 : -0.035)
+      transform.scale.set(index < 2 ? 1.25 : 0.85, 4.6 - index * 0.16, 0.8)
+      transform.updateMatrix()
+      monuments.current?.setMatrixAt(index, transform.matrix)
+    })
+    monuments.current.instanceMatrix.needsUpdate = true
+  }, [])
+
+  return (
+    <>
+      <instancedMesh ref={monuments} args={[undefined, undefined, 6]}>
+        <boxGeometry args={[0.6, 1.8, 0.65]} />
+        <meshStandardMaterial
+          color="#141319"
+          emissive="#251f2b"
+          emissiveIntensity={0.22}
+          roughness={0.68}
+          metalness={0.62}
+        />
+      </instancedMesh>
+      <mesh position={[0, 0.8, -5.6]}>
+        <circleGeometry args={[3.35, 72]} />
+        <meshBasicMaterial color="#050508" />
+      </mesh>
+      <mesh position={[0, 0.8, -5.5]}>
+        <ringGeometry args={[2.82, 2.87, 96]} />
+        <meshBasicMaterial color="#665b72" transparent opacity={0.26} />
+      </mesh>
+      <mesh position={[0, -2.61, 0.2]} rotation={[-Math.PI / 2, 0, 0]}>
+        <circleGeometry args={[3.2, 64]} />
+        <meshStandardMaterial
+          color="#0b0a0f"
+          emissive="#17121c"
+          emissiveIntensity={0.16}
+          metalness={0.82}
+          roughness={0.26}
+          transparent
+          opacity={0.62}
+        />
+      </mesh>
+    </>
+  )
+}
+
+function ForegroundOcclusion() {
+  return (
+    <>
+      <group position={[-5.05, -0.45, 3.2]} rotation={[0.08, -0.22, -0.08]}>
+        <mesh scale={[0.72, 3.8, 0.82]}>
+          <boxGeometry args={[1, 1, 1]} />
+          <meshStandardMaterial
+            color="#09090d"
+            emissive="#17131c"
+            emissiveIntensity={0.18}
+            metalness={0.72}
+            roughness={0.62}
+          />
+        </mesh>
+        <mesh position={[0.44, 0.7, -0.24]} scale={[0.08, 2.5, 0.3]}>
+          <boxGeometry args={[1, 1, 1]} />
+          <meshBasicMaterial color="#4d4558" transparent opacity={0.18} />
+        </mesh>
+      </group>
+      <group position={[5.25, -0.65, 2.75]} rotation={[-0.05, 0.28, 0.06]}>
+        <mesh scale={[0.78, 3.5, 0.9]}>
+          <boxGeometry args={[1, 1, 1]} />
+          <meshStandardMaterial
+            color="#09090d"
+            emissive="#17131c"
+            emissiveIntensity={0.18}
+            metalness={0.72}
+            roughness={0.62}
+          />
+        </mesh>
+        <mesh position={[-0.48, 0.42, -0.28]} scale={[0.08, 2.2, 0.3]}>
+          <boxGeometry args={[1, 1, 1]} />
+          <meshBasicMaterial color="#4d4558" transparent opacity={0.16} />
+        </mesh>
+      </group>
+    </>
   )
 }
 
@@ -175,13 +284,17 @@ export function ChamberArchitecture() {
     const isVoid = phase === 'reconstruction-void' || phase === 'reconstruction-recall'
     const collapseScale = MathUtils.lerp(1, 0.025, collapse)
     const targetScale = rebuilt > 0 ? MathUtils.lerp(0.025, 1, rebuilt) : collapseScale
-    chamber.current.scale.setScalar(isVoid ? 0.025 : targetScale)
+    chamber.current.scale.setScalar(
+      (isVoid ? 0.025 : targetScale) *
+        MathUtils.lerp(0.84, 1, entranceRuntime.architecture),
+    )
     chamber.current.rotation.y =
       collapse * (reducedMotion ? 0.08 : 0.5) +
       rebuilt * (ending?.profile.architecture.ringRotation ?? 0)
     chamber.current.position.y =
       -collapse * (reducedMotion ? 0.15 : 1.15) +
-      rebuilt * (ending?.profile.architecture.verticalLift ?? 0)
+      rebuilt * (ending?.profile.architecture.verticalLift ?? 0) -
+      (1 - entranceRuntime.architecture) * 0.28
 
     const idle =
       reducedMotion || phase.startsWith('reconstruction-')
@@ -198,17 +311,19 @@ export function ChamberArchitecture() {
 
   return (
     <group ref={chamber}>
+      <ForegroundOcclusion />
+      <DepthSilhouettes />
       <StructuralRibs />
       <group ref={rings} position={[0, 0.2, -1.2]}>
         {ringArcs.map((ring) => (
           <mesh key={ring.radius} rotation={[0, 0, ring.rotation]}>
             <torusGeometry args={[ring.radius, 0.035, 5, 96, ring.arc]} />
             <meshStandardMaterial
-              color={PALETTE.metal}
+              color="#44414b"
               emissive={PALETTE.violetDark}
-              emissiveIntensity={0.12}
-              metalness={0.8}
-              roughness={0.48}
+              emissiveIntensity={0.22}
+              metalness={0.84}
+              roughness={0.42}
               transparent
               opacity={ring.opacity}
             />

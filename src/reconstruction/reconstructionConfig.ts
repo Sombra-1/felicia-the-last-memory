@@ -13,14 +13,14 @@ export interface ReconstructionDurations {
 }
 
 const STANDARD_DURATIONS: ReconstructionDurations = {
-  recognition: 1.35,
-  collapse: 2.35,
-  void: 1.15,
-  recallPerMemory: 0.72,
-  rebuild: 3.4,
-  reveal: 1.8,
-  firstLineDelay: 0.7,
-  secondLineDelay: 1.45,
+  recognition: 1.25,
+  collapse: 2.15,
+  void: 1,
+  recallPerMemory: 0.66,
+  rebuild: 3.1,
+  reveal: 1.55,
+  firstLineDelay: 0.62,
+  secondLineDelay: 1.25,
   reset: 0.65,
 }
 

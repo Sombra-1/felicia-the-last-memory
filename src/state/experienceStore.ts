@@ -41,6 +41,12 @@ export interface ExperienceState {
   audioContextStatus: AudioContextStatus
   ambientStartCount: number
   lastAudioEvent: AudioEvent
+  masterGain: number
+  ambientGain: number
+  cueGain: number
+  entranceComplete: boolean
+  interactionNotice: string
+  interactionFeedbackId: number
   reducedMotion: boolean
   quality: QualityLevel
   loadingProgress: number
@@ -50,6 +56,7 @@ export interface ExperienceState {
   replayAvailable: boolean
   finalCameraSettled: boolean
   enterChamber: () => boolean
+  completeEntrance: () => boolean
   requestFragment: (fragment: FragmentId) => boolean
   beginFragmentReveal: (fragment: FragmentId) => boolean
   completeFragmentReveal: (fragment: FragmentId) => boolean
@@ -90,6 +97,12 @@ const initialExperienceState = {
   audioContextStatus: 'idle' as AudioContextStatus,
   ambientStartCount: 0,
   lastAudioEvent: 'none' as AudioEvent,
+  masterGain: 0,
+  ambientGain: 0,
+  cueGain: 0,
+  entranceComplete: false,
+  interactionNotice: '',
+  interactionFeedbackId: 0,
   reducedMotion: false,
   quality: 'high' as QualityLevel,
   loadingProgress: 0,
@@ -125,7 +138,16 @@ export const useExperienceStore = create<ExperienceState>((set, get) => ({
       phase: 'chamber',
       chamberCameraRestored: true,
       inputLocked: false,
+      entranceComplete: false,
+      interactionNotice: 'Memory link accepted.',
+      interactionFeedbackId: get().interactionFeedbackId + 1,
     })
+    return true
+  },
+  completeEntrance: () => {
+    const state = get()
+    if (state.entranceComplete || state.phase !== 'chamber') return false
+    set({ entranceComplete: true })
     return true
   },
   requestFragment: (fragment) => {
@@ -135,7 +157,19 @@ export const useExperienceStore = create<ExperienceState>((set, get) => ({
       !state.inputLocked &&
       !state.collectedFragments.includes(fragment)
 
-    if (!canBegin) return false
+    if (!canBegin) {
+      const label = fragment[0].toUpperCase() + fragment.slice(1)
+      const message = state.collectedFragments.includes(fragment)
+        ? `${label} is already recovered.`
+        : state.inputLocked
+          ? 'The current transition is still resolving.'
+          : 'That memory is not available in this moment.'
+      set({
+        interactionNotice: message,
+        interactionFeedbackId: state.interactionFeedbackId + 1,
+      })
+      return false
+    }
 
     set({
       phase: 'approaching-fragment',
@@ -144,6 +178,9 @@ export const useExperienceStore = create<ExperienceState>((set, get) => ({
       fragmentTextVisible: false,
       chamberCameraRestored: false,
       instructionDismissed: true,
+      entranceComplete: true,
+      interactionNotice: `${fragment[0].toUpperCase() + fragment.slice(1)} accepted.`,
+      interactionFeedbackId: state.interactionFeedbackId + 1,
     })
     return true
   },
@@ -207,6 +244,10 @@ export const useExperienceStore = create<ExperienceState>((set, get) => ({
       inputLocked: false,
       fragmentTextVisible: false,
       chamberCameraRestored: true,
+      interactionNotice: allCollected
+        ? 'All memories recovered. Reconstruction is available.'
+        : 'Chamber restored. Select another memory.',
+      interactionFeedbackId: state.interactionFeedbackId + 1,
     })
     return true
   },
@@ -231,6 +272,8 @@ export const useExperienceStore = create<ExperienceState>((set, get) => ({
       finalTextStep: 0,
       replayAvailable: false,
       finalCameraSettled: false,
+      interactionNotice: 'Reconstruction accepted.',
+      interactionFeedbackId: state.interactionFeedbackId + 1,
     })
     return true
   },
@@ -302,6 +345,9 @@ export const useExperienceStore = create<ExperienceState>((set, get) => ({
       ambientStartCount: state.ambientStartCount,
       lastAudioEvent: state.lastAudioEvent,
       loadingProgress: 100,
+      entranceComplete: true,
+      interactionNotice: 'Memory chamber restored.',
+      interactionFeedbackId: state.interactionFeedbackId + 1,
     }))
     return true
   },
@@ -311,11 +357,21 @@ export const useExperienceStore = create<ExperienceState>((set, get) => ({
   setAudioVolume: (audioVolume) =>
     set({ audioVolume: Math.min(1, Math.max(0, audioVolume)) }),
   registerUserInteraction: () => set({ hasUserInteracted: true }),
-  setAudioDiagnostics: ({ status, ambientStartCount, lastEvent }) =>
+  setAudioDiagnostics: ({
+    status,
+    ambientStartCount,
+    lastEvent,
+    masterGain,
+    ambientGain,
+    cueGain,
+  }) =>
     set({
       audioContextStatus: status,
       ambientStartCount,
       lastAudioEvent: lastEvent,
+      masterGain,
+      ambientGain,
+      cueGain,
     }),
   setReducedMotion: (reducedMotion) => set({ reducedMotion }),
   setQuality: (quality) => set({ quality }),

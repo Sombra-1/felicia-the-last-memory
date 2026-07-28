@@ -111,7 +111,7 @@ test('complete three-memory journey preserves order and reaches the Phase 4 hand
   const finalTriangles = Number(
     await page.locator('html').getAttribute('data-scene-triangles'),
   )
-  expect(finalDrawCalls).toBeLessThanOrEqual(36)
+  expect(finalDrawCalls).toBeLessThanOrEqual(56)
   console.log(
     `all-collected chamber: ${finalDrawCalls} draw calls, ${finalTriangles} triangles`,
   )

@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/immutability -- Three.js cameras are animated imperatively per frame. */
 import { useFrame, useThree } from '@react-three/fiber'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { MathUtils, PerspectiveCamera, Vector3 } from 'three'
 import { getFragmentPrototype } from '../content/fragments'
+import { updateRuntimeDiagnostics } from '../dev/runtimeDiagnostics'
 import { sequenceRuntime } from '../experience/sequenceRuntime'
 import { deriveEndingConfiguration } from '../reconstruction/endingProfiles'
 import { RECONSTRUCTION_CAMERA_STAGES } from '../reconstruction/reconstructionConfig'
@@ -27,6 +28,20 @@ export function CinematicCamera() {
   const focusTarget = useMemo(() => new Vector3(), [])
   const desiredPosition = useMemo(() => new Vector3(), [])
   const desiredTarget = useMemo(() => new Vector3(), [])
+
+  useEffect(() => {
+    const reconstructionActive =
+      phase.startsWith('reconstruction-') || phase === 'ending' || phase === 'resetting'
+    updateRuntimeDiagnostics({
+      cameraOwner: reconstructionActive
+        ? `reconstruction:${phase}`
+        : activeFragment
+          ? `fragment:${activeFragment}`
+          : phase === 'chamber' || phase === 'ready-for-reconstruction'
+            ? 'chamber:parallax'
+            : 'idle',
+    })
+  }, [activeFragment, phase])
 
   useFrame(({ clock }) => {
     const layout = getCameraLayout(size.width, size.height)
@@ -145,7 +160,11 @@ export function CinematicCamera() {
               ? 1 - reconstructionRuntime.reset
               : 1
         focusPosition.set(...finalPosition)
-        focusTarget.set(...finalCamera.target)
+        focusTarget.set(
+          finalCamera.target[0] + layout.sceneOffset[0],
+          finalCamera.target[1] + layout.sceneOffset[1],
+          finalCamera.target[2] + layout.sceneOffset[2],
+        )
         desiredPosition.lerpVectors(
           new Vector3(
             ...RECONSTRUCTION_CAMERA_STAGES.void[

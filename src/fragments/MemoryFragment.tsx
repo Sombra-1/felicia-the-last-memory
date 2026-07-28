@@ -4,11 +4,34 @@ import { useEffect, useRef, useState } from 'react'
 import { Group, MathUtils } from 'three'
 import type { FragmentPrototype } from '../content/fragments'
 import { sequenceRuntime } from '../experience/sequenceRuntime'
+import { entranceRuntime } from '../experience/entranceRuntime'
 import { reconstructionRuntime } from '../reconstruction/reconstructionRuntime'
 import { useExperienceStore } from '../state/experienceStore'
 import { FearFragment } from './FearFragment'
 import { HopeFragment } from './HopeFragment'
 import { IdentityFragment } from './IdentityFragment'
+
+const collectedColors = {
+  identity: '#dce2e7',
+  fear: '#826792',
+  hope: '#d3ad74',
+} as const
+
+function CollectedMemorySeal({ id }: { id: FragmentPrototype['id'] }) {
+  return (
+    <group scale={0.72}>
+      <mesh rotation={[Math.PI / 4, Math.PI / 4, 0]}>
+        <octahedronGeometry args={[0.42, 0]} />
+        <meshBasicMaterial
+          color={collectedColors[id]}
+          transparent
+          opacity={0.46}
+          wireframe
+        />
+      </mesh>
+    </group>
+  )
+}
 
 export function MemoryFragment({ fragment }: { fragment: FragmentPrototype }) {
   const container = useRef<Group>(null)
@@ -37,7 +60,7 @@ export function MemoryFragment({ fragment }: { fragment: FragmentPrototype }) {
 
   useFrame((_, delta) => {
     if (!container.current) return
-    const activeScale = active ? 1 + sequenceRuntime.visualProgress * 0.38 : 1
+    const activeScale = active ? 1 + sequenceRuntime.visualProgress * 0.2 : 1
     const suppressedScale = suppressed ? 1 - sequenceRuntime.suppression * 0.3 : 1
     const dormantScale = collected && !active ? 0.62 : 1
     const hoverScale = hovered && selectable ? 1.08 : 1
@@ -60,7 +83,8 @@ export function MemoryFragment({ fragment }: { fragment: FragmentPrototype }) {
       suppressedScale *
       dormantScale *
       hoverScale *
-      (reconstructionScale + recallEmphasis)
+      (reconstructionScale + recallEmphasis) *
+      MathUtils.lerp(0.08, 1, entranceRuntime[fragment.id])
     const scale = MathUtils.damp(container.current.scale.x, target, 4, delta)
     container.current.scale.setScalar(scale)
     container.current.rotation.y = MathUtils.damp(
@@ -72,9 +96,7 @@ export function MemoryFragment({ fragment }: { fragment: FragmentPrototype }) {
   })
 
   const selectFragment = () => {
-    if (selectable) {
-      useExperienceStore.getState().requestFragment(fragment.id)
-    }
+    useExperienceStore.getState().requestFragment(fragment.id)
   }
 
   return (
@@ -91,22 +113,33 @@ export function MemoryFragment({ fragment }: { fragment: FragmentPrototype }) {
         selectFragment()
       }}
     >
-      {fragment.id === 'identity' && (
-        <IdentityFragment hovered={hovered} active={active} collected={collected} />
-      )}
-      {fragment.id === 'fear' && (
-        <FearFragment hovered={hovered} active={active} collected={collected} />
-      )}
-      {fragment.id === 'hope' && (
-        <HopeFragment hovered={hovered} active={active} collected={collected} />
+      <mesh visible={false}>
+        <sphereGeometry args={[1.28, 12, 8]} />
+        <meshBasicMaterial transparent opacity={0} depthWrite={false} />
+      </mesh>
+      {collected && !active ? (
+        <CollectedMemorySeal id={fragment.id} />
+      ) : (
+        <>
+          {fragment.id === 'identity' && (
+            <IdentityFragment hovered={hovered} active={active} collected={collected} />
+          )}
+          {fragment.id === 'fear' && (
+            <FearFragment hovered={hovered} active={active} collected={collected} />
+          )}
+          {fragment.id === 'hope' && (
+            <HopeFragment hovered={hovered} active={active} collected={collected} />
+          )}
+        </>
       )}
       <Html
-        position={[0, -1.08, 0]}
+        position={[0, fragment.id === 'hope' ? -1.16 : -1.1, 0.72]}
         center
-        distanceFactor={8.5}
+        distanceFactor={8}
         style={{
           pointerEvents: 'none',
-          opacity: phase.startsWith('reconstruction-') || phase === 'ending' ? 0 : 1,
+          opacity:
+            active || phase.startsWith('reconstruction-') || phase === 'ending' ? 0 : 1,
         }}
       >
         <div

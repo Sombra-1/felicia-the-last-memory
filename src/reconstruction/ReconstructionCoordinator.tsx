@@ -1,7 +1,9 @@
 import { gsap } from 'gsap'
 import { useEffect, useRef } from 'react'
+import { updateRuntimeDiagnostics } from '../dev/runtimeDiagnostics'
 import { useExperienceStore } from '../state/experienceStore'
 import { getReconstructionDurations } from './reconstructionConfig'
+import { armSequenceWatchdog } from '../experience/sequenceWatchdog'
 import {
   reconstructionRuntime,
   resetReconstructionRuntime,
@@ -22,10 +24,19 @@ export function ReconstructionCoordinator() {
   const reducedMotion = useExperienceStore((state) => state.reducedMotion)
   const finalTextStep = useExperienceStore((state) => state.finalTextStep)
   const timeline = useRef<gsap.core.Timeline | null>(null)
+  const disarmWatchdog = useRef<(() => void) | null>(null)
 
   useEffect(() => {
+    disarmWatchdog.current?.()
+    disarmWatchdog.current = null
     timeline.current?.kill()
     timeline.current = null
+    updateRuntimeDiagnostics({
+      activeSequence:
+        reconstructionPhases.has(phase) || phase === 'ending' || phase === 'resetting'
+          ? `reconstruction:${phase}`
+          : 'none',
+    })
     const durations = getReconstructionDurations(reducedMotion)
 
     if (reconstructionRuntime.evidenceHold) return
@@ -124,9 +135,35 @@ export function ReconstructionCoordinator() {
         })
     }
 
+    if (timeline.current) {
+      const expectedDuration =
+        phase === 'reconstruction-initiating'
+          ? durations.recognition
+          : phase === 'reconstruction-collapse'
+            ? durations.collapse
+            : phase === 'reconstruction-void'
+              ? durations.void
+              : phase === 'reconstruction-recall'
+                ? durations.recallPerMemory * collectionOrder.length
+                : phase === 'reconstruction-rebuilding'
+                  ? durations.rebuild
+                  : phase === 'reconstruction-reveal'
+                    ? durations.reveal
+                    : phase === 'ending'
+                      ? durations.secondLineDelay
+                      : durations.reset
+      const currentTimeline = timeline.current
+      disarmWatchdog.current = armSequenceWatchdog(expectedDuration, () => {
+        currentTimeline.progress(1)
+      })
+    }
+
     return () => {
+      disarmWatchdog.current?.()
+      disarmWatchdog.current = null
       timeline.current?.kill()
       timeline.current = null
+      updateRuntimeDiagnostics({ activeSequence: 'none' })
     }
   }, [collectionOrder, finalTextStep, phase, reducedMotion])
 
@@ -148,6 +185,7 @@ export function ReconstructionCoordinator() {
     () => () => {
       timeline.current?.kill()
       resetReconstructionRuntime()
+      updateRuntimeDiagnostics({ activeSequence: 'none' })
     },
     [],
   )
