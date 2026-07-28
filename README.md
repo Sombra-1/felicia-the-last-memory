@@ -47,7 +47,8 @@ models, textures, music, or sound files.
 ## Visual and interaction highlights
 
 - One composed ruined-memory chamber built from procedural geometry.
-- An abstract central AI made from shells, ribs, filaments, and fractured components.
+- An abstract central AI made from layered translucent shells, a bright inner core, neural
+  filaments, metallic ribs, and traveling particles.
 - Three memory-specific visual languages and cinematic camera paths.
 - Six valid memory orders mapped to three major ending profiles.
 - A staged collapse, void, recall, reconstruction, and final reveal.
@@ -109,11 +110,11 @@ physical-device checks.
 
 ## Performance
 
-The rescued high-quality chamber renders in approximately 56 draw calls and 29,988
-triangles; dormant collected fragments reduce the recovered chamber to 46 calls, and final
-states settle at 52–53 calls with no more than 27,300 triangles. The scene uses two active
-lights, zero shadow maps, capped device pixel ratio, 24/52/88 particles by quality tier, and
-no model, texture, font, or audio asset payload.
+The approved high-quality chamber renders at 61 draw calls and 31,472 triangles; dormant
+collected fragments reduce the recovered chamber to 48 calls, and final states settle at
+54–58 calls with no more than 30,992 triangles. The scene uses three active lights, zero
+shadow maps, capped device pixel ratio, 24/52/88 particles by quality tier, and no model,
+texture, font, or audio asset payload.
 
 See [PERFORMANCE.md](docs/PERFORMANCE.md) for measured state and bundle data.
 
@@ -148,8 +149,8 @@ npm run format:check
 npm run build
 ```
 
-Chromium and Firefox are covered by Playwright. WebKit could not be launched on the Phase 5
-Linux host because privileged system libraries were unavailable, so Safari/WebKit remains a
+Chromium and Firefox are covered by Playwright. WebKit could not be launched on the release
+Linux host because required system libraries were unavailable, so Safari/WebKit remains a
 documented physical-device check.
 
 Detailed commands and coverage are in [TESTING.md](docs/TESTING.md) and

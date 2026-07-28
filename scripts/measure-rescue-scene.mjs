@@ -3,7 +3,9 @@ import { mkdir, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 
 const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://127.0.0.1:4190'
-const output = resolve('docs/evidence/phase6.6/scene-metrics.json')
+const output = resolve(
+  process.env.RESCUE_METRICS_PATH ?? 'docs/submission/scene-metrics.json',
+)
 
 async function metrics(page) {
   await page.waitForFunction(
@@ -30,7 +32,7 @@ async function collect(page, fragment, final = false) {
     .waitFor()
 }
 
-await mkdir(resolve('docs/evidence/phase6.6'), { recursive: true })
+await mkdir(resolve('docs/submission'), { recursive: true })
 const browser = await chromium.launch()
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 } })
 await page.emulateMedia({ reducedMotion: 'reduce' })

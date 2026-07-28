@@ -22,15 +22,16 @@ The graph is created only from the Enter button's pointer or keyboard gesture. A
 idempotent unlock in the coordinator safely handles browser timing differences. Ambient
 sources start at most once per page journey and remain one graph across replay.
 
-The master gain is `0.20 × 0.72` by default. Cue gain is capped at `0.075`; a compressor with
-a -20 dB threshold prevents peaks. Frequencies remain between approximately 52 Hz and 700 Hz
-for memory signatures, avoiding inaudible sub-bass and painful upper frequencies.
+The normal calibration uses a `0.92` master gain, `0.90` ambient bus, and `0.58` cue bus.
+A compressor with a −16 dB threshold, 8:1 ratio, 8 dB knee, 6 ms attack, and 220 ms release
+protects peaks. The balance retains audible midrange content while avoiding dependence on
+inaudible sub-bass.
 
 ## Ambient foundation
 
-- 52 Hz sine: low machine resonance;
-- 78 Hz triangle: quiet mechanical overtone;
-- deterministic 1.5-second noise buffer through a 620 Hz band-pass: sparse archive texture;
+- 58 Hz sine: low machine resonance;
+- 116 Hz triangle plus 174 / 348 / 522 Hz sine layers: audible mechanical and neural body;
+- deterministic 1.5-second noise buffer through a 920 Hz band-pass: sparse archive texture;
 - shared low-pass and long gain ramps: no abrupt loop boundary.
 
 Phase gain changes create the arc. Chamber ambience is full but quiet; collapse contracts to
@@ -40,7 +41,7 @@ Phase gain changes create the arc. Chamber ambience is full but quiet; collapse 
 
 - **Identity:** 330 / 495 / 660 Hz sine intervals, symmetrical left-right placement, short
   synchronized entries.
-- **Fear:** 82.4 / 103.8 / 155.6 Hz triangle tones, uneven entry spacing, restrained stereo
+- **Fear:** 123.5 / 164.8 / 247 Hz triangle tones, uneven entry spacing, restrained stereo
   imbalance.
 - **Hope:** 196 / 246.9 / 293.7 Hz sine tones with a slight upward frequency ramp and longer
   breath-like tail.
@@ -69,3 +70,6 @@ Automated browser tests verify context state, mute, fragment routing, recall ord
 profile, visibility suspension, replay deduplication, and failure isolation. Subjective
 headphone and laptop-speaker balance remains a human review item because this environment
 cannot audition physical output.
+
+The final 53.16-second browser-output recording measures −25.19 LUFS integrated and
+−9.11 dBTP true peak. It contains stereo Opus audio with one ambience start across replay.

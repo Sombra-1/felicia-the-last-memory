@@ -7,20 +7,22 @@
    Establishes the complete sacred-archive composition, FELICIA core, three memories, and
    guided interface in one frame.
 
-2. [Fear-first ending](screenshots/fear-first-ending.png)
+2. [Fear ending](screenshots/fear-ending.png)
 
    Shows the most dramatic authored reconstruction profile, the final typography, and the
    defensive violet architecture.
 
-3. [Hope-first ending](screenshots/hope-first-ending.png)
+3. [Hope ending](screenshots/hope-ending.png)
 
    Communicates the emotional payoff, open upward structure, warm restraint, and final replay
    state.
 
 ## Supporting frames
 
-- [Hope memory reveal](screenshots/hope-memory-reveal.png) demonstrates cinematic fragment
-  interaction and integrated narrative text.
+- [Identity reveal](screenshots/identity-reveal.png), [Fear reveal](screenshots/fear-reveal.png),
+  and [Hope reveal](screenshots/hope-reveal.png) demonstrate the three cinematic fragment
+  languages.
+- [Identity ending](screenshots/identity-ending.png) documents the centered mirrored profile.
 - [Mobile Hope ending](screenshots/mobile-hope-ending.png) demonstrates responsive final
   composition and safe-area-aware typography.
 

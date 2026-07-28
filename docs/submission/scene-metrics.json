@@ -1,0 +1,34 @@
+{
+  "initialChamber": {
+    "drawCalls": 61,
+    "triangles": 31472
+  },
+  "allCollectedChamber": {
+    "drawCalls": 48,
+    "triangles": 23104
+  },
+  "reconstructionPeak": {
+    "drawCalls": 55,
+    "triangles": 27908
+  },
+  "identityEnding": {
+    "drawCalls": 55,
+    "triangles": 27908
+  },
+  "fearEnding": {
+    "drawCalls": 54,
+    "triangles": 27836
+  },
+  "hopeEnding": {
+    "drawCalls": 58,
+    "triangles": 30992
+  },
+  "fixedCosts": {
+    "activeLights": 3,
+    "shadowMaps": 0,
+    "highParticles": 88,
+    "mediumParticles": 52,
+    "lowParticles": 24,
+    "postprocessing": "high/medium on; low off"
+  }
+}

@@ -3,9 +3,9 @@ import { mkdir, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 
 const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://127.0.0.1:4174'
-const output = resolve('docs/evidence/phase6.6/walkthrough')
-const rawVideo = resolve(output, 'phase6.6-walkthrough-video.webm')
-const diagnosticsPath = resolve(output, 'phase6.6-walkthrough-diagnostics.json')
+const output = resolve(process.env.RESCUE_VIDEO_DIR ?? 'docs/submission/video')
+const rawVideo = resolve(output, 'felicia-final-walkthrough-video.webm')
+const diagnosticsPath = resolve(output, 'felicia-final-walkthrough-diagnostics.json')
 
 async function waitForCanvas(page) {
   await page.goto(baseURL, { waitUntil: 'domcontentloaded' })
@@ -83,12 +83,12 @@ await waitForPhase(page, 'chamber')
 await page.waitForTimeout(4_100)
 audioCheckpoints.push(await checkpoint('entered'))
 
-await collect(page, 'hope')
-audioCheckpoints.push(await checkpoint('hope-returned'))
+await collect(page, 'identity')
+audioCheckpoints.push(await checkpoint('identity-returned'))
 await collect(page, 'fear')
 audioCheckpoints.push(await checkpoint('fear-returned'))
-await collect(page, 'identity', true)
-audioCheckpoints.push(await checkpoint('identity-returned'))
+await collect(page, 'hope', true)
+audioCheckpoints.push(await checkpoint('hope-returned'))
 
 await page.getByRole('button', { name: /complete reconstruction/i }).click()
 await waitForPhase(page, 'ending', 25_000)

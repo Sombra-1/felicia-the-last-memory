@@ -1,4 +1,4 @@
-# Phase 5 Polish Review
+# Final Polish Review
 
 ## Phase 6.6 material, lighting, composition, and mix addendum
 
@@ -17,8 +17,8 @@
 - Rebalanced Web Audio independently: stronger midrange ambience, clearer cue bus,
   reduced sub-bass dependence, and retained compressor protection. The complete captured
   browser walkthrough moved from −35.6 LUFS / −18.5 dBTP to −25.45 LUFS / −9.18 dBTP.
-- Final measured renderer states range from 53–61 draw calls in the chamber and 54–60 calls
-  across endings, with 26,824–31,472 triangles, three lights, and zero shadow maps.
+- Final measured renderer states range from 48–61 draw calls in the chamber and 54–58 calls
+  across endings, with 23,104–31,472 triangles, three lights, and zero shadow maps.
 
 ## Phase 6.5 rescue addendum
 
@@ -78,14 +78,15 @@ The three strongest Phase 6.6 review frames are:
 
 The full evidence set also includes all memory reveals, collapse, recall, Identity ending,
 and a 430 × 932 mobile Hope ending.
-`phase6.6-walkthrough-with-browser-audio.webm` records a clean complete journey and replay.
+`docs/submission/video/felicia-final-walkthrough-with-browser-audio.webm` records a clean
+complete journey and replay.
 
 ## Remaining compromises
 
 - WebKit could not launch on this host due missing privileged system packages.
 - System fonts vary subtly by operating system; the hierarchy is calibrated across the
   complete fallback stack.
-- The captured browser mix now measures −25.45 LUFS integrated and −9.18 dBTP without
+- The final captured browser mix measures −25.19 LUFS integrated and −9.11 dBTP without
   clipping, but physical headphones, laptop speakers, and phone speakers still require
   human approval.
 - Thin one-pixel noncritical dust and fracture lines can vary by GPU.

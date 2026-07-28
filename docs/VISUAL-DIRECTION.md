@@ -111,7 +111,7 @@ composer multisampling.
 - Mobile defaults to medium quality; severely constrained devices select low quality.
 - Reduced motion freezes camera drift, pointer parallax, dust drift, instability, and
   environmental breathing while preserving the composed frame.
-- Reconstruction reuses the two-light rig. Darkness and reveal come from existing light
+- Reconstruction reuses the three-light rig. Darkness and reveal come from existing light
   intensity, emissive values, fog, group transforms, and sparse procedural lines.
 
 ## Effects intentionally excluded
@@ -129,7 +129,7 @@ composer multisampling.
 These can obscure silhouette design, introduce visual clichés, or consume frame time
 without strengthening the central image.
 
-## Phase 5 calibration
+## Approved Phase 6.6 material and composition pass
 
 Visual tuning now lives in `VISUAL_CALIBRATION` and the three quality profiles instead of
 new local magic numbers. High quality retains the darkest, most controlled exposure. Medium
@@ -137,9 +137,15 @@ and low progressively lift ambient readability; low also strengthens line opacit
 survive DPR 1 without antialiasing. Bloom was reduced and thresholded more tightly, while
 vignette darkness was softened so near-black architecture remains separated from the void.
 
-Critical final arcs use larger procedural radii, core filaments receive a restrained opacity
-lift, and FELICIA's shell uses lower clearcoat with higher roughness. The result keeps metal
-surfaces coherent and avoids default glossy-plastic material character.
+FELICIA now uses layered translucent front and rear shells, a clearly emissive inner core,
+tubular neural filaments, solid metallic ribs, soft edge illumination, and traveling internal
+particles. Wireframe is a faint annotation rather than the complete visual identity.
+
+Identity aligns FELICIA and mirrored silver architecture on a centered formal axis. Fear uses
+segmented defensive ribs, broken arcs, asymmetric shields, and violet scars; the former
+frame-crossing horizontal structure was removed. Hope opens and separates the shells,
+expands the core, raises internal components, and sends neural filaments upward into
+deliberate negative space.
 
 Typography now uses a zero-request system stack. Large narrative lines use balanced
 wrapping, restrained tracking, and scene-independent contrast. Safe-area values and dynamic

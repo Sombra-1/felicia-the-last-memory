@@ -5,17 +5,17 @@
 | State                  | Draw calls | Triangles |
 | ---------------------- | ---------: | --------: |
 | Initial chamber        |         61 |    31,472 |
-| All memories recovered |         53 |    28,296 |
-| Reconstruction peak    |         54 |    27,836 |
-| Identity ending        |         54 |    27,836 |
-| Fear ending            |         60 |    26,824 |
-| Hope ending            |         60 |    26,824 |
+| All memories recovered |         48 |    23,104 |
+| Reconstruction peak    |         55 |    27,908 |
+| Identity ending        |         55 |    27,908 |
+| Fear ending            |         54 |    27,836 |
+| Hope ending            |         58 |    30,992 |
 
 All states use three active lights, zero shadow maps, and no imported models or textures.
 Phase 6.6 spends a controlled amount of geometry on FELICIA's split translucent shells,
 solid ribs, tubular neural filaments, and profile-specific ending silhouettes. Repeated
 Identity ribs are instanced, and dormant fragments still collapse to one-draw seals.
-Measurements are captured in `docs/evidence/phase6.6/scene-metrics.json`.
+Measurements are captured in `docs/submission/scene-metrics.json`.
 
 ## Quality tiers
 
@@ -36,14 +36,14 @@ Latest Vite build:
 | Asset        |       Raw |      Gzip |
 | ------------ | --------: | --------: |
 | HTML         |   2.16 kB |   0.74 kB |
-| CSS          |  20.82 kB |   5.24 kB |
-| Main JS      | 301.08 kB |  99.28 kB |
+| CSS          |  19.75 kB |   4.98 kB |
+| Main JS      | 300.73 kB |  99.18 kB |
 | Lazy 3D JS   | 990.70 kB | 262.66 kB |
 | Audio assets |      0 kB |      0 kB |
 | Font assets  |      0 kB |      0 kB |
 | Metadata art | 122.03 kB | On demand |
 
-Approximate first-view compressed application payload is 367.92 kB. A repeat view with
+Approximate first-view compressed application payload is 367.56 kB. A repeat view with
 hashed assets cached primarily revalidates the 0.74 kB compressed HTML. The complete `dist`
 directory is approximately 1.4 MB. Production source maps are disabled; the social preview
 and project thumbnail are fetched only by metadata consumers or direct requests.

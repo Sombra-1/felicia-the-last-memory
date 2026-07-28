@@ -3,7 +3,7 @@ import { mkdir } from 'node:fs/promises'
 import { resolve } from 'node:path'
 
 const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://127.0.0.1:4174'
-const output = resolve(process.env.RESCUE_EVIDENCE_DIR ?? 'docs/evidence/phase6.6/after')
+const output = resolve(process.env.RESCUE_EVIDENCE_DIR ?? 'docs/submission/screenshots')
 
 async function waitForCanvas(page) {
   await page.goto(baseURL, { waitUntil: 'domcontentloaded' })
@@ -89,11 +89,8 @@ page.on('pageerror', (error) => consoleIssues.push(`pageerror: ${error.message}`
 await enter(page, true)
 await clearFocus(page)
 await page.screenshot({ path: resolve(output, 'initial-chamber.png'), fullPage: true })
-await page.screenshot({ path: resolve(output, 'sound-on.png'), fullPage: true })
 await page.getByRole('button', { name: /mute ambient sound/i }).click()
 await page.getByRole('button', { name: /enable ambient sound/i }).waitFor()
-await clearFocus(page)
-await page.screenshot({ path: resolve(output, 'sound-off.png'), fullPage: true })
 await page.getByRole('button', { name: /enable ambient sound/i }).click()
 await page.getByRole('button', { name: /mute ambient sound/i }).waitFor()
 
@@ -127,7 +124,7 @@ await captureEnding(browser, ['hope', 'fear', 'identity'], 'hope-ending.png', {
   width: 1440,
   height: 900,
 })
-await captureEnding(browser, ['hope', 'fear', 'identity'], 'mobile-ending.png', {
+await captureEnding(browser, ['hope', 'fear', 'identity'], 'mobile-hope-ending.png', {
   width: 390,
   height: 844,
 })

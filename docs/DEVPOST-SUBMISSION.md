@@ -59,10 +59,11 @@ reconstruction timelines. Zustand provides an explicit state machine that record
 memory order and guards transitions, input locking, replay, and visibility recovery.
 
 All architecture, FELICIA forms, fragments, debris, filaments, particles, and ending
-structures are procedural geometry. Ending profiles are deterministic typed configurations,
-not duplicated scenes. The soundscape is synthesized at runtime with the native Web Audio
-API using oscillators, envelopes, filters, deterministic noise, stereo panning, and a central
-safety compressor.
+structures are procedural geometry. FELICIA combines layered translucent shells, a bright
+inner core, neural filaments, metallic ribs, and procedural materials. Ending profiles are
+deterministic typed configurations, not duplicated scenes. The soundscape is synthesized at
+runtime with the native Web Audio API using oscillators, envelopes, filters, deterministic
+noise, stereo panning, and a central safety compressor.
 
 Accessible HTML controls are coordinated with the 3D canvas so pointer, touch, Enter, Space,
 and focus all follow the same state path. Vitest and React Testing Library protect pure state
@@ -91,8 +92,8 @@ responsive viewports, audio lifecycle, replay, reduced motion, and rendering fal
 - Guided, responsive interaction across pointer, keyboard, and touch.
 - A coherent reduced-motion version of every major sequence.
 - Deterministic in-place replay without duplicate audio or callbacks.
-- A lightweight scene: 32 resting draw calls and fewer than 21,000 triangles at its most
-  complex ending.
+- A lightweight scene: 61 initial draw calls and no more than 31,472 triangles, with final
+  endings at 54–58 calls.
 - Accessible focus coordination, live status, persistent mute, and a WebGL failure fallback.
 - Extensive automated state, integration, and real-browser testing.
 
@@ -144,7 +145,7 @@ and sound.
 
 - Live site: <https://felicia-the-last-memory.ayx1.chatgpt.site>
 - Source code: <https://github.com/Sombra-1/felicia-the-last-memory>
-- Demo video: `docs/evidence/phase5/hope-first-walkthrough.webm`
+- Demo video: `docs/submission/video/felicia-final-walkthrough-with-browser-audio.webm`
 
 This is a draft for participant review. It has not been submitted and no eligibility or legal
 terms have been accepted.
