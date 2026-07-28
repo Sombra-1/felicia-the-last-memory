@@ -16,7 +16,7 @@ function HopeMotes({ active, collected }: { active: boolean; collected: boolean 
   const motes = useRef<Group>(null)
   const reducedMotion = useExperienceStore((state) => state.reducedMotion)
   const geometry = useMemo(() => {
-    const positions = Array.from({ length: 12 }, (_, index) => {
+    const positions = Array.from({ length: 18 }, (_, index) => {
       const angle = index * 2.399
       const radius = 0.18 + (index % 4) * 0.11
       return [Math.cos(angle) * radius, index * 0.12 - 0.5, Math.sin(angle) * radius]
@@ -40,7 +40,7 @@ function HopeMotes({ active, collected }: { active: boolean; collected: boolean 
       <points geometry={geometry}>
         <pointsMaterial
           color={PALETTE.hopeSoft}
-          size={0.035}
+          size={0.045}
           transparent
           opacity={0.55}
           depthWrite={false}
@@ -60,6 +60,7 @@ interface HopeFragmentProps {
 export function HopeFragment({ hovered, active, collected }: HopeFragmentProps) {
   const group = useRef<Group>(null)
   const petals = useRef<InstancedMesh>(null)
+  const filaments = useRef<Group>(null)
   const reducedMotion = useExperienceStore((state) => state.reducedMotion)
 
   useLayoutEffect(() => {
@@ -68,9 +69,9 @@ export function HopeFragment({ hovered, active, collected }: HopeFragmentProps) 
 
     for (let index = 0; index < 6; index += 1) {
       const angle = (index / 6) * Math.PI * 2
-      transform.position.set(Math.cos(angle) * 0.34, Math.sin(angle) * 0.34, 0)
+      transform.position.set(Math.cos(angle) * 0.31, Math.sin(angle) * 0.31, 0)
       transform.rotation.set(0, 0, angle)
-      transform.scale.set(0.12, 0.44, 0.075)
+      transform.scale.set(0.09, 0.36, 0.055)
       transform.updateMatrix()
       petals.current.setMatrixAt(index, transform.matrix)
     }
@@ -78,7 +79,7 @@ export function HopeFragment({ hovered, active, collected }: HopeFragmentProps) 
   }, [])
 
   useFrame(({ clock }, delta) => {
-    if (!group.current || !petals.current) return
+    if (!group.current || !petals.current || !filaments.current) return
     const time = clock.elapsedTime
     const reveal = active ? sequenceRuntime.visualProgress : 0
     group.current.rotation.y = MathUtils.damp(
@@ -91,7 +92,7 @@ export function HopeFragment({ hovered, active, collected }: HopeFragmentProps) 
       1,
       delta,
     )
-    const opening = active ? 1 + reveal * 0.36 : hovered ? 1.1 : 1
+    const opening = active ? 1 + reveal * 0.2 : hovered ? 1.07 : 1
     group.current.scale.x = MathUtils.damp(group.current.scale.x, opening, 3, delta)
     group.current.scale.y = MathUtils.damp(group.current.scale.y, opening, 3, delta)
     group.current.position.y = MathUtils.damp(
@@ -100,18 +101,22 @@ export function HopeFragment({ hovered, active, collected }: HopeFragmentProps) 
       2.5,
       delta,
     )
+    filaments.current.rotation.y =
+      (reducedMotion ? 0.1 : time * 0.08) + reveal * Math.PI * 0.28
+    filaments.current.scale.setScalar(0.78 + reveal * 0.62)
+    filaments.current.position.y = reveal * 0.18
 
     const transform = new Object3D()
     for (let index = 0; index < 6; index += 1) {
       const angle = (index / 6) * Math.PI * 2
-      const radius = 0.34 + reveal * 0.18
+      const radius = 0.31 + reveal * 0.13
       transform.position.set(
         Math.cos(angle) * radius,
         Math.sin(angle) * radius + reveal * 0.08,
         0,
       )
       transform.rotation.set(0, reveal * 0.35, angle)
-      transform.scale.set(0.12, 0.44 + reveal * 0.12, 0.075)
+      transform.scale.set(0.09, 0.36 + reveal * 0.08, 0.055)
       transform.updateMatrix()
       petals.current.setMatrixAt(index, transform.matrix)
     }
@@ -127,9 +132,10 @@ export function HopeFragment({ hovered, active, collected }: HopeFragmentProps) 
           emissive={PALETTE.hope}
           emissiveIntensity={hovered ? 1.15 : 0.78}
           metalness={0.42}
-          roughness={0.36}
+          roughness={0.46}
           transparent
-          opacity={0.66}
+          opacity={0.42}
+          depthWrite={false}
         />
       </instancedMesh>
       <mesh rotation={[Math.PI / 2, 0, 0.2]}>
@@ -140,6 +146,16 @@ export function HopeFragment({ hovered, active, collected }: HopeFragmentProps) 
         <sphereGeometry args={[1, 16, 12]} />
         <meshBasicMaterial color={PALETTE.hopeSoft} toneMapped={false} />
       </mesh>
+      <group ref={filaments}>
+        <mesh rotation={[Math.PI / 2, 0.2, -0.2]}>
+          <torusGeometry args={[0.92, 0.018, 5, 72, Math.PI * 1.24]} />
+          <meshBasicMaterial color={PALETTE.hopeSoft} transparent opacity={0.46} />
+        </mesh>
+        <mesh rotation={[0.3, Math.PI / 2, 0.62]}>
+          <torusGeometry args={[1.1, 0.011, 5, 72, Math.PI * 1.05]} />
+          <meshBasicMaterial color={PALETTE.hope} transparent opacity={0.38} />
+        </mesh>
+      </group>
       <HopeMotes active={active} collected={collected} />
     </group>
   )

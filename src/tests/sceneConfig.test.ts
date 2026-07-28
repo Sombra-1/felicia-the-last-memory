@@ -112,7 +112,7 @@ describe('scene invariants', () => {
   })
 
   it('keeps the lighting and shadow budget restrained', () => {
-    expect(SCENE_CHARACTERISTICS.activeLights).toBe(2)
+    expect(SCENE_CHARACTERISTICS.activeLights).toBe(3)
     expect(SCENE_CHARACTERISTICS.shadowCastingLights).toBe(0)
     expect(SCENE_CHARACTERISTICS.shadowsEnabled).toBe(false)
   })

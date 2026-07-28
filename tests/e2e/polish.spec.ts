@@ -120,7 +120,7 @@ test('persisted mute remains silent through a complete journey and replay', asyn
   await expect(shell).toHaveAttribute('data-audio-enabled', 'false')
   await expect(
     page.getByRole('button', { name: /enable ambient sound/i }),
-  ).toHaveAttribute('aria-pressed', 'true')
+  ).toHaveAttribute('aria-pressed', 'false')
 
   await completeJourney(page, ['identity', 'fear', 'hope'])
   await expect(shell).not.toHaveAttribute('data-last-audio-event', 'ending-identity')

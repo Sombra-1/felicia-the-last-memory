@@ -2,6 +2,7 @@ import { useFrame } from '@react-three/fiber'
 import { useRef } from 'react'
 import { AmbientLight, Color, Fog, MathUtils, SpotLight } from 'three'
 import { sequenceRuntime } from '../experience/sequenceRuntime'
+import { entranceRuntime } from '../experience/entranceRuntime'
 import { deriveEndingConfiguration } from '../reconstruction/endingProfiles'
 import { reconstructionRuntime } from '../reconstruction/reconstructionRuntime'
 import { QUALITY_PROFILES } from '../scene/config/quality'
@@ -64,14 +65,16 @@ export function SceneLighting() {
         reveal * (activeFragment === 'identity' ? 8 : activeFragment === 'hope' ? 5 : 3) +
         (reducedMotion ? 0 : Math.sin(clock.elapsedTime * 0.31) * 1.3)) *
         MathUtils.lerp(1, 0.018, darkness) +
-      rebuilt * 28
+      rebuilt * 32
+    keyLight.current.intensity *= 0.055 + entranceRuntime.architecture * 0.945
     ambient.current.intensity =
       MathUtils.lerp(
         VISUAL_CALIBRATION.ambientIntensity * QUALITY_PROFILES[quality].readabilityBoost,
         0.025,
         darkness,
       ) +
-      rebuilt * 0.38
+      rebuilt * 0.46
+    ambient.current.intensity *= 0.1 + entranceRuntime.progress * 0.9
 
     if (scene.fog instanceof Fog) {
       scene.fog.color.lerp(targetFog, colorEase * Math.max(0.12, reveal))
@@ -89,14 +92,21 @@ export function SceneLighting() {
       />
       <spotLight
         ref={keyLight}
-        position={[-3.6, 7.5, 5.2]}
+        position={[-3.8, 7.2, 5.4]}
         color={PALETTE.white}
         intensity={VISUAL_CALIBRATION.keyLightIntensity}
-        angle={0.38}
-        penumbra={0.92}
+        angle={0.46}
+        penumbra={0.88}
         distance={18}
         decay={2}
         castShadow={false}
+      />
+      <pointLight
+        position={[3.4, 1.8, -3.6]}
+        color="#776384"
+        intensity={5.4}
+        distance={12}
+        decay={2}
       />
     </>
   )

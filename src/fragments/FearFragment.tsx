@@ -24,6 +24,7 @@ interface FearFragmentProps {
 export function FearFragment({ hovered, active, collected }: FearFragmentProps) {
   const group = useRef<Group>(null)
   const shards = useRef<InstancedMesh>(null)
+  const cage = useRef<Group>(null)
   const reducedMotion = useExperienceStore((state) => state.reducedMotion)
 
   useLayoutEffect(() => {
@@ -41,7 +42,7 @@ export function FearFragment({ hovered, active, collected }: FearFragmentProps) 
   }, [])
 
   useFrame(({ clock }, delta) => {
-    if (!group.current || !shards.current) return
+    if (!group.current || !shards.current || !cage.current) return
     const time = clock.elapsedTime
     const reveal = active ? sequenceRuntime.visualProgress : 0
     const instability =
@@ -60,6 +61,10 @@ export function FearFragment({ hovered, active, collected }: FearFragmentProps) 
     )
     group.current.position.x = Math.sin(time * 2.7) * instability
     group.current.position.y = Math.sin(time * 3.9) * instability * 0.6
+    cage.current.rotation.y =
+      (reducedMotion ? 0.2 : -time * 0.11) - reveal * Math.PI * 0.32
+    cage.current.rotation.z = reveal * 0.18
+    cage.current.scale.setScalar(0.92 + reveal * 0.46)
 
     const transform = new Object3D()
     shardTransforms.forEach(([x, y, z, scale], index) => {
@@ -93,6 +98,26 @@ export function FearFragment({ hovered, active, collected }: FearFragmentProps) 
         <icosahedronGeometry args={[1, 1]} />
         <meshBasicMaterial color="#a894b7" toneMapped={false} />
       </mesh>
+      <mesh scale={0.48}>
+        <icosahedronGeometry args={[1, 2]} />
+        <meshBasicMaterial color="#100b15" transparent opacity={0.72} wireframe />
+      </mesh>
+      <group ref={cage}>
+        <mesh rotation={[Math.PI / 2, 0, 0.2]}>
+          <torusGeometry args={[0.92, 0.028, 5, 48, Math.PI * 1.22]} />
+          <meshStandardMaterial
+            color="#5e496d"
+            emissive={PALETTE.violet}
+            emissiveIntensity={0.58}
+            metalness={0.72}
+            roughness={0.34}
+          />
+        </mesh>
+        <mesh rotation={[0.25, Math.PI / 2, -0.55]}>
+          <torusGeometry args={[1.08, 0.018, 5, 48, Math.PI * 1.08]} />
+          <meshBasicMaterial color="#9f82b4" transparent opacity={0.42} />
+        </mesh>
+      </group>
     </group>
   )
 }

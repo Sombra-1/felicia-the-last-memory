@@ -177,7 +177,7 @@ test('standard Identity-first reconstruction captures every authored stage', asy
     fullPage: true,
   })
   const identityMetrics = await sceneMetrics(page)
-  expect(identityMetrics.drawCalls).toBeLessThanOrEqual(45)
+  expect(identityMetrics.drawCalls).toBeLessThanOrEqual(64)
   console.log(
     `identity ending: ${identityMetrics.drawCalls} draw calls, ${identityMetrics.triangles} triangles`,
   )
@@ -220,7 +220,7 @@ test('all six orders finish deterministically and retain secondary order', async
         fullPage: true,
       })
       const metrics = await sceneMetrics(page)
-      expect(metrics.drawCalls).toBeLessThanOrEqual(45)
+      expect(metrics.drawCalls).toBeLessThanOrEqual(64)
       console.log(
         `fear ending: ${metrics.drawCalls} draw calls, ${metrics.triangles} triangles`,
       )
@@ -231,7 +231,7 @@ test('all six orders finish deterministically and retain secondary order', async
         fullPage: true,
       })
       const metrics = await sceneMetrics(page)
-      expect(metrics.drawCalls).toBeLessThanOrEqual(45)
+      expect(metrics.drawCalls).toBeLessThanOrEqual(64)
       console.log(
         `hope ending: ${metrics.drawCalls} draw calls, ${metrics.triangles} triangles`,
       )

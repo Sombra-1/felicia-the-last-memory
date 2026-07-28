@@ -1,8 +1,10 @@
 import { gsap } from 'gsap'
 import { useEffect, useRef } from 'react'
 import { getFragmentTransitionDurations } from '../camera/fragmentCameraConfig'
+import { updateRuntimeDiagnostics } from '../dev/runtimeDiagnostics'
 import { useExperienceStore } from '../state/experienceStore'
 import { resetSequenceRuntime, sequenceRuntime } from './sequenceRuntime'
+import { armSequenceWatchdog } from './sequenceWatchdog'
 
 export function FragmentSequenceCoordinator() {
   const phase = useExperienceStore((state) => state.phase)
@@ -14,10 +16,16 @@ export function FragmentSequenceCoordinator() {
       state.collectedFragments.includes(state.activeFragment),
   )
   const timeline = useRef<gsap.core.Timeline | null>(null)
+  const disarmWatchdog = useRef<(() => void) | null>(null)
 
   useEffect(() => {
+    disarmWatchdog.current?.()
+    disarmWatchdog.current = null
     timeline.current?.kill()
     timeline.current = null
+    updateRuntimeDiagnostics({
+      activeSequence: activeFragment ? `fragment:${activeFragment}:${phase}` : 'none',
+    })
 
     if (!activeFragment) {
       if (
@@ -49,6 +57,16 @@ export function FragmentSequenceCoordinator() {
         ease: activeFragment === 'fear' ? 'power2.inOut' : 'power3.inOut',
       })
       timeline.current = nextTimeline
+      const disarm = armSequenceWatchdog(durations.approach, () => {
+        if (useExperienceStore.getState().phase === 'approaching-fragment') {
+          nextTimeline.progress(1)
+        }
+      })
+      disarmWatchdog.current = disarm
+      nextTimeline.eventCallback('onComplete', () => {
+        disarm()
+        useExperienceStore.getState().beginFragmentReveal(activeFragment)
+      })
     }
 
     if (phase === 'revealing-fragment' && !activeCollected) {
@@ -69,6 +87,16 @@ export function FragmentSequenceCoordinator() {
               : 'sine.inOut',
       })
       timeline.current = nextTimeline
+      const disarm = armSequenceWatchdog(durations.hold, () => {
+        if (useExperienceStore.getState().phase === 'revealing-fragment') {
+          nextTimeline.progress(1)
+        }
+      })
+      disarmWatchdog.current = disarm
+      nextTimeline.eventCallback('onComplete', () => {
+        disarm()
+        useExperienceStore.getState().completeFragmentReveal(activeFragment)
+      })
     }
 
     if (phase === 'returning-to-chamber') {
@@ -86,11 +114,24 @@ export function FragmentSequenceCoordinator() {
         ease: 'power3.inOut',
       })
       timeline.current = nextTimeline
+      const disarm = armSequenceWatchdog(durations.return, () => {
+        if (useExperienceStore.getState().phase === 'returning-to-chamber') {
+          nextTimeline.progress(1)
+        }
+      })
+      disarmWatchdog.current = disarm
+      nextTimeline.eventCallback('onComplete', () => {
+        disarm()
+        useExperienceStore.getState().completeReturn(activeFragment)
+      })
     }
 
     return () => {
+      disarmWatchdog.current?.()
+      disarmWatchdog.current = null
       timeline.current?.kill()
       timeline.current = null
+      updateRuntimeDiagnostics({ activeSequence: 'none' })
     }
   }, [activeCollected, activeFragment, phase, reducedMotion])
 
@@ -123,7 +164,9 @@ export function FragmentSequenceCoordinator() {
   useEffect(
     () => () => {
       timeline.current?.kill()
+      disarmWatchdog.current?.()
       resetSequenceRuntime()
+      updateRuntimeDiagnostics({ activeSequence: 'none' })
     },
     [],
   )

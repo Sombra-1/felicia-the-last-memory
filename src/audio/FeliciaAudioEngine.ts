@@ -30,18 +30,25 @@ export class FeliciaAudioEngine {
     status: 'idle',
     ambientStartCount: 0,
     lastEvent: 'none',
+    masterGain: 0,
+    ambientGain: 0,
+    cueGain: 0,
   }
   private enabled = true
-  private volume = 0.72
+  private volume = 0.84
   private phase: ExperiencePhase = 'loading'
 
   setDiagnosticsListener(listener: DiagnosticsListener | null) {
     this.listener = listener
-    listener?.(this.diagnostics)
+    listener?.(this.getDiagnostics())
   }
 
   getDiagnostics() {
     return { ...this.diagnostics }
+  }
+
+  isRunning() {
+    return this.context?.state === 'running'
   }
 
   async unlock() {
@@ -84,23 +91,134 @@ export class FeliciaAudioEngine {
     if (!this.context || this.context.state !== 'running' || !this.enabled) return
 
     if (phase === 'reconstruction-initiating') {
-      this.playTone([110, 165], 0.8, 'sine', 0, 0.58)
+      this.playTone([110, 165, 330], 0.8, 'sine', 0, 0.7)
       this.recordEvent('reconstruction-recognition')
     } else if (phase === 'reconstruction-collapse') {
-      this.playTone([73.4, 92.5], 1.9, 'triangle', -0.08, 0.7)
+      this.playTone([73.4, 146.8, 220], 1.9, 'triangle', -0.08, 0.72)
       this.recordEvent('reconstruction-collapse')
     } else if (phase === 'reconstruction-void') {
-      this.playTone([146.8], 1.1, 'sine', 0, 0.16)
+      this.playTone([146.8, 293.7], 1.1, 'sine', 0, 0.25)
       this.recordEvent('reconstruction-void')
     } else if (phase === 'reconstruction-rebuilding') {
-      this.playTone([98, 147, 220], 2.8, 'sine', 0, 0.56)
+      this.playTone([98, 196, 294], 2.8, 'sine', 0, 0.68)
       this.recordEvent('reconstruction-rebuilding')
     } else if (phase === 'reconstruction-reveal') {
-      this.playTone([220, 330], 1.5, 'sine', 0, 0.42)
+      this.playTone([220, 330, 440], 1.5, 'sine', 0, 0.55)
       this.recordEvent('reconstruction-reveal')
     } else if (phase === 'resetting') {
       this.stopTransients()
     }
+  }
+
+  playActivationSignature() {
+    if (!this.canPlay()) return false
+    const now = this.context!.currentTime
+    ;[
+      { frequency: 174.6, delay: 0, duration: 0.72, pan: -0.12, rise: 1.16 },
+      { frequency: 261.6, delay: 0.12, duration: 0.86, pan: 0.12, rise: 1.08 },
+      { frequency: 392, delay: 0.26, duration: 1.05, pan: 0, rise: 1.02 },
+    ].forEach(({ frequency, delay, duration, pan, rise }) => {
+      this.scheduleOscillator({
+        frequency,
+        type: 'sine',
+        start: now + delay,
+        duration,
+        pan,
+        intensity: 0.38,
+        rise,
+      })
+    })
+    this.recordEvent('entry-activation')
+    return true
+  }
+
+  playSoundConfirmation() {
+    if (!this.canPlay()) return false
+    this.playTone([220, 330, 440], 0.62, 'sine', 0, 0.58, 1.04)
+    this.recordEvent('sound-confirmed')
+    return true
+  }
+
+  playCalibrationSequence() {
+    if (!import.meta.env.DEV || !this.canPlay()) return false
+    const now = this.context!.currentTime
+    const references: Array<{
+      frequency: number
+      type: OscillatorType
+      offset: number
+      duration: number
+      pan: number
+      intensity: number
+      rise: number
+    }> = [
+      {
+        frequency: 196,
+        type: 'sine',
+        offset: 0,
+        duration: 0.75,
+        pan: 0,
+        intensity: 0.2,
+        rise: 1,
+      },
+      {
+        frequency: 440,
+        type: 'sine',
+        offset: 1,
+        duration: 0.75,
+        pan: -0.18,
+        intensity: 0.28,
+        rise: 1,
+      },
+      {
+        frequency: 146.8,
+        type: 'triangle',
+        offset: 2,
+        duration: 0.75,
+        pan: 0.18,
+        intensity: 0.3,
+        rise: 0.92,
+      },
+      {
+        frequency: 261.6,
+        type: 'sine',
+        offset: 3,
+        duration: 0.9,
+        pan: 0,
+        intensity: 0.3,
+        rise: 1.12,
+      },
+      {
+        frequency: 185,
+        type: 'triangle',
+        offset: 4.15,
+        duration: 1.1,
+        pan: 0,
+        intensity: 0.34,
+        rise: 0.84,
+      },
+      {
+        frequency: 329.6,
+        type: 'sine',
+        offset: 5.5,
+        duration: 1.25,
+        pan: 0,
+        intensity: 0.32,
+        rise: 1.05,
+      },
+    ]
+    references.forEach((reference) => {
+      this.scheduleOscillator({
+        frequency: reference.frequency,
+        type: reference.type,
+        start: now + reference.offset,
+        duration: reference.duration,
+        pan: reference.pan,
+        intensity: reference.intensity,
+        rise: reference.rise,
+      })
+    })
+    this.recordEvent('calibration-sequence')
+    return true
   }
 
   playFragment(fragment: FragmentId) {
@@ -122,7 +240,7 @@ export class FeliciaAudioEngine {
         start: now + delay,
         duration: signature.duration - index * 0.12,
         pan,
-        intensity: fragment === 'fear' ? 0.5 : 0.62,
+        intensity: fragment === 'fear' ? 0.62 : 0.72,
         rise: fragment === 'hope' ? 1.06 : 1,
       })
     })
@@ -159,7 +277,7 @@ export class FeliciaAudioEngine {
       profile === 'hope' ? 2.6 : 2.15,
       profile === 'fear' ? 'triangle' : 'sine',
       0,
-      profile === 'fear' ? 0.42 : 0.52,
+      profile === 'fear' ? 0.58 : 0.64,
       profile === 'hope' ? 1.04 : 1,
     )
     this.recordEvent(`ending-${profile}`)
@@ -202,6 +320,9 @@ export class FeliciaAudioEngine {
       status: 'idle',
       ambientStartCount: 0,
       lastEvent: 'none',
+      masterGain: 0,
+      ambientGain: 0,
+      cueGain: 0,
     }
   }
 
@@ -242,19 +363,34 @@ export class FeliciaAudioEngine {
     this.master = master
     this.ambient = ambient
     this.cueBus = cueBus
+    context.addEventListener('statechange', () => {
+      if (context !== this.context) return
+      this.updateDiagnostics({
+        status:
+          context.state === 'running'
+            ? 'running'
+            : context.state === 'suspended'
+              ? 'suspended'
+              : this.diagnostics.status,
+      })
+    })
+    this.updateDiagnostics({ cueGain: AUDIO_CALIBRATION.cueGain })
   }
 
   private ensureAmbient() {
     if (!this.context || !this.ambient || this.ambientSources.length > 0) return
     const filter = this.context.createBiquadFilter()
     filter.type = 'lowpass'
-    filter.frequency.value = 360
-    filter.Q.value = 0.45
+    filter.frequency.value = 1600
+    filter.Q.value = 0.52
     filter.connect(this.ambient)
 
     ;[
-      { frequency: 52, type: 'sine' as const, gain: 0.026 },
-      { frequency: 78, type: 'triangle' as const, gain: 0.009 },
+      { frequency: 58, type: 'sine' as const, gain: 0.02 },
+      { frequency: 116, type: 'triangle' as const, gain: 0.026 },
+      { frequency: 174, type: 'sine' as const, gain: 0.045 },
+      { frequency: 348, type: 'sine' as const, gain: 0.016 },
+      { frequency: 522, type: 'sine' as const, gain: 0.008 },
     ].forEach(({ frequency, type, gain }) => {
       const oscillator = this.context!.createOscillator()
       const oscillatorGain = this.context!.createGain()
@@ -280,10 +416,10 @@ export class FeliciaAudioEngine {
     }
     noise.buffer = buffer
     noise.loop = true
-    noiseGain.gain.value = 0.0032
+    noiseGain.gain.value = 0.014
     noiseFilter.type = 'bandpass'
-    noiseFilter.frequency.value = 620
-    noiseFilter.Q.value = 0.7
+    noiseFilter.frequency.value = 920
+    noiseFilter.Q.value = 0.82
     noise.connect(noiseFilter)
     noiseFilter.connect(noiseGain)
     noiseGain.connect(this.ambient)
@@ -345,7 +481,7 @@ export class FeliciaAudioEngine {
     const oscillator = this.context.createOscillator()
     const envelope = this.context.createGain()
     const panner = this.context.createStereoPanner()
-    const peak = Math.min(0.16, intensity)
+    const peak = Math.min(0.3, intensity)
     const end = start + Math.max(0.12, duration)
 
     oscillator.type = type
@@ -379,6 +515,7 @@ export class FeliciaAudioEngine {
       this.context.currentTime,
       Math.max(0.015, fade / 4),
     )
+    this.updateDiagnostics({ masterGain: target })
   }
 
   private applyAmbientLevel(
@@ -394,6 +531,7 @@ export class FeliciaAudioEngine {
       this.context.currentTime,
       Math.max(0.025, fade / 3),
     )
+    this.updateDiagnostics({ ambientGain: target })
   }
 
   private stopTransients() {

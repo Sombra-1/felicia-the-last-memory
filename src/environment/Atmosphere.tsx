@@ -2,6 +2,7 @@ import { useFrame } from '@react-three/fiber'
 import { useMemo, useRef } from 'react'
 import { AdditiveBlending, Group, MathUtils, Points } from 'three'
 import { deriveEndingConfiguration } from '../reconstruction/endingProfiles'
+import { entranceRuntime } from '../experience/entranceRuntime'
 import { reconstructionRuntime } from '../reconstruction/reconstructionRuntime'
 import { QUALITY_PROFILES } from '../scene/config/quality'
 import { PALETTE, VISUAL_CALIBRATION } from '../scene/config/visual'
@@ -49,6 +50,9 @@ export function Atmosphere() {
           ? 1
           : 0
     atmosphere.current.scale.setScalar(MathUtils.lerp(1, 0.15, darkness) + rebuilt * 0.85)
+    atmosphere.current.visible = entranceRuntime.atmosphere > 0.015
+    const entranceScale = MathUtils.lerp(0.72, 1, entranceRuntime.atmosphere)
+    atmosphere.current.scale.multiplyScalar(entranceScale)
     if (!reducedMotion) {
       particles.current.rotation.y =
         clock.elapsedTime *

@@ -12,6 +12,8 @@ export function MemoryInterface() {
   const instructionDismissed = useExperienceStore((state) => state.instructionDismissed)
   const finalTextStep = useExperienceStore((state) => state.finalTextStep)
   const replayAvailable = useExperienceStore((state) => state.replayAvailable)
+  const interactionNotice = useExperienceStore((state) => state.interactionNotice)
+  const interactionFeedbackId = useExperienceStore((state) => state.interactionFeedbackId)
   const progress = useExperienceStore(selectCollectionProgress)
   const activeMemory = activeFragment ? getFragmentPrototype(activeFragment) : null
   const ending = deriveEndingConfiguration(collectionOrder)
@@ -191,6 +193,17 @@ export function MemoryInterface() {
             ? `Reconstruction complete. Foundation ${ending?.profile.label ?? ''}.`
             : ''}
       </div>
+      {interactionNotice && phase !== 'ending' && (
+        <p
+          key={interactionFeedbackId}
+          className="interaction-feedback"
+          role="status"
+          aria-live="polite"
+        >
+          <i aria-hidden="true" />
+          {interactionNotice}
+        </p>
+      )}
     </section>
   )
 }

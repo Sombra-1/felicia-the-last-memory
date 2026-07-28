@@ -52,6 +52,9 @@ describe('experience state machine', () => {
     useExperienceStore.getState().enterChamber()
     expect(useExperienceStore.getState().requestFragment('identity')).toBe(true)
     expect(useExperienceStore.getState().requestFragment('fear')).toBe(false)
+    expect(useExperienceStore.getState().interactionNotice).toMatch(
+      /transition is still resolving/i,
+    )
     expect(useExperienceStore.getState().inputLocked).toBe(true)
 
     useExperienceStore.getState().beginFragmentReveal('identity')
@@ -63,6 +66,21 @@ describe('experience state machine', () => {
     expect(useExperienceStore.getState().inputLocked).toBe(true)
     useExperienceStore.getState().completeReturn('identity')
     expect(useExperienceStore.getState().inputLocked).toBe(false)
+  })
+
+  it('acknowledges accepted actions and records rejected repeated input', () => {
+    useExperienceStore.getState().enterChamber()
+    const entryFeedback = useExperienceStore.getState().interactionFeedbackId
+
+    expect(useExperienceStore.getState().requestFragment('fear')).toBe(true)
+    const accepted = useExperienceStore.getState()
+    expect(accepted.interactionNotice).toBe('Fear accepted.')
+    expect(accepted.interactionFeedbackId).toBeGreaterThan(entryFeedback)
+
+    expect(useExperienceStore.getState().requestFragment('hope')).toBe(false)
+    const rejected = useExperienceStore.getState()
+    expect(rejected.interactionNotice).toMatch(/still resolving/i)
+    expect(rejected.interactionFeedbackId).toBeGreaterThan(accepted.interactionFeedbackId)
   })
 
   it('appends a completed fragment exactly once and blocks reactivation', () => {

@@ -1,9 +1,11 @@
-import type { PropsWithChildren } from 'react'
+import { useState, type PropsWithChildren } from 'react'
 import { feliciaAudioEngine } from '../audio/FeliciaAudioEngine'
+import { getSoundControlState } from '../audio/soundControlState'
 import { useExperienceStore } from '../state/experienceStore'
 import { MemoryInterface } from './MemoryInterface'
 
 export function ExperienceShell({ children }: PropsWithChildren) {
+  const [audioAnnouncement, setAudioAnnouncement] = useState('')
   const audioEnabled = useExperienceStore((state) => state.audioEnabled)
   const hasUserInteracted = useExperienceStore((state) => state.hasUserInteracted)
   const audioStatus = useExperienceStore((state) => state.audioContextStatus)
@@ -17,7 +19,47 @@ export function ExperienceShell({ children }: PropsWithChildren) {
   const activeFragment = useExperienceStore((state) => state.activeFragment)
   const endingProfile = useExperienceStore((state) => state.endingProfileId)
   const replayAvailable = useExperienceStore((state) => state.replayAvailable)
-  const setAudioEnabled = useExperienceStore((state) => state.setAudioEnabled)
+  const soundControl = getSoundControlState(audioEnabled, audioStatus)
+
+  const handleSoundControl = async () => {
+    const store = useExperienceStore.getState()
+    if (!audioEnabled || audioStatus !== 'running') {
+      store.setAudioEnabled(true)
+      feliciaAudioEngine.setEnabled(true)
+      const running = await feliciaAudioEngine.unlock()
+      if (running) {
+        feliciaAudioEngine.playSoundConfirmation()
+        setAudioAnnouncement('Sound enabled.')
+      } else {
+        setAudioAnnouncement(
+          useExperienceStore.getState().audioContextStatus === 'unavailable'
+            ? 'Sound is unavailable. The visual experience will continue.'
+            : 'Sound is blocked. Tap the sound control to try again.',
+        )
+      }
+      return
+    }
+
+    store.setAudioEnabled(false)
+    feliciaAudioEngine.setEnabled(false)
+    setAudioAnnouncement('Sound muted.')
+  }
+
+  const handleEnter = async () => {
+    const store = useExperienceStore.getState()
+    store.registerUserInteraction()
+    const audioReady = await feliciaAudioEngine.unlock()
+    if (!store.enterChamber()) return
+
+    if (audioReady && store.audioEnabled) {
+      feliciaAudioEngine.playActivationSignature()
+      setAudioAnnouncement('Sound enabled. Entering FELICIA’s memory.')
+    } else if (!store.audioEnabled) {
+      setAudioAnnouncement('Entering FELICIA’s memory with sound off.')
+    } else {
+      setAudioAnnouncement('Entering FELICIA’s memory. Sound needs your permission.')
+    }
+  }
 
   return (
     <main
@@ -47,29 +89,18 @@ export function ExperienceShell({ children }: PropsWithChildren) {
           <button
             className="text-control sound-control"
             type="button"
-            aria-pressed={!audioEnabled}
-            aria-label={
-              audioStatus === 'unavailable'
-                ? 'Sound unavailable'
-                : audioEnabled
-                  ? 'Mute ambient sound'
-                  : 'Enable ambient sound'
-            }
-            disabled={audioStatus === 'unavailable'}
-            onClick={() => setAudioEnabled(!audioEnabled)}
+            aria-pressed={soundControl.active}
+            aria-label={soundControl.ariaLabel}
+            disabled={soundControl.disabled}
+            data-sound-active={soundControl.active}
+            onClick={() => void handleSoundControl()}
           >
             <span className="sound-control__icon" aria-hidden="true">
               <i />
               <i />
               <i />
             </span>
-            <span>
-              {audioStatus === 'unavailable'
-                ? 'Sound unavailable'
-                : audioEnabled
-                  ? 'Sound on'
-                  : 'Sound off'}
-            </span>
+            <span>{soundControl.label}</span>
           </button>
         )}
       </header>
@@ -92,11 +123,7 @@ export function ExperienceShell({ children }: PropsWithChildren) {
               void feliciaAudioEngine.unlock()
             }
           }}
-          onClick={() => {
-            const store = useExperienceStore.getState()
-            store.registerUserInteraction()
-            store.enterChamber()
-          }}
+          onClick={() => void handleEnter()}
         >
           <span>Enter memory</span>
           <span aria-hidden="true">↗</span>
@@ -112,6 +139,9 @@ export function ExperienceShell({ children }: PropsWithChildren) {
         </span>
       </footer>
       <div className="reset-curtain" aria-hidden="true" />
+      <div className="sr-only" role="status" aria-live="polite">
+        {audioAnnouncement}
+      </div>
     </main>
   )
 }

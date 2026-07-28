@@ -1,7 +1,9 @@
 import { Suspense, lazy } from 'react'
 import { FocusCoordinator } from '../accessibility/FocusCoordinator'
 import { AudioCoordinator } from '../audio/AudioCoordinator'
+import { ExperienceDiagnostics } from '../dev/ExperienceDiagnostics'
 import { FragmentSequenceCoordinator } from '../experience/FragmentSequenceCoordinator'
+import { EntranceSequenceCoordinator } from '../experience/EntranceSequenceCoordinator'
 import { useExperiencePreferences } from '../hooks/useExperiencePreferences'
 import { ReconstructionCoordinator } from '../reconstruction/ReconstructionCoordinator'
 import { installEvidenceBridge } from '../reconstruction/evidenceBridge'
@@ -22,9 +24,11 @@ export function App() {
   return (
     <ExperienceShell>
       <FragmentSequenceCoordinator />
+      <EntranceSequenceCoordinator />
       <ReconstructionCoordinator />
       <AudioCoordinator />
       <FocusCoordinator />
+      <ExperienceDiagnostics />
       <Suspense fallback={<LoadingScreen label="Preparing memory chamber" />}>
         <ExperienceCanvas />
       </Suspense>
