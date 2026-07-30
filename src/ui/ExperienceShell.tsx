@@ -18,6 +18,11 @@ export function ExperienceShell({ children }: PropsWithChildren) {
   const cameraRestored = useExperienceStore((state) => state.chamberCameraRestored)
   const activeFragment = useExperienceStore((state) => state.activeFragment)
   const endingProfile = useExperienceStore((state) => state.endingProfileId)
+  const memorySetComplete = useExperienceStore((state) => state.memorySetComplete)
+  const collectionOrder = useExperienceStore((state) => state.collectionOrder)
+  const reconstructionMemoryIndex = useExperienceStore(
+    (state) => state.reconstructionMemoryIndex,
+  )
   const replayAvailable = useExperienceStore((state) => state.replayAvailable)
   const soundControl = getSoundControlState(audioEnabled, audioStatus)
 
@@ -71,6 +76,9 @@ export function ExperienceShell({ children }: PropsWithChildren) {
       data-camera-restored={cameraRestored}
       data-active-fragment={activeFragment ?? 'none'}
       data-ending-profile={endingProfile ?? 'none'}
+      data-memory-set-complete={memorySetComplete}
+      data-memory-order={collectionOrder.join('-') || 'none'}
+      data-reconstruction-memory-index={reconstructionMemoryIndex}
       data-replay-available={replayAvailable}
       data-audio-status={audioStatus}
       data-audio-enabled={audioEnabled}

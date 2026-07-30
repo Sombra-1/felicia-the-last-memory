@@ -2,11 +2,11 @@ import { Suspense, lazy } from 'react'
 import { FocusCoordinator } from '../accessibility/FocusCoordinator'
 import { AudioCoordinator } from '../audio/AudioCoordinator'
 import { ExperienceDiagnostics } from '../dev/ExperienceDiagnostics'
-import { FragmentSequenceCoordinator } from '../experience/FragmentSequenceCoordinator'
 import { EntranceSequenceCoordinator } from '../experience/EntranceSequenceCoordinator'
+import { TransitionDirector } from '../experience/TransitionDirector'
 import { useExperiencePreferences } from '../hooks/useExperiencePreferences'
-import { ReconstructionCoordinator } from '../reconstruction/ReconstructionCoordinator'
 import { installEvidenceBridge } from '../reconstruction/evidenceBridge'
+import { TrialGameplayCoordinator } from '../trials/TrialGameplayCoordinator'
 import { ExperienceShell } from '../ui/ExperienceShell'
 import { LoadingScreen } from '../ui/LoadingScreen'
 
@@ -23,9 +23,9 @@ export function App() {
 
   return (
     <ExperienceShell>
-      <FragmentSequenceCoordinator />
       <EntranceSequenceCoordinator />
-      <ReconstructionCoordinator />
+      <TransitionDirector />
+      <TrialGameplayCoordinator />
       <AudioCoordinator />
       <FocusCoordinator />
       <ExperienceDiagnostics />

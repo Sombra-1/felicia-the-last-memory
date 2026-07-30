@@ -7,7 +7,9 @@ import { CollectedConsequences } from '../environment/CollectedConsequences'
 import { MemoryFragment } from '../fragments/MemoryFragment'
 import { EndingStructures } from '../reconstruction/EndingStructures'
 import { MemoryRecallTraces } from '../reconstruction/MemoryRecallTraces'
+import { ReconstructionSpectacle } from '../reconstruction/ReconstructionSpectacle'
 import { FeliciaCore } from './FeliciaCore'
+import { TrialWorlds } from '../trials/TrialWorlds'
 
 export function MemoryChamber() {
   const { size } = useThree()
@@ -20,6 +22,8 @@ export function MemoryChamber() {
       <CollectedConsequences />
       <EndingStructures />
       <MemoryRecallTraces />
+      <ReconstructionSpectacle />
+      <TrialWorlds />
       {FRAGMENT_PROTOTYPES.map((fragment) => (
         <MemoryFragment key={fragment.id} fragment={fragment} />
       ))}

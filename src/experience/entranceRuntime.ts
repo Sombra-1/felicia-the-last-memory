@@ -1,5 +1,7 @@
 export interface EntranceRuntime {
   progress: number
+  pulse: number
+  sweep: number
   core: number
   identity: number
   fear: number
@@ -10,6 +12,8 @@ export interface EntranceRuntime {
 
 export const entranceRuntime: EntranceRuntime = {
   progress: 0,
+  pulse: 0,
+  sweep: 0,
   core: 0.08,
   identity: 0,
   fear: 0,
@@ -20,6 +24,8 @@ export const entranceRuntime: EntranceRuntime = {
 
 export function completeEntranceRuntime() {
   entranceRuntime.progress = 1
+  entranceRuntime.pulse = 1
+  entranceRuntime.sweep = 1
   entranceRuntime.core = 1
   entranceRuntime.identity = 1
   entranceRuntime.fear = 1
@@ -30,6 +36,8 @@ export function completeEntranceRuntime() {
 
 export function resetEntranceRuntime() {
   entranceRuntime.progress = 0
+  entranceRuntime.pulse = 0
+  entranceRuntime.sweep = 0
   entranceRuntime.core = 0.08
   entranceRuntime.identity = 0
   entranceRuntime.fear = 0

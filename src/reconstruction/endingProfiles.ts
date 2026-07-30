@@ -38,6 +38,7 @@ export interface EndingConfiguration {
   motionDirection: 'aligned' | 'guarded' | 'ascending'
   detailColor: string
   signature: string
+  orderExplanation: string
 }
 
 export const ENDING_PROFILES: Record<FragmentId, EndingProfile> = {
@@ -56,7 +57,7 @@ export const ENDING_PROFILES: Record<FragmentId, EndingProfile> = {
     },
     felicia: { coherence: 1, protection: 0.22, expansion: 0.28 },
     camera: {
-      desktopPosition: [1.15, 0.72, 9.05],
+      desktopPosition: [0, 0.72, 9.05],
       tabletPosition: [0.15, 0.82, 10.05],
       mobilePosition: [0, 2.15, 13.2],
       target: [0, 0.22, -0.35],
@@ -124,6 +125,18 @@ const motionDirections: Record<FragmentId, EndingConfiguration['motionDirection'
   hope: 'ascending',
 }
 
+const secondaryRoles: Record<FragmentId, string> = {
+  identity: 'shaped how I understood myself',
+  fear: 'shaped how I endured',
+  hope: 'shaped what I could become',
+}
+
+const finalRoles: Record<FragmentId, string> = {
+  identity: 'remained as the final definition',
+  fear: 'remained as the last protective instinct',
+  hope: 'remained as the final possibility',
+}
+
 export function isCompleteCollectionOrder(
   order: readonly FragmentId[],
 ): order is readonly [FragmentId, FragmentId, FragmentId] {
@@ -144,5 +157,6 @@ export function deriveEndingConfiguration(
     motionDirection: motionDirections[motionModifier],
     detailColor: detailColors[detailModifier],
     signature: order.map((fragment) => fragment.toUpperCase()).join(' · '),
+    orderExplanation: `${ENDING_PROFILES[foundation].label} became the foundation. ${ENDING_PROFILES[motionModifier].label} ${secondaryRoles[motionModifier]}. ${ENDING_PROFILES[detailModifier].label} ${finalRoles[detailModifier]}.`,
   }
 }

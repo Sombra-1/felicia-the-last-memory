@@ -7,7 +7,12 @@ function gain(value: number) {
 }
 
 export function ExperienceDiagnostics() {
-  if (!import.meta.env.DEV) return null
+  if (
+    !import.meta.env.DEV ||
+    !new URLSearchParams(window.location.search).has('diagnostics')
+  ) {
+    return null
+  }
 
   return <ExperienceDiagnosticsPanel />
 }

@@ -1,7 +1,7 @@
 import { useFrame } from '@react-three/fiber'
 import { useLayoutEffect, useRef } from 'react'
 import { Group, InstancedMesh, MathUtils, Object3D } from 'three'
-import { sequenceRuntime } from '../experience/sequenceRuntime'
+import { trialRuntime } from '../trials/trialRuntime'
 import { PALETTE } from '../scene/config/visual'
 import { useExperienceStore } from '../state/experienceStore'
 
@@ -15,6 +15,8 @@ const shardTransforms = [
   [0.12, -0.62, -0.04, 0.22],
 ] as const
 
+const plateAngles = [-2.45, -1.52, -0.62, 0.38, 1.34, 2.28] as const
+
 interface FearFragmentProps {
   hovered: boolean
   active: boolean
@@ -24,11 +26,12 @@ interface FearFragmentProps {
 export function FearFragment({ hovered, active, collected }: FearFragmentProps) {
   const group = useRef<Group>(null)
   const shards = useRef<InstancedMesh>(null)
+  const plates = useRef<InstancedMesh>(null)
   const cage = useRef<Group>(null)
   const reducedMotion = useExperienceStore((state) => state.reducedMotion)
 
   useLayoutEffect(() => {
-    if (!shards.current) return
+    if (!shards.current || !plates.current) return
     const transform = new Object3D()
 
     shardTransforms.forEach(([x, y, z, scale], index) => {
@@ -39,12 +42,24 @@ export function FearFragment({ hovered, active, collected }: FearFragmentProps) 
       shards.current?.setMatrixAt(index, transform.matrix)
     })
     shards.current.instanceMatrix.needsUpdate = true
+
+    plateAngles.forEach((angle, index) => {
+      transform.position.set(Math.cos(angle) * 1.18, Math.sin(angle) * 0.9, -0.18)
+      transform.rotation.set(0.12 * (index % 2 ? 1 : -1), 0, angle - Math.PI / 2)
+      transform.scale.set(0.28, 0.62, 0.12)
+      transform.updateMatrix()
+      plates.current?.setMatrixAt(index, transform.matrix)
+    })
+    plates.current.instanceMatrix.needsUpdate = true
   }, [])
 
   useFrame(({ clock }, delta) => {
-    if (!group.current || !shards.current || !cage.current) return
+    if (!group.current || !shards.current || !plates.current || !cage.current) return
     const time = clock.elapsedTime
-    const reveal = active ? sequenceRuntime.visualProgress : 0
+    const reveal = active
+      ? Math.max(trialRuntime.anticipation, trialRuntime.departure)
+      : 0
+    plates.current.visible = active && reveal > 0.04
     const instability =
       reducedMotion || collected
         ? 0
@@ -64,11 +79,15 @@ export function FearFragment({ hovered, active, collected }: FearFragmentProps) 
     cage.current.rotation.y =
       (reducedMotion ? 0.2 : -time * 0.11) - reveal * Math.PI * 0.32
     cage.current.rotation.z = reveal * 0.18
-    cage.current.scale.setScalar(0.92 + reveal * 0.46)
+    cage.current.scale.setScalar(0.92 + reveal * 0.28)
 
     const transform = new Object3D()
     shardTransforms.forEach(([x, y, z, scale], index) => {
-      const separation = 1 + reveal * (0.72 + (index % 3) * 0.16)
+      const separation = MathUtils.lerp(
+        1.22 + (index % 3) * 0.08,
+        0.9 + (index % 2) * 0.08,
+        reveal,
+      )
       transform.position.set(x * separation, y * separation, z * separation)
       transform.rotation.set(
         index * 0.7 + reveal * (index % 2 ? 0.8 : -0.55),
@@ -80,6 +99,25 @@ export function FearFragment({ hovered, active, collected }: FearFragmentProps) 
       shards.current?.setMatrixAt(index, transform.matrix)
     })
     shards.current.instanceMatrix.needsUpdate = true
+
+    plateAngles.forEach((angle, index) => {
+      const seal = MathUtils.smootherstep(reveal, 0.18 + index * 0.035, 0.9)
+      const radius = MathUtils.lerp(1.48 + (index % 2) * 0.12, 0.82, seal)
+      transform.position.set(
+        Math.cos(angle) * radius,
+        Math.sin(angle) * radius * 0.76,
+        -0.22 + (index % 2) * 0.08,
+      )
+      transform.rotation.set(
+        0.12 * (index % 2 ? 1 : -1),
+        MathUtils.lerp(index % 2 ? -0.7 : 0.7, 0, seal),
+        angle - Math.PI / 2 + (1 - seal) * (index % 2 ? 0.6 : -0.6),
+      )
+      transform.scale.set(0.2, 0.48, 0.1)
+      transform.updateMatrix()
+      plates.current?.setMatrixAt(index, transform.matrix)
+    })
+    plates.current.instanceMatrix.needsUpdate = true
   })
 
   return (
@@ -92,6 +130,16 @@ export function FearFragment({ hovered, active, collected }: FearFragmentProps) 
           emissiveIntensity={hovered ? 0.9 : 0.52}
           metalness={0.72}
           roughness={0.36}
+        />
+      </instancedMesh>
+      <instancedMesh ref={plates} args={[undefined, undefined, plateAngles.length]}>
+        <cylinderGeometry args={[0.58, 0.72, 1.25, 5, 1, false]} />
+        <meshStandardMaterial
+          color="#4f4058"
+          emissive="#6f4f7e"
+          emissiveIntensity={0.64}
+          metalness={0.84}
+          roughness={0.42}
         />
       </instancedMesh>
       <mesh scale={0.22}>

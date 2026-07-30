@@ -9,7 +9,7 @@ import {
   Object3D,
 } from 'three'
 import { PALETTE } from '../scene/config/visual'
-import { sequenceRuntime } from '../experience/sequenceRuntime'
+import { trialRuntime } from '../trials/trialRuntime'
 import { useExperienceStore } from '../state/experienceStore'
 
 function HopeMotes({ active, collected }: { active: boolean; collected: boolean }) {
@@ -28,7 +28,9 @@ function HopeMotes({ active, collected }: { active: boolean; collected: boolean 
 
   useFrame(({ clock }) => {
     if (!motes.current) return
-    const reveal = active ? sequenceRuntime.visualProgress : 0
+    const reveal = active
+      ? Math.max(trialRuntime.anticipation, trialRuntime.departure)
+      : 0
     motes.current.position.y =
       reveal * 0.45 +
       (reducedMotion || collected ? 0 : Math.sin(clock.elapsedTime * 0.8) * 0.025)
@@ -61,6 +63,7 @@ export function HopeFragment({ hovered, active, collected }: HopeFragmentProps) 
   const group = useRef<Group>(null)
   const petals = useRef<InstancedMesh>(null)
   const filaments = useRef<Group>(null)
+  const ascension = useRef<Group>(null)
   const reducedMotion = useExperienceStore((state) => state.reducedMotion)
 
   useLayoutEffect(() => {
@@ -79,9 +82,12 @@ export function HopeFragment({ hovered, active, collected }: HopeFragmentProps) 
   }, [])
 
   useFrame(({ clock }, delta) => {
-    if (!group.current || !petals.current || !filaments.current) return
+    if (!group.current || !petals.current || !filaments.current || !ascension.current)
+      return
     const time = clock.elapsedTime
-    const reveal = active ? sequenceRuntime.visualProgress : 0
+    const reveal = active
+      ? Math.max(trialRuntime.anticipation, trialRuntime.departure)
+      : 0
     group.current.rotation.y = MathUtils.damp(
       group.current.rotation.y,
       active
@@ -105,6 +111,16 @@ export function HopeFragment({ hovered, active, collected }: HopeFragmentProps) 
       (reducedMotion ? 0.1 : time * 0.08) + reveal * Math.PI * 0.28
     filaments.current.scale.setScalar(0.78 + reveal * 0.62)
     filaments.current.position.y = reveal * 0.18
+    const emergence = MathUtils.smootherstep(reveal, 0.18, 0.96)
+    ascension.current.visible = active && reveal > 0.08
+    ascension.current.position.y = MathUtils.lerp(-0.72, 0.72, emergence)
+    ascension.current.scale.set(
+      0.72 + emergence * 0.42,
+      Math.max(0.04, emergence),
+      0.72 + emergence * 0.42,
+    )
+    ascension.current.rotation.z =
+      (1 - emergence) * -0.28 + (reducedMotion ? 0 : Math.sin(time * 0.42) * 0.018)
 
     const transform = new Object3D()
     for (let index = 0; index < 6; index += 1) {
@@ -154,6 +170,35 @@ export function HopeFragment({ hovered, active, collected }: HopeFragmentProps) 
         <mesh rotation={[0.3, Math.PI / 2, 0.62]}>
           <torusGeometry args={[1.1, 0.011, 5, 72, Math.PI * 1.05]} />
           <meshBasicMaterial color={PALETTE.hope} transparent opacity={0.38} />
+        </mesh>
+      </group>
+      <group ref={ascension} visible={false} position={[0, -0.72, -0.28]}>
+        <mesh position={[-0.48, 0.42, 0]} rotation={[0, -0.7, -0.24]}>
+          <torusGeometry args={[1.12, 0.022, 5, 64, Math.PI * 0.72]} />
+          <meshBasicMaterial
+            color="#e4c693"
+            transparent
+            opacity={0.54}
+            toneMapped={false}
+          />
+        </mesh>
+        <mesh position={[0.48, 0.42, 0]} rotation={[0, -0.7, Math.PI * 0.52]}>
+          <torusGeometry args={[1.12, 0.022, 5, 64, Math.PI * 0.72]} />
+          <meshBasicMaterial
+            color="#d8ad6d"
+            transparent
+            opacity={0.48}
+            toneMapped={false}
+          />
+        </mesh>
+        <mesh position={[0, 1.02, -0.3]} scale={[0.08, 0.46, 0.08]}>
+          <octahedronGeometry args={[1, 0]} />
+          <meshBasicMaterial
+            color="#f0d4a3"
+            transparent
+            opacity={0.36}
+            toneMapped={false}
+          />
         </mesh>
       </group>
       <HopeMotes active={active} collected={collected} />

@@ -22,14 +22,18 @@ const collectionOrders: FragmentId[][] = [
 function completeFragment(fragment: FragmentId) {
   const store = useExperienceStore.getState()
   expect(store.requestFragment(fragment)).toBe(true)
-  expect(useExperienceStore.getState().phase).toBe('approaching-fragment')
+  expect(useExperienceStore.getState().phase).toBe('trial-departure')
   expect(useExperienceStore.getState().inputLocked).toBe(true)
-  expect(useExperienceStore.getState().beginFragmentReveal(fragment)).toBe(true)
-  expect(useExperienceStore.getState().phase).toBe('revealing-fragment')
-  expect(useExperienceStore.getState().completeFragmentReveal(fragment)).toBe(true)
-  expect(useExperienceStore.getState().requestReturn()).toBe(true)
-  expect(useExperienceStore.getState().phase).toBe('returning-to-chamber')
-  expect(useExperienceStore.getState().completeReturn(fragment)).toBe(true)
+  expect(useExperienceStore.getState().beginTrialArrival(fragment)).toBe(true)
+  expect(useExperienceStore.getState().beginTrial(fragment)).toBe(true)
+  expect(useExperienceStore.getState().phase).toBe('trial-active')
+  expect(useExperienceStore.getState().completeTrialBeat()).toBe(true)
+  expect(useExperienceStore.getState().completeTrialBeat()).toBe(true)
+  expect(useExperienceStore.getState().completeTrialBeat()).toBe(true)
+  expect(useExperienceStore.getState().phase).toBe('trial-completing')
+  expect(useExperienceStore.getState().beginTrialReturn(fragment)).toBe(true)
+  expect(useExperienceStore.getState().phase).toBe('trial-returning')
+  expect(useExperienceStore.getState().completeTrialReturn(fragment)).toBe(true)
 }
 
 describe('experience state machine', () => {
@@ -45,10 +49,11 @@ describe('experience state machine', () => {
     expect(state.activeFragment).toBeNull()
     expect(state.inputLocked).toBe(false)
     expect(state.chamberCameraRestored).toBe(true)
+    expect(state.memorySetComplete).toBe(false)
     expect(selectCollectionProgress(state)).toBe(0)
   })
 
-  it('locks input through approach and unlocks only after reveal completion', () => {
+  it('locks transitions, unlocks gameplay, and commits only after physical return', () => {
     useExperienceStore.getState().enterChamber()
     expect(useExperienceStore.getState().requestFragment('identity')).toBe(true)
     expect(useExperienceStore.getState().requestFragment('fear')).toBe(false)
@@ -57,15 +62,18 @@ describe('experience state machine', () => {
     )
     expect(useExperienceStore.getState().inputLocked).toBe(true)
 
-    useExperienceStore.getState().beginFragmentReveal('identity')
-    expect(useExperienceStore.getState().requestReturn()).toBe(false)
-    useExperienceStore.getState().completeFragmentReveal('identity')
-
+    useExperienceStore.getState().beginTrialArrival('identity')
+    useExperienceStore.getState().beginTrial('identity')
     expect(useExperienceStore.getState().inputLocked).toBe(false)
-    expect(useExperienceStore.getState().requestReturn()).toBe(true)
+    expect(useExperienceStore.getState().collectionOrder).toEqual([])
+    useExperienceStore.getState().completeTrialBeat()
+    useExperienceStore.getState().completeTrialBeat()
+    useExperienceStore.getState().completeTrialBeat()
     expect(useExperienceStore.getState().inputLocked).toBe(true)
-    useExperienceStore.getState().completeReturn('identity')
+    useExperienceStore.getState().beginTrialReturn('identity')
+    useExperienceStore.getState().completeTrialReturn('identity')
     expect(useExperienceStore.getState().inputLocked).toBe(false)
+    expect(useExperienceStore.getState().collectionOrder).toEqual(['identity'])
   })
 
   it('acknowledges accepted actions and records rejected repeated input', () => {
@@ -74,7 +82,7 @@ describe('experience state machine', () => {
 
     expect(useExperienceStore.getState().requestFragment('fear')).toBe(true)
     const accepted = useExperienceStore.getState()
-    expect(accepted.interactionNotice).toBe('Fear accepted.')
+    expect(accepted.interactionNotice).toBe('FEAR LINK ESTABLISHED')
     expect(accepted.interactionFeedbackId).toBeGreaterThan(entryFeedback)
 
     expect(useExperienceStore.getState().requestFragment('hope')).toBe(false)
@@ -89,7 +97,7 @@ describe('experience state machine', () => {
 
     expect(useExperienceStore.getState().collectionOrder).toEqual(['hope'])
     expect(useExperienceStore.getState().requestFragment('hope')).toBe(false)
-    expect(useExperienceStore.getState().completeFragmentReveal('hope')).toBe(false)
+    expect(useExperienceStore.getState().completeTrialBeat()).toBe(false)
     expect(useExperienceStore.getState().collectionOrder).toEqual(['hope'])
   })
 
@@ -117,8 +125,25 @@ describe('experience state machine', () => {
       expect(selectFirstSelectedFragment(finalState)).toBe(fragments[0])
       expect(finalState.phase).toBe('ready-for-reconstruction')
       expect(finalState.chamberCameraRestored).toBe(true)
+      expect(finalState.inputLocked).toBe(true)
+      expect(finalState.memorySetComplete).toBe(true)
+      expect(finalState.interactionNotice).toBe('MEMORY SET COMPLETE')
     },
   )
+
+  it('names each recorded memory role as the order is established', () => {
+    useExperienceStore.getState().enterChamber()
+
+    completeFragment('fear')
+    expect(useExperienceStore.getState().interactionNotice).toBe(
+      'FEAR RECORDED AS FOUNDATION',
+    )
+
+    completeFragment('hope')
+    expect(useExperienceStore.getState().interactionNotice).toBe(
+      'HOPE RECORDED AS SECONDARY MEMORY',
+    )
+  })
 
   it('does not reach all-collected state with fewer than three unique fragments', () => {
     useExperienceStore.getState().enterChamber()
@@ -145,6 +170,7 @@ describe('experience state machine', () => {
     expect(state.activeFragment).toBeNull()
     expect(state.inputLocked).toBe(false)
     expect(state.instructionDismissed).toBe(false)
+    expect(state.memorySetComplete).toBe(false)
     expect(state.audioEnabled).toBe(false)
     expect(state.reducedMotion).toBe(true)
     expect(state.quality).toBe('low')

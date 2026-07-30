@@ -23,6 +23,7 @@ export class FeliciaAudioEngine {
   private master: GainNode | null = null
   private ambient: GainNode | null = null
   private cueBus: GainNode | null = null
+  private captureDestination: MediaStreamAudioDestinationNode | null = null
   private ambientSources: AudioScheduledSourceNode[] = []
   private transientSources = new Set<AudioScheduledSourceNode>()
   private listener: DiagnosticsListener | null = null
@@ -49,6 +50,10 @@ export class FeliciaAudioEngine {
 
   isRunning() {
     return this.context?.state === 'running'
+  }
+
+  getCaptureStream() {
+    return this.captureDestination?.stream ?? null
   }
 
   async unlock() {
@@ -90,20 +95,23 @@ export class FeliciaAudioEngine {
     this.applyAmbientLevel(phase)
     if (!this.context || this.context.state !== 'running' || !this.enabled) return
 
-    if (phase === 'reconstruction-initiating') {
-      this.playTone([110, 165, 330], 0.8, 'sine', 0, 0.7)
+    if (phase === 'reconstruction-synchronizing') {
+      this.playTone([146.8, 220, 329.6], 2.2, 'sine', 0, 0.48, 1.04)
+      this.recordEvent('reconstruction-synchronizing')
+    } else if (phase === 'reconstruction-initiating') {
+      this.playTone([110, 220, 330, 440], 1.45, 'sine', 0, 0.74, 1.08)
       this.recordEvent('reconstruction-recognition')
     } else if (phase === 'reconstruction-collapse') {
-      this.playTone([73.4, 146.8, 220], 1.9, 'triangle', -0.08, 0.72)
+      this.playTone([82.4, 123.5, 185, 247], 2.1, 'triangle', -0.08, 0.76, 0.78)
       this.recordEvent('reconstruction-collapse')
     } else if (phase === 'reconstruction-void') {
-      this.playTone([146.8, 293.7], 1.1, 'sine', 0, 0.25)
+      this.playTone([146.8, 220, 293.7], 1.02, 'sine', 0, 0.32, 1.01)
       this.recordEvent('reconstruction-void')
     } else if (phase === 'reconstruction-rebuilding') {
-      this.playTone([98, 196, 294], 2.8, 'sine', 0, 0.68)
+      this.playTone([98, 196, 294, 392], 3.75, 'sine', 0, 0.74, 1.3)
       this.recordEvent('reconstruction-rebuilding')
     } else if (phase === 'reconstruction-reveal') {
-      this.playTone([220, 330, 440], 1.5, 'sine', 0, 0.55)
+      this.playTone([220, 330, 440, 660], 1.58, 'sine', 0, 0.64, 1.06)
       this.recordEvent('reconstruction-reveal')
     } else if (phase === 'resetting') {
       this.stopTransients()
@@ -114,9 +122,10 @@ export class FeliciaAudioEngine {
     if (!this.canPlay()) return false
     const now = this.context!.currentTime
     ;[
-      { frequency: 174.6, delay: 0, duration: 0.72, pan: -0.12, rise: 1.16 },
-      { frequency: 261.6, delay: 0.12, duration: 0.86, pan: 0.12, rise: 1.08 },
-      { frequency: 392, delay: 0.26, duration: 1.05, pan: 0, rise: 1.02 },
+      { frequency: 130.8, delay: 0, duration: 1.05, pan: -0.18, rise: 1.2 },
+      { frequency: 196, delay: 0.14, duration: 1.2, pan: 0.18, rise: 1.14 },
+      { frequency: 293.7, delay: 0.34, duration: 1.45, pan: -0.08, rise: 1.09 },
+      { frequency: 440, delay: 0.62, duration: 1.72, pan: 0.1, rise: 1.04 },
     ].forEach(({ frequency, delay, duration, pan, rise }) => {
       this.scheduleOscillator({
         frequency,
@@ -124,7 +133,7 @@ export class FeliciaAudioEngine {
         start: now + delay,
         duration,
         pan,
-        intensity: 0.38,
+        intensity: 0.46,
         rise,
       })
     })
@@ -247,6 +256,45 @@ export class FeliciaAudioEngine {
     this.recordEvent(`fragment-${fragment}`)
   }
 
+  playTrialBeat(fragment: FragmentId, beat: number) {
+    if (!this.canPlay()) return
+    const signature = FRAGMENT_AUDIO_SIGNATURES[fragment]
+    const root = signature.frequencies[Math.min(beat, 2)]
+    const intervals =
+      fragment === 'identity'
+        ? [root, root * 1.5]
+        : fragment === 'fear'
+          ? [root, root * 1.335]
+          : [root, root * 1.26, root * 1.5]
+    this.playTone(
+      intervals,
+      0.72 + beat * 0.16,
+      signature.oscillator,
+      beat === 0 ? -0.18 : beat === 2 ? 0.18 : 0,
+      fragment === 'fear' ? 0.46 : 0.52,
+      fragment === 'hope' ? 1.08 : fragment === 'fear' ? 0.94 : 1,
+    )
+    this.recordEvent(`trial-${fragment}-${beat + 1}`)
+  }
+
+  playChamberMotifs(order: readonly FragmentId[]) {
+    if (!this.canPlay() || order.length === 0) return
+    const now = this.context!.currentTime
+    order.forEach((fragment, index) => {
+      const signature = FRAGMENT_AUDIO_SIGNATURES[fragment]
+      this.scheduleOscillator({
+        frequency: signature.frequencies[index % signature.frequencies.length],
+        type: signature.oscillator,
+        start: now + index * 0.18,
+        duration: 1.35 + index * 0.16,
+        pan: index === 0 ? -0.16 : index === 2 ? 0.16 : 0,
+        intensity: index === 0 ? 0.34 : 0.22,
+        rise: fragment === 'hope' ? 1.05 : fragment === 'fear' ? 0.96 : 1,
+      })
+    })
+    this.recordEvent(`motifs-${order.join('-')}`)
+  }
+
   playRecallOrder(order: readonly FragmentId[], reducedIntensity: boolean) {
     if (!this.canPlay()) return
     const spacing = getRecallSpacing(reducedIntensity)
@@ -256,7 +304,7 @@ export class FeliciaAudioEngine {
         frequency: signature.frequencies[0],
         type: signature.oscillator,
         start: this.context!.currentTime + index * spacing,
-        duration: Math.min(0.58, spacing * 0.82),
+        duration: Math.min(0.92, spacing * 0.86),
         pan: index === 0 ? -0.18 : index === 2 ? 0.18 : 0,
         intensity: index === 0 ? 0.72 : 0.52,
         rise: fragment === 'hope' ? 1.08 : 1,
@@ -274,11 +322,11 @@ export class FeliciaAudioEngine {
     }
     this.playTone(
       frequencies[profile],
-      profile === 'hope' ? 2.6 : 2.15,
+      profile === 'hope' ? 5.2 : profile === 'identity' ? 4.6 : 4.2,
       profile === 'fear' ? 'triangle' : 'sine',
       0,
-      profile === 'fear' ? 0.58 : 0.64,
-      profile === 'hope' ? 1.04 : 1,
+      profile === 'fear' ? 0.62 : 0.68,
+      profile === 'hope' ? 1.08 : profile === 'fear' ? 0.94 : 1,
     )
     this.recordEvent(`ending-${profile}`)
   }
@@ -316,6 +364,7 @@ export class FeliciaAudioEngine {
     this.master = null
     this.ambient = null
     this.cueBus = null
+    this.captureDestination = null
     this.diagnostics = {
       status: 'idle',
       ambientStartCount: 0,
@@ -344,6 +393,7 @@ export class FeliciaAudioEngine {
     const compressor = context.createDynamicsCompressor()
     const ambient = context.createGain()
     const cueBus = context.createGain()
+    const captureDestination = context.createMediaStreamDestination()
 
     compressor.threshold.value = AUDIO_CALIBRATION.safetyCompressor.threshold
     compressor.knee.value = AUDIO_CALIBRATION.safetyCompressor.knee
@@ -358,11 +408,13 @@ export class FeliciaAudioEngine {
     cueBus.connect(master)
     master.connect(compressor)
     compressor.connect(context.destination)
+    compressor.connect(captureDestination)
 
     this.context = context
     this.master = master
     this.ambient = ambient
     this.cueBus = cueBus
+    this.captureDestination = captureDestination
     context.addEventListener('statechange', () => {
       if (context !== this.context) return
       this.updateDiagnostics({

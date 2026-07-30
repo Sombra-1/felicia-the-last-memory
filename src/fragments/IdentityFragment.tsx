@@ -1,7 +1,7 @@
 import { useFrame } from '@react-three/fiber'
 import { useRef } from 'react'
 import { Group, MathUtils } from 'three'
-import { sequenceRuntime } from '../experience/sequenceRuntime'
+import { trialRuntime } from '../trials/trialRuntime'
 import { PALETTE } from '../scene/config/visual'
 import { useExperienceStore } from '../state/experienceStore'
 
@@ -15,11 +15,14 @@ export function IdentityFragment({ hovered, active, collected }: IdentityFragmen
   const structure = useRef<Group>(null)
   const mirrors = useRef<Group>(null)
   const trails = useRef<Group>(null)
+  const axes = useRef<Group>(null)
   const reducedMotion = useExperienceStore((state) => state.reducedMotion)
 
   useFrame(({ clock }, delta) => {
-    if (!structure.current || !mirrors.current || !trails.current) return
-    const reveal = active ? sequenceRuntime.visualProgress : 0
+    if (!structure.current || !mirrors.current || !trails.current || !axes.current) return
+    const reveal = active
+      ? Math.max(trialRuntime.anticipation, trialRuntime.departure)
+      : 0
     const targetRotation =
       active || collected
         ? Math.PI * 0.25
@@ -45,6 +48,10 @@ export function IdentityFragment({ hovered, active, collected }: IdentityFragmen
     trails.current.rotation.x = -clock.elapsedTime * (reducedMotion ? 0 : 0.08)
     trails.current.rotation.y = reveal * Math.PI * 0.5
     trails.current.scale.setScalar(0.86 + reveal * 0.42)
+    const alignment = MathUtils.smootherstep(reveal, 0.24, 0.94)
+    axes.current.visible = active && reveal > 0.08
+    axes.current.scale.set(Math.max(0.001, alignment), Math.max(0.001, alignment), 1)
+    axes.current.rotation.z = MathUtils.lerp(-0.42, 0, alignment)
   })
 
   return (
@@ -125,6 +132,20 @@ export function IdentityFragment({ hovered, active, collected }: IdentityFragmen
             opacity={0.28}
             wireframe
           />
+        </mesh>
+      </group>
+      <group ref={axes} visible={false} position={[0, 0, -0.34]}>
+        <mesh scale={[1.6, 0.018, 0.035]}>
+          <boxGeometry args={[1, 1, 1]} />
+          <meshBasicMaterial color="#f1f4f6" transparent opacity={0.68} />
+        </mesh>
+        <mesh scale={[0.018, 1.6, 0.035]}>
+          <boxGeometry args={[1, 1, 1]} />
+          <meshBasicMaterial color="#f1f4f6" transparent opacity={0.68} />
+        </mesh>
+        <mesh rotation={[Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[1.28, 0.018, 5, 64]} />
+          <meshBasicMaterial color="#b9c2c9" transparent opacity={0.46} />
         </mesh>
       </group>
     </group>

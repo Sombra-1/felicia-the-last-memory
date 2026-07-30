@@ -1,0 +1,21 @@
+{
+  "walkthrough": "video/felicia-phase67-walkthrough.webm",
+  "durationSeconds": 78.048,
+  "audioCodec": "Opus",
+  "sampleRateHz": 48000,
+  "channels": 2,
+  "channelLayout": "stereo",
+  "integratedLufs": -24.38,
+  "truePeakDbtp": -6.81,
+  "loudnessRangeLu": 9.5,
+  "thresholdLufs": -34.55,
+  "phase66Reference": {
+    "integratedLufs": -25.45,
+    "truePeakDbtp": -9.18
+  },
+  "capture": {
+    "source": "PipeWire speaker-monitor capture of the headed Chromium journey",
+    "alignmentTrimStartSeconds": 31.35,
+    "normalizedAfterCapture": false
+  }
+}

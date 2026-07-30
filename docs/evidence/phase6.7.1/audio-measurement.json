@@ -1,0 +1,25 @@
+{
+  "walkthrough": "video/felicia-phase671-walkthrough.webm",
+  "durationSeconds": 75.161,
+  "video": {
+    "codec": "VP8",
+    "width": 1440,
+    "height": 900,
+    "frameRate": 25
+  },
+  "audio": {
+    "codec": "Opus",
+    "sampleRateHz": 48000,
+    "channels": 2,
+    "channelLayout": "stereo",
+    "integratedLufs": -24.75,
+    "truePeakDbtp": -7.08,
+    "loudnessRangeLu": 9.1,
+    "postCaptureNormalization": false
+  },
+  "phase67Reference": {
+    "integratedLufs": -24.38,
+    "truePeakDbtp": -6.81,
+    "loudnessRangeLu": 9.5
+  }
+}

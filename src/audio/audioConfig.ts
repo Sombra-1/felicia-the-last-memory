@@ -8,6 +8,8 @@ export type AudioEvent =
   | 'sound-confirmed'
   | 'calibration-sequence'
   | `fragment-${FragmentId}`
+  | `trial-${FragmentId}-${number}`
+  | `motifs-${string}`
   | `reconstruction-${string}`
   | `ending-${FragmentId}`
   | 'muted'
@@ -70,39 +72,42 @@ export const FRAGMENT_AUDIO_SIGNATURES: Record<
   identity: {
     frequencies: [330, 495, 660],
     oscillator: 'sine',
-    duration: 1.25,
+    duration: 1.9,
     pan: [-0.34, 0.34],
   },
   fear: {
     frequencies: [123.5, 164.8, 247],
     oscillator: 'triangle',
-    duration: 1.1,
+    duration: 2.05,
     pan: [-0.16, 0.24],
   },
   hope: {
     frequencies: [196, 246.9, 293.7],
     oscillator: 'sine',
-    duration: 1.5,
+    duration: 2.3,
     pan: [-0.18, 0.28],
   },
 }
 
 export const PHASE_AMBIENT_LEVEL: Partial<Record<ExperiencePhase, number>> = {
   chamber: 1,
-  'approaching-fragment': 0.62,
-  'revealing-fragment': 0.52,
-  'returning-to-chamber': 0.76,
+  'trial-departure': 0.66,
+  'trial-arrival': 0.56,
+  'trial-active': 0.54,
+  'trial-completing': 0.72,
+  'trial-returning': 0.8,
   'ready-for-reconstruction': 0.88,
-  'reconstruction-initiating': 0.64,
-  'reconstruction-collapse': 0.28,
-  'reconstruction-void': 0.045,
-  'reconstruction-recall': 0.12,
-  'reconstruction-rebuilding': 0.55,
-  'reconstruction-reveal': 0.76,
-  ending: 0.68,
+  'reconstruction-synchronizing': 0.72,
+  'reconstruction-initiating': 0.7,
+  'reconstruction-collapse': 0.4,
+  'reconstruction-void': 0.09,
+  'reconstruction-recall': 0.2,
+  'reconstruction-rebuilding': 0.68,
+  'reconstruction-reveal': 0.82,
+  ending: 0.74,
   resetting: 0.04,
 }
 
 export function getRecallSpacing(reducedIntensity: boolean) {
-  return reducedIntensity ? 0.38 : 0.72
+  return reducedIntensity ? 0.38 : 1.05
 }

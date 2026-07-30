@@ -1,6 +1,6 @@
 import { chromium } from '@playwright/test'
 import { mkdir, writeFile } from 'node:fs/promises'
-import { resolve } from 'node:path'
+import { dirname, resolve } from 'node:path'
 
 const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://127.0.0.1:4190'
 const output = resolve(
@@ -32,16 +32,35 @@ async function collect(page, fragment, final = false) {
     .waitFor()
 }
 
-await mkdir(resolve('docs/submission'), { recursive: true })
+async function openChamber(page) {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto(baseURL)
+  await page.waitForFunction(() =>
+    document
+      .querySelector('.canvas-loading')
+      ?.classList.contains('canvas-loading--hidden'),
+  )
+  await page.getByRole('button', { name: /enter memory/i }).click()
+  await page.locator('[data-phase="chamber"]').waitFor()
+}
+
+async function endingMetrics(browser, order) {
+  const endingPage = await browser.newPage({ viewport: { width: 1440, height: 900 } })
+  await openChamber(endingPage)
+  for (const [index, fragment] of order.entries()) {
+    await collect(endingPage, fragment, index === 2)
+  }
+  await endingPage.getByRole('button', { name: /complete reconstruction/i }).click()
+  await endingPage.locator('[data-phase="ending"]').waitFor({ timeout: 15_000 })
+  const result = await metrics(endingPage)
+  await endingPage.close()
+  return result
+}
+
+await mkdir(dirname(output), { recursive: true })
 const browser = await chromium.launch()
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 } })
-await page.emulateMedia({ reducedMotion: 'reduce' })
-await page.goto(baseURL)
-await page.waitForFunction(() =>
-  document.querySelector('.canvas-loading')?.classList.contains('canvas-loading--hidden'),
-)
-await page.getByRole('button', { name: /enter memory/i }).click()
-await page.locator('[data-phase="chamber"]').waitFor()
+await openChamber(page)
 await page.waitForTimeout(1_100)
 
 const result = {
@@ -67,7 +86,7 @@ await collect(page, 'hope', true)
 result.allCollectedChamber = await metrics(page)
 await page.getByRole('button', { name: /complete reconstruction/i }).click()
 const peak = { drawCalls: 0, triangles: 0 }
-const deadline = Date.now() + 12_000
+const deadline = Date.now() + 30_000
 while (Date.now() < deadline) {
   const sample = await metrics(page)
   peak.drawCalls = Math.max(peak.drawCalls, sample.drawCalls)
@@ -76,18 +95,9 @@ while (Date.now() < deadline) {
   if (phase === 'ending') break
 }
 result.reconstructionPeak = peak
-
-for (const [key, order] of [
-  ['identityEnding', ['identity', 'fear', 'hope']],
-  ['fearEnding', ['fear', 'identity', 'hope']],
-  ['hopeEnding', ['hope', 'fear', 'identity']],
-]) {
-  await page.evaluate(
-    (endingOrder) => window.__FELICIA_EVIDENCE__?.holdEnding(endingOrder),
-    order,
-  )
-  result[key] = await metrics(page)
-}
+result.identityEnding = await metrics(page)
+result.fearEnding = await endingMetrics(browser, ['fear', 'identity', 'hope'])
+result.hopeEnding = await endingMetrics(browser, ['hope', 'fear', 'identity'])
 
 await browser.close()
 await writeFile(output, JSON.stringify(result, null, 2))

@@ -19,15 +19,20 @@ function collect(order: readonly FragmentId[]) {
   useExperienceStore.getState().enterChamber()
   order.forEach((fragment) => {
     expect(useExperienceStore.getState().requestFragment(fragment)).toBe(true)
-    expect(useExperienceStore.getState().beginFragmentReveal(fragment)).toBe(true)
-    expect(useExperienceStore.getState().completeFragmentReveal(fragment)).toBe(true)
-    expect(useExperienceStore.getState().requestReturn()).toBe(true)
-    expect(useExperienceStore.getState().completeReturn(fragment)).toBe(true)
+    expect(useExperienceStore.getState().beginTrialArrival(fragment)).toBe(true)
+    expect(useExperienceStore.getState().beginTrial(fragment)).toBe(true)
+    expect(useExperienceStore.getState().completeTrialBeat()).toBe(true)
+    expect(useExperienceStore.getState().completeTrialBeat()).toBe(true)
+    expect(useExperienceStore.getState().completeTrialBeat()).toBe(true)
+    expect(useExperienceStore.getState().beginTrialReturn(fragment)).toBe(true)
+    expect(useExperienceStore.getState().completeTrialReturn(fragment)).toBe(true)
   })
 }
 
 function finishReconstruction() {
   const store = useExperienceStore.getState()
+  expect(store.beginSynchronization()).toBe(true)
+  store.setReconstructionSync(1)
   expect(store.beginReconstruction()).toBe(true)
   expect(useExperienceStore.getState().completeRecognition()).toBe(true)
   expect(useExperienceStore.getState().completeCollapse()).toBe(true)
@@ -35,7 +40,9 @@ function finishReconstruction() {
   expect(useExperienceStore.getState().completeRecall()).toBe(true)
   expect(useExperienceStore.getState().completeRebuild()).toBe(true)
   expect(useExperienceStore.getState().completeReveal()).toBe(true)
+  expect(useExperienceStore.getState().revealFinalText(1)).toBe(true)
   expect(useExperienceStore.getState().revealFinalText(2)).toBe(true)
+  expect(useExperienceStore.getState().makeReplayAvailable()).toBe(true)
 }
 
 describe('order-dependent reconstruction', () => {
@@ -58,6 +65,11 @@ describe('order-dependent reconstruction', () => {
     expect(first?.motionModifier).toBe(order[1])
     expect(first?.detailModifier).toBe(order[2])
     expect(first?.order).toEqual(order)
+    expect(first?.orderExplanation).toContain(
+      `${ENDING_PROFILES[order[0]].label} became the foundation.`,
+    )
+    expect(first?.orderExplanation).toContain(ENDING_PROFILES[order[1]].label)
+    expect(first?.orderExplanation).toContain(ENDING_PROFILES[order[2]].label)
   })
 
   it('rejects incomplete or duplicate profile input', () => {
@@ -71,29 +83,40 @@ describe('order-dependent reconstruction', () => {
       const order = values as [FragmentId, FragmentId, FragmentId]
       collect(order)
 
+      expect(useExperienceStore.getState().beginReconstruction()).toBe(false)
+      expect(useExperienceStore.getState().beginSynchronization()).toBe(true)
+      useExperienceStore.getState().setReconstructionSync(1)
       expect(useExperienceStore.getState().beginReconstruction()).toBe(true)
       expect(useExperienceStore.getState().beginReconstruction()).toBe(false)
       expect(useExperienceStore.getState().inputLocked).toBe(true)
       expect(useExperienceStore.getState().endingProfileId).toBe(order[0])
+      expect(useExperienceStore.getState().reconstructionMemoryIndex).toBe(0)
 
       expect(useExperienceStore.getState().completeCollapse()).toBe(false)
       expect(useExperienceStore.getState().completeRecognition()).toBe(true)
       expect(useExperienceStore.getState().completeCollapse()).toBe(true)
       expect(useExperienceStore.getState().completeVoid()).toBe(true)
+      expect(useExperienceStore.getState().setReconstructionMemory(1)).toBe(true)
+      expect(useExperienceStore.getState().reconstructionMemoryIndex).toBe(1)
       expect(useExperienceStore.getState().completeRecall()).toBe(true)
       expect(useExperienceStore.getState().completeRebuild()).toBe(true)
       expect(useExperienceStore.getState().completeReveal()).toBe(true)
 
       let state = useExperienceStore.getState()
       expect(state.phase).toBe('ending')
-      expect(state.finalTextStep).toBe(1)
+      expect(state.finalTextStep).toBe(0)
       expect(state.replayAvailable).toBe(false)
-      expect(state.inputLocked).toBe(true)
+      expect(state.inputLocked).toBe(false)
       expect(state.finalCameraSettled).toBe(true)
 
+      expect(state.revealFinalText(1)).toBe(true)
       expect(state.revealFinalText(2)).toBe(true)
       state = useExperienceStore.getState()
       expect(state.finalTextStep).toBe(2)
+      expect(state.replayAvailable).toBe(false)
+      expect(state.inputLocked).toBe(false)
+      expect(state.makeReplayAvailable()).toBe(true)
+      state = useExperienceStore.getState()
       expect(state.replayAvailable).toBe(true)
       expect(state.inputLocked).toBe(false)
     },
@@ -123,6 +146,7 @@ describe('order-dependent reconstruction', () => {
     expect(state.collectionOrder).toEqual([])
     expect(state.reconstructionInitiated).toBe(false)
     expect(state.endingProfileId).toBeNull()
+    expect(state.memorySetComplete).toBe(false)
     expect(state.finalTextStep).toBe(0)
     expect(state.replayAvailable).toBe(false)
     expect(state.finalCameraSettled).toBe(false)

@@ -40,7 +40,7 @@ describe('audio safety and configuration', () => {
       expect(signature.frequencies.every((frequency) => frequency >= 52)).toBe(true)
       expect(signature.frequencies.every((frequency) => frequency <= 700)).toBe(true)
       expect(signature.duration).toBeGreaterThan(0.8)
-      expect(signature.duration).toBeLessThan(2)
+      expect(signature.duration).toBeLessThan(2.5)
     })
   })
 

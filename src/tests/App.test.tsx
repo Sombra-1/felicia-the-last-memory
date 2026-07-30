@@ -24,6 +24,8 @@ describe('App shell', () => {
     await user.click(await screen.findByRole('button', { name: /enter memory/i }))
 
     expect(useExperienceStore.getState().phase).toBe('chamber')
+    expect(screen.getByText(/i have three memories left/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/chosen memory order/i)).toBeInTheDocument()
     expect(await screen.findByTestId('experience-canvas')).toBeInTheDocument()
   })
 
@@ -74,12 +76,15 @@ describe('App shell', () => {
     render(<App />)
 
     await user.click(await screen.findByRole('button', { name: /enter memory/i }))
-    const identity = screen.getByRole('button', { name: /identity, available/i })
+    useExperienceStore.getState().completeEntrance()
+    const identity = await screen.findByRole('button', {
+      name: /identity, enter memory trial/i,
+    })
     identity.focus()
     await user.keyboard('{Enter}')
 
     expect(useExperienceStore.getState().activeFragment).toBe('identity')
-    expect(useExperienceStore.getState().phase).toBe('approaching-fragment')
+    expect(useExperienceStore.getState().phase).toBe('trial-departure')
     expect(useExperienceStore.getState().inputLocked).toBe(true)
   })
 })

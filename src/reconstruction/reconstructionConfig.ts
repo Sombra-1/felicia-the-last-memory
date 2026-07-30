@@ -1,6 +1,7 @@
 import type { FragmentId } from '../state/experienceStore'
 
 export interface ReconstructionDurations {
+  completionHold: number
   recognition: number
   collapse: number
   void: number
@@ -9,30 +10,35 @@ export interface ReconstructionDurations {
   reveal: number
   firstLineDelay: number
   secondLineDelay: number
+  tableauHold: number
   reset: number
 }
 
 const STANDARD_DURATIONS: ReconstructionDurations = {
-  recognition: 1.25,
-  collapse: 2.15,
-  void: 1,
-  recallPerMemory: 0.66,
-  rebuild: 3.1,
-  reveal: 1.55,
-  firstLineDelay: 0.62,
-  secondLineDelay: 1.25,
+  completionHold: 2,
+  recognition: 1.6,
+  collapse: 2.25,
+  void: 1.1,
+  recallPerMemory: 1.05,
+  rebuild: 4,
+  reveal: 1.7,
+  firstLineDelay: 0.9,
+  secondLineDelay: 1.35,
+  tableauHold: 2.4,
   reset: 0.65,
 }
 
 const REDUCED_DURATIONS: ReconstructionDurations = {
-  recognition: 0.32,
-  collapse: 0.48,
-  void: 0.5,
+  completionHold: 1.1,
+  recognition: 0.42,
+  collapse: 0.58,
+  void: 0.46,
   recallPerMemory: 0.38,
-  rebuild: 0.72,
-  reveal: 0.55,
-  firstLineDelay: 0.45,
-  secondLineDelay: 0.8,
+  rebuild: 0.8,
+  reveal: 0.5,
+  firstLineDelay: 0.4,
+  secondLineDelay: 0.65,
+  tableauHold: 0.9,
   reset: 0.32,
 }
 
@@ -67,10 +73,10 @@ export const RECONSTRUCTION_CAMERA_STAGES: Record<
     mobileFov: 43,
   },
   void: {
-    desktopPosition: [0.05, 0.25, 6.35],
+    desktopPosition: [0.2, 0.25, 5.55],
     mobilePosition: [0, 1.05, 10.8],
     target: [0, 0.45, -0.25],
-    desktopFov: 34,
+    desktopFov: 32,
     mobileFov: 41,
   },
 }

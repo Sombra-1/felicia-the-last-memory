@@ -1,171 +1,66 @@
-import { expect, test, type Browser, type Page } from '@playwright/test'
-import { mkdir } from 'node:fs/promises'
-import { resolve } from 'node:path'
+import { expect, test } from '@playwright/test'
+import {
+  enterAwakened,
+  holdChamber,
+  holdEnding,
+  holdSynchronization,
+  watchConsole,
+} from './phase7-helpers'
 
-type Fragment = 'identity' | 'fear' | 'hope'
-const evidenceDirectory = resolve('docs/evidence/phase5')
-
-async function clearFocus(page: Page) {
-  await page.evaluate(() => {
-    if (document.activeElement instanceof HTMLElement) {
-      document.activeElement.blur()
-    }
-    window.scrollTo(0, 0)
-  })
-}
-
-async function enter(page: Page) {
-  await page.goto('/')
-  await expect(page.locator('.canvas-loading')).toHaveClass(/canvas-loading--hidden/)
-  await page.getByRole('button', { name: /enter memory/i }).click()
-  await expect(page.locator('.experience-shell')).toHaveAttribute('data-phase', 'chamber')
-}
-
-async function reveal(page: Page, fragment: Fragment) {
-  await page
-    .getByRole('button', { name: new RegExp(`${fragment}, available`, 'i') })
-    .click()
-  await expect(page.getByRole('button', { name: /continue/i })).toBeVisible({
-    timeout: 8_000,
-  })
-}
-
-async function finishReveal(page: Page, final = false) {
-  await page.getByRole('button', { name: /continue/i }).click()
-  await expect(page.locator('.experience-shell')).toHaveAttribute(
-    'data-phase',
-    final ? 'ready-for-reconstruction' : 'chamber',
-    { timeout: 8_000 },
-  )
-}
-
-test('capture calibrated candidate screenshots at clean authored stages', async ({
+test('the evidence bridge holds every required Phase 7 review composition', async ({
   page,
 }) => {
-  test.setTimeout(150_000)
-  await mkdir(evidenceDirectory, { recursive: true })
-  await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.setViewportSize({ width: 1440, height: 900 })
-  await enter(page)
-  await clearFocus(page)
-  await page.screenshot({
-    path: resolve(evidenceDirectory, '01-initial-chamber.png'),
-    fullPage: true,
-  })
-
-  await reveal(page, 'hope')
-  await clearFocus(page)
-  await page.screenshot({
-    path: resolve(evidenceDirectory, '02-hope-reveal.png'),
-    fullPage: true,
-  })
-  await finishReveal(page)
-  await reveal(page, 'fear')
-  await clearFocus(page)
-  await page.screenshot({
-    path: resolve(evidenceDirectory, '03-fear-reveal.png'),
-    fullPage: true,
-  })
-  await finishReveal(page)
-  await reveal(page, 'identity')
-  await clearFocus(page)
-  await page.screenshot({
-    path: resolve(evidenceDirectory, '04-identity-reveal.png'),
-    fullPage: true,
-  })
-  await finishReveal(page, true)
-
-  await page.evaluate(() =>
-    window.__FELICIA_EVIDENCE__?.holdStage('reconstruction-collapse'),
-  )
-  await clearFocus(page)
-  await page.screenshot({
-    path: resolve(evidenceDirectory, '05-reconstruction-collapse.png'),
-    fullPage: true,
-  })
-  await page.evaluate(() =>
-    window.__FELICIA_EVIDENCE__?.holdStage('reconstruction-recall'),
-  )
-  await clearFocus(page)
-  await page.screenshot({
-    path: resolve(evidenceDirectory, '06-ordered-recall.png'),
-    fullPage: true,
-  })
-
-  const endings: Array<{
-    name: string
-    order: [Fragment, Fragment, Fragment]
-  }> = [
-    { name: '07-identity-first-ending.png', order: ['identity', 'fear', 'hope'] },
-    { name: '08-fear-first-ending.png', order: ['fear', 'identity', 'hope'] },
-    { name: '09-hope-first-ending.png', order: ['hope', 'fear', 'identity'] },
-  ]
-  for (const ending of endings) {
-    await page.evaluate(
-      (order) => window.__FELICIA_EVIDENCE__?.holdEnding(order),
-      ending.order,
-    )
-    await clearFocus(page)
-    await page.screenshot({
-      path: resolve(evidenceDirectory, ending.name),
-      fullPage: true,
-    })
-  }
-})
-
-test('capture a calibrated mobile ending', async ({ page }) => {
-  await mkdir(evidenceDirectory, { recursive: true })
-  await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.setViewportSize({ width: 430, height: 932 })
-  await enter(page)
-  await page.evaluate(() =>
-    window.__FELICIA_EVIDENCE__?.holdEnding(['hope', 'fear', 'identity']),
-  )
-  await expect(page.getByRole('button', { name: /reenter memory/i })).toBeVisible()
-  await clearFocus(page)
-  await page.screenshot({
-    path: resolve(evidenceDirectory, '10-mobile-hope-ending.png'),
-    fullPage: true,
-  })
-})
-
-async function recordWalkthrough(browser: Browser) {
-  const context = await browser.newContext({
+  const problems = watchConsole(page)
+  await enterAwakened(page, {
+    reducedMotion: false,
     viewport: { width: 1440, height: 900 },
-    recordVideo: {
-      dir: evidenceDirectory,
-      size: { width: 1440, height: 900 },
-    },
   })
-  const page = await context.newPage()
-  await enter(page)
-  for (const [index, fragment] of (
-    ['hope', 'fear', 'identity'] as Fragment[]
-  ).entries()) {
-    await reveal(page, fragment)
-    await page.waitForTimeout(1_500)
-    await finishReveal(page, index === 2)
+  for (const fragment of ['identity', 'fear', 'hope'] as const) {
+    await page.evaluate((value) => {
+      window.__FELICIA_EVIDENCE__?.holdTrial(value, 'arrival', 0, [])
+    }, fragment)
+    await expect(page.locator(`.trial-interface--${fragment}`)).toBeVisible()
+    await page.evaluate((value) => {
+      window.__FELICIA_EVIDENCE__?.holdTrial(value, 'interaction', 1, [])
+    }, fragment)
+    await expect(page.getByText(/beat 2 \/ 3/i)).toBeVisible()
   }
-  await page.getByRole('button', { name: /complete reconstruction/i }).click()
-  await expect(page.locator('.experience-shell')).toHaveAttribute(
-    'data-phase',
-    'ending',
-    { timeout: 25_000 },
-  )
-  await expect(page.getByRole('button', { name: /reenter memory/i })).toBeEnabled({
-    timeout: 5_000,
-  })
-  await page.waitForTimeout(2_000)
-  await page.getByRole('button', { name: /reenter memory/i }).click()
-  await expect(page.locator('.experience-shell')).toHaveAttribute('data-phase', 'chamber')
-  await page.waitForTimeout(1_000)
-  const video = page.video()
-  await context.close()
-  await video?.saveAs(resolve(evidenceDirectory, 'hope-first-walkthrough.webm'))
-}
 
-test('record a clean Hope, Fear, Identity walkthrough', async ({ browser }) => {
-  test.setTimeout(120_000)
-  await mkdir(evidenceDirectory, { recursive: true })
-  await recordWalkthrough(browser)
+  await holdChamber(page, ['identity', 'fear', 'hope'])
+  await expect(page.locator('.memory-progress')).toHaveAttribute('aria-valuenow', '3')
+  await holdSynchronization(page, ['fear', 'hope', 'identity'])
+  await expect(page.getByText(/active reconstruction ritual/i)).toBeVisible()
+  await page.evaluate(() => {
+    window.__FELICIA_EVIDENCE__?.holdSignature(['fear', 'hope', 'identity'], 0.76)
+  })
+  await expect(page.getByText(/forming from fear/i)).toBeVisible()
+  await holdEnding(page, ['fear', 'hope', 'identity'])
+  await expect(page.getByText(/fear became the foundation/i)).toBeVisible()
+  expect(problems).toEqual([])
+})
+
+test('low quality keeps the same trial logic without crossing 100 draw calls', async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'hardwareConcurrency', {
+      configurable: true,
+      get: () => 2,
+    })
+    Object.defineProperty(navigator, 'deviceMemory', {
+      configurable: true,
+      get: () => 2,
+    })
+  })
+  await enterAwakened(page)
+  await expect(page.locator('.experience-shell')).toHaveAttribute('data-quality', 'low')
+  await page.evaluate(() => {
+    window.__FELICIA_EVIDENCE__?.holdTrial('hope', 'interaction', 1, ['fear'])
+  })
+  await page.waitForTimeout(300)
+  const drawCalls = Number(
+    await page.locator('html').getAttribute('data-scene-draw-calls'),
+  )
+  expect(drawCalls).toBeGreaterThan(0)
+  expect(drawCalls).toBeLessThan(100)
 })

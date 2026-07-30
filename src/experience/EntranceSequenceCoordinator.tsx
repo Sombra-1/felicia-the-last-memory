@@ -29,7 +29,7 @@ export function EntranceSequenceCoordinator() {
     }
 
     updateRuntimeDiagnostics({ activeSequence: 'entrance:archive-awakening' })
-    const duration = reducedMotion ? 0.9 : 3.6
+    const duration = reducedMotion ? 1.8 : 9.4
     const nextTimeline = gsap.timeline({
       defaults: { overwrite: 'auto' },
     })
@@ -37,6 +37,8 @@ export function EntranceSequenceCoordinator() {
     if (reducedMotion) {
       nextTimeline.to(entranceRuntime, {
         progress: 1,
+        pulse: 1,
+        sweep: 1,
         core: 1,
         identity: 1,
         fear: 1,
@@ -48,17 +50,20 @@ export function EntranceSequenceCoordinator() {
       })
     } else {
       nextTimeline
-        .to(entranceRuntime, { core: 1, duration: 0.75, ease: 'power2.out' })
-        .to(entranceRuntime, { identity: 1, duration: 0.62, ease: 'power3.out' }, 0.42)
-        .to(entranceRuntime, { fear: 1, duration: 0.62, ease: 'power3.out' }, 0.88)
-        .to(entranceRuntime, { hope: 1, duration: 0.68, ease: 'power3.out' }, 1.34)
+        .to(entranceRuntime, { progress: 1, duration: 9.4, ease: 'power2.inOut' }, 0)
+        .to(entranceRuntime, { pulse: 1, duration: 2.05, ease: 'power2.inOut' }, 0.08)
+        .to(entranceRuntime, { core: 1.18, duration: 0.72, ease: 'power3.out' }, 0.16)
+        .to(entranceRuntime, { core: 1, duration: 0.72, ease: 'sine.inOut' }, 0.88)
+        .to(entranceRuntime, { identity: 1, duration: 1.1, ease: 'power3.out' }, 1.4)
+        .to(entranceRuntime, { fear: 1, duration: 1.15, ease: 'power3.out' }, 3.1)
+        .to(entranceRuntime, { hope: 1, duration: 1.2, ease: 'power3.out' }, 4.8)
         .to(
           entranceRuntime,
-          { architecture: 1, duration: 1.2, ease: 'power2.inOut' },
-          1.15,
+          { architecture: 1, duration: 5.6, ease: 'power3.inOut' },
+          0.62,
         )
-        .to(entranceRuntime, { atmosphere: 1, duration: 1.25, ease: 'sine.out' }, 1.72)
-        .to(entranceRuntime, { progress: 1, duration: 0.7, ease: 'power1.out' }, 2.9)
+        .to(entranceRuntime, { sweep: 1, duration: 5.4, ease: 'power2.inOut' }, 0.72)
+        .to(entranceRuntime, { atmosphere: 1, duration: 3.2, ease: 'sine.out' }, 4.7)
     }
 
     const settle = () => {

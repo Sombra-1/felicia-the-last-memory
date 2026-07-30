@@ -1,7 +1,7 @@
 import { useFrame } from '@react-three/fiber'
 import { useRef } from 'react'
-import { AmbientLight, Color, Fog, MathUtils, SpotLight } from 'three'
-import { sequenceRuntime } from '../experience/sequenceRuntime'
+import { AmbientLight, Color, Fog, MathUtils, PointLight, SpotLight } from 'three'
+import { trialRuntime } from '../trials/trialRuntime'
 import { entranceRuntime } from '../experience/entranceRuntime'
 import { deriveEndingConfiguration } from '../reconstruction/endingProfiles'
 import { reconstructionRuntime } from '../reconstruction/reconstructionRuntime'
@@ -19,6 +19,7 @@ const hopeFogColor = new Color('#100e0b')
 
 export function SceneLighting() {
   const keyLight = useRef<SpotLight>(null)
+  const rimLight = useRef<PointLight>(null)
   const ambient = useRef<AmbientLight>(null)
   const reducedMotion = useExperienceStore((state) => state.reducedMotion)
   const activeFragment = useExperienceStore((state) => state.activeFragment)
@@ -28,8 +29,14 @@ export function SceneLighting() {
   const ending = deriveEndingConfiguration(collectionOrder)
 
   useFrame(({ clock, scene }, delta) => {
-    if (!keyLight.current || !ambient.current) return
-    const reveal = activeFragment ? sequenceRuntime.visualProgress : 0
+    if (!keyLight.current || !rimLight.current || !ambient.current) return
+    const reveal = activeFragment
+      ? Math.max(
+          trialRuntime.anticipation,
+          trialRuntime.beatEnergy,
+          trialRuntime.completion,
+        )
+      : 0
     const rebuilt =
       phase === 'reconstruction-rebuilding'
         ? reconstructionRuntime.rebuild
@@ -60,12 +67,17 @@ export function SceneLighting() {
       reconstructionRuntime.collapse,
       phase === 'reconstruction-void' || phase === 'reconstruction-recall' ? 1 : 0,
     )
+    const awakeningPulse = Math.sin(entranceRuntime.pulse * Math.PI)
+    const lightSweep = MathUtils.smootherstep(entranceRuntime.sweep, 0, 1)
+    keyLight.current.position.x = MathUtils.lerp(-6.8, -3.8, lightSweep)
+    keyLight.current.position.y = MathUtils.lerp(3.2, 7.2, lightSweep)
     keyLight.current.intensity =
       (VISUAL_CALIBRATION.keyLightIntensity +
         reveal * (activeFragment === 'identity' ? 8 : activeFragment === 'hope' ? 5 : 3) +
+        awakeningPulse * (reducedMotion ? 9 : 22) +
         (reducedMotion ? 0 : Math.sin(clock.elapsedTime * 0.31) * 1.3)) *
         MathUtils.lerp(1, 0.018, darkness) +
-      rebuilt * 32
+      rebuilt * 21
     keyLight.current.intensity *= 0.055 + entranceRuntime.architecture * 0.945
     ambient.current.intensity =
       MathUtils.lerp(
@@ -73,8 +85,14 @@ export function SceneLighting() {
         0.025,
         darkness,
       ) +
-      rebuilt * 0.46
+      rebuilt * 0.34
     ambient.current.intensity *= 0.1 + entranceRuntime.progress * 0.9
+    rimLight.current.position.x = MathUtils.lerp(5.8, 3.4, lightSweep)
+    rimLight.current.position.y = MathUtils.lerp(-0.4, 1.8, lightSweep)
+    rimLight.current.intensity =
+      (1.4 + lightSweep * 4 + awakeningPulse * (reducedMotion ? 5 : 12)) *
+        MathUtils.lerp(1, 0.04, darkness) +
+      rebuilt * 3.25
 
     if (scene.fog instanceof Fog) {
       scene.fog.color.lerp(targetFog, colorEase * Math.max(0.12, reveal))
@@ -102,6 +120,7 @@ export function SceneLighting() {
         castShadow={false}
       />
       <pointLight
+        ref={rimLight}
         position={[3.4, 1.8, -3.6]}
         color="#776384"
         intensity={5.4}

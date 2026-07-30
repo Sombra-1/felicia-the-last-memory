@@ -3,7 +3,7 @@ import { useFrame } from '@react-three/fiber'
 import { useEffect, useRef, useState } from 'react'
 import { Group, MathUtils } from 'three'
 import type { FragmentPrototype } from '../content/fragments'
-import { sequenceRuntime } from '../experience/sequenceRuntime'
+import { trialRuntime } from '../trials/trialRuntime'
 import { entranceRuntime } from '../experience/entranceRuntime'
 import { reconstructionRuntime } from '../reconstruction/reconstructionRuntime'
 import { useExperienceStore } from '../state/experienceStore'
@@ -60,8 +60,11 @@ export function MemoryFragment({ fragment }: { fragment: FragmentPrototype }) {
 
   useFrame((_, delta) => {
     if (!container.current) return
-    const activeScale = active ? 1 + sequenceRuntime.visualProgress * 0.2 : 1
-    const suppressedScale = suppressed ? 1 - sequenceRuntime.suppression * 0.3 : 1
+    const activeScale = active
+      ? 1.08 + Math.max(trialRuntime.anticipation, trialRuntime.departure) * 0.2
+      : 1
+    const activeContinuity = active ? MathUtils.lerp(1, 0.018, trialRuntime.passage) : 1
+    const suppressedScale = suppressed ? 1 - trialRuntime.chamberSuppression * 0.94 : 1
     const dormantScale = collected && !active ? 0.62 : 1
     const hoverScale = hovered && selectable ? 1.08 : 1
     const reconstructing =
@@ -80,6 +83,7 @@ export function MemoryFragment({ fragment }: { fragment: FragmentPrototype }) {
         : 0
     const target =
       activeScale *
+      activeContinuity *
       suppressedScale *
       dormantScale *
       hoverScale *
@@ -96,7 +100,7 @@ export function MemoryFragment({ fragment }: { fragment: FragmentPrototype }) {
   })
 
   const selectFragment = () => {
-    useExperienceStore.getState().requestFragment(fragment.id)
+    if (selectable) useExperienceStore.getState().requestFragment(fragment.id)
   }
 
   return (
