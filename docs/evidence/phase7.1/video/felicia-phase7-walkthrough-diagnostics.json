@@ -1,0 +1,140 @@
+{
+  "baseURL": "http://127.0.0.1:5173",
+  "order": ["fear", "hope", "identity"],
+  "milestones": [
+    {
+      "name": "intro-understood",
+      "elapsedSeconds": 3.95
+    },
+    {
+      "name": "felicia-first-pulse",
+      "elapsedSeconds": 8.44
+    },
+    {
+      "name": "awakening-settled",
+      "elapsedSeconds": 18.23
+    },
+    {
+      "name": "fear-departure",
+      "elapsedSeconds": 23.3
+    },
+    {
+      "name": "trial-active",
+      "elapsedSeconds": 26.95
+    },
+    {
+      "name": "fear-arrival",
+      "elapsedSeconds": 26.95
+    },
+    {
+      "name": "fear-beat-1",
+      "elapsedSeconds": 27.17
+    },
+    {
+      "name": "fear-beat-2",
+      "elapsedSeconds": 34.84
+    },
+    {
+      "name": "fear-beat-3",
+      "elapsedSeconds": 41.43
+    },
+    {
+      "name": "fear-completion",
+      "elapsedSeconds": 49.61
+    },
+    {
+      "name": "fear-return",
+      "elapsedSeconds": 51.41
+    },
+    {
+      "name": "hope-departure",
+      "elapsedSeconds": 59.11
+    },
+    {
+      "name": "trial-active",
+      "elapsedSeconds": 62.41
+    },
+    {
+      "name": "hope-arrival",
+      "elapsedSeconds": 62.41
+    },
+    {
+      "name": "hope-beat-1",
+      "elapsedSeconds": 62.41
+    },
+    {
+      "name": "hope-beat-2",
+      "elapsedSeconds": 71.73
+    },
+    {
+      "name": "hope-beat-3",
+      "elapsedSeconds": 78.6
+    },
+    {
+      "name": "hope-completion",
+      "elapsedSeconds": 85.65
+    },
+    {
+      "name": "hope-return",
+      "elapsedSeconds": 86.47
+    },
+    {
+      "name": "identity-departure",
+      "elapsedSeconds": 94.14
+    },
+    {
+      "name": "trial-active",
+      "elapsedSeconds": 97.36
+    },
+    {
+      "name": "identity-arrival",
+      "elapsedSeconds": 97.36
+    },
+    {
+      "name": "identity-beat-1",
+      "elapsedSeconds": 97.58
+    },
+    {
+      "name": "identity-beat-2",
+      "elapsedSeconds": 104.63
+    },
+    {
+      "name": "identity-beat-3",
+      "elapsedSeconds": 111.69
+    },
+    {
+      "name": "identity-completion",
+      "elapsedSeconds": 118.8
+    },
+    {
+      "name": "identity-return",
+      "elapsedSeconds": 120
+    },
+    {
+      "name": "memory-set-complete",
+      "elapsedSeconds": 122.27
+    },
+    {
+      "name": "reconstruction-synchronizing",
+      "elapsedSeconds": 124.61
+    },
+    {
+      "name": "synchronization-complete",
+      "elapsedSeconds": 142.66
+    },
+    {
+      "name": "ending",
+      "elapsedSeconds": 155.94
+    },
+    {
+      "name": "ending-explored-and-explained",
+      "elapsedSeconds": 180.83
+    }
+  ],
+  "consoleIssues": [],
+  "activeInteractionSeconds": 107.96,
+  "passiveAnimationSeconds": 13.28,
+  "audioStartOffsetSeconds": 8.85,
+  "passiveAnimationStartSeconds": 142.66,
+  "durationSeconds": 184.25
+}

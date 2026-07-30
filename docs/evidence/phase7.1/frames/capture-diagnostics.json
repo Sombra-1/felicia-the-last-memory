@@ -1,0 +1,149 @@
+{
+  "baseURL": "http://127.0.0.1:5173",
+  "output": "/home/ayx/felicia-the-last-memory/docs/evidence/phase7.1/frames",
+  "captures": [
+    "01-awakening-hero.png",
+    "02-identity-arrival.png",
+    "03-identity-active-alignment.png",
+    "04-identity-completion.png",
+    "05-fear-arrival.png",
+    "06-incoming-shutdown-pulse.png",
+    "07-shield-impact.png",
+    "08-fear-completion.png",
+    "09-hope-arrival.png",
+    "10-guided-signal-trail.png",
+    "11-organic-gate-opening.png",
+    "12-hope-completion.png",
+    "13-chamber-integrated-consequences.png",
+    "14-active-synchronization.png",
+    "15-signature-transformation.png",
+    "16-identity-consciousness.png",
+    "17-fear-consciousness.png",
+    "18-hope-consciousness.png",
+    "19-mobile-trial.png",
+    "20-mobile-ending.png"
+  ],
+  "metrics": [
+    {
+      "filename": "01-awakening-hero.png",
+      "phase": "chamber",
+      "drawCalls": 51,
+      "triangles": 22162
+    },
+    {
+      "filename": "02-identity-arrival.png",
+      "phase": "trial-arrival",
+      "drawCalls": 66,
+      "triangles": 24386
+    },
+    {
+      "filename": "03-identity-active-alignment.png",
+      "phase": "trial-active",
+      "drawCalls": 68,
+      "triangles": 24406
+    },
+    {
+      "filename": "04-identity-completion.png",
+      "phase": "trial-completing",
+      "drawCalls": 70,
+      "triangles": 24426
+    },
+    {
+      "filename": "05-fear-arrival.png",
+      "phase": "trial-arrival",
+      "drawCalls": 70,
+      "triangles": 27732
+    },
+    {
+      "filename": "06-incoming-shutdown-pulse.png",
+      "phase": "trial-active",
+      "drawCalls": 63,
+      "triangles": 26260
+    },
+    {
+      "filename": "07-shield-impact.png",
+      "phase": "trial-active",
+      "drawCalls": 65,
+      "triangles": 27732
+    },
+    {
+      "filename": "08-fear-completion.png",
+      "phase": "trial-completing",
+      "drawCalls": 65,
+      "triangles": 27732
+    },
+    {
+      "filename": "09-hope-arrival.png",
+      "phase": "trial-arrival",
+      "drawCalls": 78,
+      "triangles": 30832
+    },
+    {
+      "filename": "10-guided-signal-trail.png",
+      "phase": "trial-active",
+      "drawCalls": 78,
+      "triangles": 30832
+    },
+    {
+      "filename": "11-organic-gate-opening.png",
+      "phase": "trial-active",
+      "drawCalls": 78,
+      "triangles": 30832
+    },
+    {
+      "filename": "12-hope-completion.png",
+      "phase": "trial-completing",
+      "drawCalls": 78,
+      "triangles": 30832
+    },
+    {
+      "filename": "13-chamber-integrated-consequences.png",
+      "phase": "chamber",
+      "drawCalls": 78,
+      "triangles": 17778
+    },
+    {
+      "filename": "14-active-synchronization.png",
+      "phase": "reconstruction-synchronizing",
+      "drawCalls": 57,
+      "triangles": 21330
+    },
+    {
+      "filename": "15-signature-transformation.png",
+      "phase": "reconstruction-rebuilding",
+      "drawCalls": 70,
+      "triangles": 24686
+    },
+    {
+      "filename": "16-identity-consciousness.png",
+      "phase": "ending",
+      "drawCalls": 56,
+      "triangles": 18010
+    },
+    {
+      "filename": "17-fear-consciousness.png",
+      "phase": "ending",
+      "drawCalls": 55,
+      "triangles": 17974
+    },
+    {
+      "filename": "18-hope-consciousness.png",
+      "phase": "ending",
+      "drawCalls": 59,
+      "triangles": 20278
+    },
+    {
+      "filename": "19-mobile-trial.png",
+      "phase": "trial-active",
+      "drawCalls": 82,
+      "triangles": 32136
+    },
+    {
+      "filename": "20-mobile-ending.png",
+      "phase": "ending",
+      "drawCalls": 67,
+      "triangles": 26758
+    }
+  ],
+  "consoleIssues": []
+}
