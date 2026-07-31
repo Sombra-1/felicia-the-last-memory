@@ -1,4 +1,4 @@
-# Devpost Submission Draft
+# Devpost Submission Record
 
 ## Project title
 
@@ -159,11 +159,13 @@ and sound.
 ## Connected project status
 
 - Devpost project: <https://devpost.com/software/felicia-the-last-memory>
-- State: public project page; hackathon submission not created
+- State: submitted to the 3D Websites Hackathon
+- Submission ID: `1119457`
+- Submitted: 2026-07-31 01:20:32 UTC
 - Hackathon: 3D Websites Hackathon
 - Registration: already registered
 - Thumbnail: uploaded from the Phase 9 opening hero
-- Final submit: intentionally not performed
+- Final submit: completed on Ayhm's explicit instruction
 
 No eligibility, ownership, official-rules, or legal-terms attestation was accepted by this
-release work. Ayhm must personally review those attestations and perform the final submit.
+release work.

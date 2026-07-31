@@ -117,7 +117,9 @@ material depth increased substantially.
 ## Devpost
 
 - Project: <https://devpost.com/software/felicia-the-last-memory>
-- State: public project page; not entered into a hackathon submission.
+- State: submitted to the 3D Websites Hackathon.
+- Submission ID: `1119457`.
+- Submitted: 2026-07-31 01:20:32 UTC.
 - Hackathon registration: already registered for `3d-websites-hackathon`.
 - Title, tagline, full description, technology list, live site, source, trailer, and
   walkthrough links: filled.
@@ -125,10 +127,9 @@ material depth increased substantially.
 - Screenshot requirement: three production images are embedded in the project description.
 - Demo video: optional; the 84.92-second trailer is linked directly.
 - No eligibility, ownership, rules, or terms attestation was accepted by this release work.
-- The project was not submitted to the hackathon.
+- The project was submitted on Ayhm's explicit instruction.
 
-## Remaining personal legal action
+## Remaining personal action
 
-Ayhm must personally review and affirm any eligibility, ownership, official-rules, and
-Devpost-terms attestations shown by the final submission form, then click the final submit
-control.
+None. The authenticated account was already registered, and the submission completed without
+requesting any new eligibility, ownership, official-rules, or Devpost-terms attestation.
