@@ -1,0 +1,87 @@
+{
+  "capturedAt": "2026-07-30T16:08:23.884Z",
+  "baseURL": "http://127.0.0.1:5173",
+  "desktop": {
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "opening": {
+      "fps": 5,
+      "frameTimeMs": 200.42,
+      "drawCalls": 53,
+      "triangles": 13114,
+      "quality": "high",
+      "jsHeapMb": 61
+    },
+    "identity": {
+      "fps": 4.3,
+      "frameTimeMs": 230.41,
+      "drawCalls": 81,
+      "triangles": 19224,
+      "quality": "high",
+      "jsHeapMb": 61
+    },
+    "reconstruction": {
+      "fps": 4.5,
+      "frameTimeMs": 224.55,
+      "drawCalls": 67,
+      "triangles": 18400,
+      "quality": "high",
+      "jsHeapMb": 61
+    },
+    "identityEnding": {
+      "fps": 4.8,
+      "frameTimeMs": 210.11,
+      "drawCalls": 53,
+      "triangles": 14384,
+      "quality": "high",
+      "jsHeapMb": 61
+    },
+    "consoleProblems": []
+  },
+  "mobile": {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "opening": {
+      "fps": 19.6,
+      "frameTimeMs": 51.08,
+      "drawCalls": 53,
+      "triangles": 13114,
+      "quality": "medium",
+      "jsHeapMb": 68.9
+    },
+    "identity": {
+      "fps": 17.5,
+      "frameTimeMs": 57,
+      "drawCalls": 81,
+      "triangles": 19224,
+      "quality": "medium",
+      "jsHeapMb": 68.9
+    },
+    "reconstruction": {
+      "fps": 18.4,
+      "frameTimeMs": 54.33,
+      "drawCalls": 67,
+      "triangles": 18400,
+      "quality": "medium",
+      "jsHeapMb": 68.9
+    },
+    "identityEnding": {
+      "fps": 17.9,
+      "frameTimeMs": 55.75,
+      "drawCalls": 53,
+      "triangles": 14384,
+      "quality": "medium",
+      "jsHeapMb": 68.9
+    },
+    "consoleProblems": []
+  },
+  "notes": [
+    "FPS is a 12-frame requestAnimationFrame sample in headless Chromium using software-rendered SwiftShader; use it for relative scene comparison, not as a hardware-browser certification.",
+    "No shadow maps are used.",
+    "Memory glass uses layered Fresnel/clearcoat surfaces without costly physical transmission."
+  ]
+}

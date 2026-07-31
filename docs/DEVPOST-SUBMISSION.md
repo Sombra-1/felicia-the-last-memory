@@ -10,10 +10,10 @@ Recover the final memories of a dying AI—and decide which part of her consciou
 
 ## Opening
 
-FELICIA: The Last Memory is an interactive 3D narrative set inside the final surviving
-archive of a dying artificial intelligence. Visitors recover Identity, Fear, and Hope in any
-order. Their choices reshape the world and determine which memory becomes the foundation of
-FELICIA's reconstructed consciousness.
+FELICIA: The Last Memory is a museum-scale interactive digital sculpture set inside the
+final surviving field of a dying artificial intelligence. Visitors recover Identity, Fear,
+and Hope in any order. Their choices impose physical laws on one continuous world and
+determine which memory becomes the foundation of FELICIA's reconstructed consciousness.
 
 The project was built entirely with procedural 3D geometry and procedural Web Audio—without
 external models, textures, or sound assets.
@@ -23,29 +23,28 @@ external models, textures, or sound assets.
 FELICIA began with a question: if a consciousness could preserve only a few memories, would
 its identity come from what happened—or from which memory it treated as foundational?
 
-The visitor does not simply watch that idea unfold. They enter a ruined archive where sacred
-architecture and machine memory have become indistinguishable, then decide the order in which
-FELICIA remembers her name, her fear of termination, and the hope she created for herself.
-The chamber interprets that order and rebuilds around it.
+The visitor does not simply watch that idea unfold. They enter a continent of laminated
+memory matter and meet FELICIA as one impossible, unfinished fold. They decide the order in
+which she remembers her name, her fear of termination, and the hope she created for herself.
+The same field physically transforms around every choice.
 
 ## What it does
 
-The visitor enters one carefully composed memory chamber and discovers three suspended
-fragments:
+The visitor enters one continuous material world and discovers three embedded stress sites:
 
-- **Identity** aligns the world into cold symmetry.
-- **Fear** fractures it into defensive, violet tension.
-- **Hope** opens it toward restrained warmth and upward growth.
+- **Identity** imposes exact cold pleating and synchronized locks.
+- **Fear** compresses existing matter into shelter, occlusion, and a permanent violet scar.
+- **Hope** opens the laminate into warm paths and previously hidden distance.
 
 Each selection triggers guided camera choreography, a visual memory reaction, a short line of
 narrative text, and a procedural sound signature. The chamber permanently remembers every
 activation.
 
-After all three fragments are recovered, the visitor initiates reconstruction. The archive
-collapses into a near-dark void, recalls the memories in the chosen order, and rebuilds into
-one of three major final profiles. All six orders work: the first memory establishes the
-architecture and emotional foundation, while the second and third add motion, structure,
-light, and scars. Replay resets the complete experience in place for a different outcome.
+After all three fragments are recovered, the visitor actively steadies a travelling crease.
+The floor lifts into the first memory’s governing physical law and the entire field turns
+inside out. All six orders work: the first memory controls roughly 60% of silhouette, light,
+movement, material, and environment; the second changes that law; the third leaves one final
+contradiction. Replay resets the complete experience in place for a different outcome.
 
 The final line is:
 
@@ -58,12 +57,12 @@ Fiber and Drei, with restrained postprocessing. GSAP owns the authored camera, f
 reconstruction timelines. Zustand provides an explicit state machine that records the exact
 memory order and guards transitions, input locking, replay, and visibility recovery.
 
-All architecture, FELICIA forms, fragments, debris, filaments, particles, and ending
-structures are procedural geometry. FELICIA combines layered translucent shells, a bright
-inner core, neural filaments, metallic ribs, and procedural materials. Ending profiles are
-deterministic typed configurations, not duplicated scenes. The soundscape is synthesized at
-runtime with the native Web Audio API using oscillators, envelopes, filters, deterministic
-noise, stereo panning, and a central safety compressor.
+All architecture, FELICIA forms, memory scars, trial targets, and ending structures are
+procedural geometry built from authored extruded profiles. FELICIA combines layered living
+membranes, seated nickel tension braces, embedded consequence seams, and procedural
+micro-relief. Ending profiles are deterministic typed configurations, not duplicated scenes.
+The soundscape is synthesized at runtime with the native Web Audio API using oscillators,
+envelopes, filters, deterministic noise, stereo panning, and a central safety compressor.
 
 Accessible HTML controls are coordinated with the 3D canvas so pointer, touch, Enter, Space,
 and focus all follow the same state path. Vitest and React Testing Library protect pure state
@@ -92,8 +91,7 @@ responsive viewports, audio lifecycle, replay, reduced motion, and rendering fal
 - Guided, responsive interaction across pointer, keyboard, and touch.
 - A coherent reduced-motion version of every major sequence.
 - Deterministic in-place replay without duplicate audio or callbacks.
-- A lightweight scene: 61 initial draw calls and no more than 31,472 triangles, with final
-  endings at 54–58 calls.
+- A lightweight scene: 23–30 draw calls and 60,454–70,604 triangles across measured states.
 - Accessible focus coordination, live status, persistent mute, and a WebGL failure fallback.
 - Extensive automated state, integration, and real-browser testing.
 
@@ -120,7 +118,6 @@ and sound.
 - Physical-device Safari and iOS validation.
 - Additional language support.
 - An optional guided audio-description mode.
-- Deeper economical modifiers from the second and third memories.
 - A gallery or exhibition installation with a larger spatial sound field.
 
 ## Built with
@@ -145,7 +142,9 @@ and sound.
 
 - Live site: <https://felicia-the-last-memory.ayx1.chatgpt.site>
 - Source code: <https://github.com/Sombra-1/felicia-the-last-memory>
-- Demo video: `docs/submission/video/felicia-final-walkthrough-with-browser-audio.webm`
+- Complete walkthrough:
+  `docs/evidence/phase9/final/walkthrough/felicia-phase9-complete-walkthrough.mp4`
+- 85-second trailer: `docs/evidence/phase9/final/felicia-phase9-trailer-85s.mp4`
 
 This is a draft for participant review. It has not been submitted and no eligibility or legal
 terms have been accepted.

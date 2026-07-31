@@ -1,6 +1,6 @@
 # FELICIA: The Last Memory
 
-![The dormant FELICIA core inside the memory chamber](docs/submission/screenshots/initial-chamber.png)
+![FELICIA as an unresolved fold inside the continuous memory field](docs/evidence/phase9/final/screenshots/frames/01-opening-hero.png)
 
 > Recover the final memories of a dying AI—and decide which part of her consciousness survives.
 
@@ -17,10 +17,11 @@ FELICIA's reconstructed consciousness.
 
 ## The experience
 
-The visitor enters an abandoned sacred archive, discovers three suspended memories, and
-activates each through guided point-and-click interaction. Every memory has its own camera
-choreography, visual reaction, text, and procedural sound signature. Its collection leaves a
-permanent scar on the chamber.
+The visitor enters one continuous field of dark memory strata. FELICIA is not a person,
+robot, creature, or floating core: she is an unstable sculptural fold whose silhouette,
+balance, motion, internal rhythm, and material response change after every trial. Identity
+imposes exact pleating, Fear compresses the same field into shelter and damage, and Hope
+opens that material into navigable distance.
 
 After all three memories are recovered, the visitor deliberately begins reconstruction. The
 world collapses, recalls the memories in the chosen order, and reforms around the first
@@ -46,12 +47,12 @@ models, textures, music, or sound files.
 
 ## Visual and interaction highlights
 
-- One composed ruined-memory chamber built from procedural geometry.
-- An abstract central AI made from layered translucent shells, a bright inner core, neural
-  filaments, metallic ribs, and traveling particles.
-- Three memory-specific visual languages and cinematic camera paths.
+- One continuous laminated world built from custom extruded profiles and procedural relief.
+- An original asymmetric FELICIA sculpture made from living membrane, internal nickel
+  braces, embedded consequence seams, and one unresolved aperture.
+- Three physical states of the same material field rather than disconnected levels.
 - Six valid memory orders mapped to three major ending profiles.
-- A staged collapse, void, recall, reconstruction, and final reveal.
+- A whole-world inversion where the floor rises into the first memory’s governing law.
 - Guided pointer, touch, and keyboard interaction—no WASD or free-roaming controls.
 - Procedural Web Audio that follows fragment, order, reconstruction stage, and ending.
 - Responsive camera framing and calibrated quality tiers for desktop and mobile.
@@ -110,11 +111,9 @@ physical-device checks.
 
 ## Performance
 
-The approved high-quality chamber renders at 61 draw calls and 31,472 triangles; dormant
-collected fragments reduce the recovered chamber to 48 calls, and final states settle at
-54–58 calls with no more than 30,992 triangles. The scene uses three active lights, zero
-shadow maps, capped device pixel ratio, 24/52/88 particles by quality tier, and no model,
-texture, font, or audio asset payload.
+Phase 9 renders at 23–30 draw calls and 60,454–70,604 triangles across the measured desktop
+and mobile states. The scene uses three active lights, zero shadow maps, capped device pixel
+ratio, no decorative particle field, and no model, texture, font, or audio asset payload.
 
 See [PERFORMANCE.md](docs/PERFORMANCE.md) for measured state and bundle data.
 
@@ -159,6 +158,7 @@ Detailed commands and coverage are in [TESTING.md](docs/TESTING.md) and
 ## Documentation
 
 - [Visual direction](docs/VISUAL-DIRECTION.md)
+- [Phase 9 final design system](docs/art-direction/phase9/FINAL-DESIGN-SYSTEM.md)
 - [Interaction design](docs/INTERACTION-DESIGN.md)
 - [Reconstruction design](docs/RECONSTRUCTION-DESIGN.md)
 - [Audio design](docs/AUDIO-DESIGN.md)
@@ -177,5 +177,6 @@ their own licenses and are listed in [ASSET-ATTRIBUTION.md](docs/ASSET-ATTRIBUTI
 
 ## Project status
 
-The complete hackathon experience is feature-frozen, publicly deployed, and ready for
-participant review before Devpost submission.
+Phase 9 — Ultra Cinematic Final Release is feature-frozen. Its complete walkthrough,
+85-second trailer, final production frames, performance measurements, and browser validation
+live under `docs/evidence/phase9/final`.

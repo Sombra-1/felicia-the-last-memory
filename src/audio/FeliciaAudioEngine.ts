@@ -36,7 +36,7 @@ export class FeliciaAudioEngine {
     cueGain: 0,
   }
   private enabled = true
-  private volume = 0.84
+  private volume = 0.96
   private phase: ExperiencePhase = 'loading'
 
   setDiagnosticsListener(listener: DiagnosticsListener | null) {
@@ -96,22 +96,22 @@ export class FeliciaAudioEngine {
     if (!this.context || this.context.state !== 'running' || !this.enabled) return
 
     if (phase === 'reconstruction-synchronizing') {
-      this.playTone([146.8, 220, 329.6], 2.2, 'sine', 0, 0.48, 1.04)
+      this.playTone([147, 220, 294], 2.2, 'triangle', 0, 0.44, 1.02)
       this.recordEvent('reconstruction-synchronizing')
     } else if (phase === 'reconstruction-initiating') {
-      this.playTone([110, 220, 330, 440], 1.45, 'sine', 0, 0.74, 1.08)
+      this.playTone([147, 220, 294, 441], 1.45, 'triangle', 0, 0.68, 1.06)
       this.recordEvent('reconstruction-recognition')
     } else if (phase === 'reconstruction-collapse') {
-      this.playTone([82.4, 123.5, 185, 247], 2.1, 'triangle', -0.08, 0.76, 0.78)
+      this.playTone([110, 147, 185, 277], 2.1, 'triangle', -0.08, 0.72, 0.82)
       this.recordEvent('reconstruction-collapse')
     } else if (phase === 'reconstruction-void') {
-      this.playTone([146.8, 220, 293.7], 1.02, 'sine', 0, 0.32, 1.01)
+      this.playTone([147, 220, 294], 1.02, 'sine', 0, 0.28, 1.01)
       this.recordEvent('reconstruction-void')
     } else if (phase === 'reconstruction-rebuilding') {
-      this.playTone([98, 196, 294, 392], 3.75, 'sine', 0, 0.74, 1.3)
+      this.playTone([110, 220, 294, 441], 3.75, 'triangle', 0, 0.7, 1.22)
       this.recordEvent('reconstruction-rebuilding')
     } else if (phase === 'reconstruction-reveal') {
-      this.playTone([220, 330, 440, 660], 1.58, 'sine', 0, 0.64, 1.06)
+      this.playTone([220, 294, 441, 588], 1.58, 'sine', 0, 0.6, 1.05)
       this.recordEvent('reconstruction-reveal')
     } else if (phase === 'resetting') {
       this.stopTransients()
@@ -282,13 +282,14 @@ export class FeliciaAudioEngine {
     const now = this.context!.currentTime
     order.forEach((fragment, index) => {
       const signature = FRAGMENT_AUDIO_SIGNATURES[fragment]
+      const weight = [0.6, 0.25, 0.15][index] ?? 0.15
       this.scheduleOscillator({
         frequency: signature.frequencies[index % signature.frequencies.length],
         type: signature.oscillator,
         start: now + index * 0.18,
         duration: 1.35 + index * 0.16,
         pan: index === 0 ? -0.16 : index === 2 ? 0.16 : 0,
-        intensity: index === 0 ? 0.34 : 0.22,
+        intensity: 0.16 + weight * 0.34,
         rise: fragment === 'hope' ? 1.05 : fragment === 'fear' ? 0.96 : 1,
       })
     })
@@ -306,7 +307,7 @@ export class FeliciaAudioEngine {
         start: this.context!.currentTime + index * spacing,
         duration: Math.min(0.92, spacing * 0.86),
         pan: index === 0 ? -0.18 : index === 2 ? 0.18 : 0,
-        intensity: index === 0 ? 0.72 : 0.52,
+        intensity: [0.72, 0.42, 0.28][index] ?? 0.28,
         rise: fragment === 'hope' ? 1.08 : 1,
       })
     })
@@ -316,9 +317,9 @@ export class FeliciaAudioEngine {
   playEndingProfile(profile: FragmentId) {
     if (!this.canPlay()) return
     const frequencies: Record<FragmentId, number[]> = {
-      identity: [220, 330, 440],
-      fear: [92.5, 138.6, 207.7],
-      hope: [174.6, 261.6, 329.6],
+      identity: [220, 294, 441],
+      fear: [110, 147, 220],
+      hope: [220, 330, 441],
     }
     this.playTone(
       frequencies[profile],
@@ -438,11 +439,11 @@ export class FeliciaAudioEngine {
     filter.connect(this.ambient)
 
     ;[
-      { frequency: 58, type: 'sine' as const, gain: 0.02 },
-      { frequency: 116, type: 'triangle' as const, gain: 0.026 },
-      { frequency: 174, type: 'sine' as const, gain: 0.045 },
-      { frequency: 348, type: 'sine' as const, gain: 0.016 },
-      { frequency: 522, type: 'sine' as const, gain: 0.008 },
+      { frequency: 110, type: 'sine' as const, gain: 0.018 },
+      { frequency: 165, type: 'triangle' as const, gain: 0.022 },
+      { frequency: 220, type: 'sine' as const, gain: 0.034 },
+      { frequency: 330, type: 'sine' as const, gain: 0.014 },
+      { frequency: 495, type: 'sine' as const, gain: 0.007 },
     ].forEach(({ frequency, type, gain }) => {
       const oscillator = this.context!.createOscillator()
       const oscillatorGain = this.context!.createGain()

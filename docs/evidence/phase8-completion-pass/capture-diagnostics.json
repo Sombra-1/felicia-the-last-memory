@@ -1,0 +1,16 @@
+{
+  "baseURL": "http://127.0.0.1:5173",
+  "capturedAt": "2026-07-30T19:00:34.391Z",
+  "consoleProblems": [],
+  "frames": [
+    "docs/evidence/phase8-completion-pass/frames/01-opening-updated.png",
+    "docs/evidence/phase8-completion-pass/frames/02-fear-implemented.png",
+    "docs/evidence/phase8-completion-pass/frames/03-hope-implemented.png",
+    "docs/evidence/phase8-completion-pass/frames/04-reconstruction-synchronization.png",
+    "docs/evidence/phase8-completion-pass/frames/05-reconstruction-formation.png",
+    "docs/evidence/phase8-completion-pass/frames/06-ending-identity.png",
+    "docs/evidence/phase8-completion-pass/frames/06-ending-fear.png",
+    "docs/evidence/phase8-completion-pass/frames/06-ending-hope.png"
+  ],
+  "videos": []
+}

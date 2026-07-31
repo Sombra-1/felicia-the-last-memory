@@ -1,0 +1,27 @@
+{
+  "baseURL": "http://127.0.0.1:5173",
+  "capturedAt": "2026-07-30T22:40:12.643Z",
+  "consoleProblems": [],
+  "frames": [
+    "docs/evidence/phase9/review-00-phase8-recovery/frames/01-opening-hero.png",
+    "docs/evidence/phase9/review-00-phase8-recovery/frames/02-identity-alignment.png",
+    "docs/evidence/phase9/review-00-phase8-recovery/frames/03-fear-arrival.png",
+    "docs/evidence/phase9/review-00-phase8-recovery/frames/04-fear-incoming.png",
+    "docs/evidence/phase9/review-00-phase8-recovery/frames/05-fear-impact.png",
+    "docs/evidence/phase9/review-00-phase8-recovery/frames/06-fear-completion.png",
+    "docs/evidence/phase9/review-00-phase8-recovery/frames/07-hope-arrival.png",
+    "docs/evidence/phase9/review-00-phase8-recovery/frames/08-hope-growth.png",
+    "docs/evidence/phase9/review-00-phase8-recovery/frames/09-hope-completion.png",
+    "docs/evidence/phase9/review-00-phase8-recovery/frames/10-integrated-anatomy.png",
+    "docs/evidence/phase9/review-00-phase8-recovery/frames/11-synchronization-node.png",
+    "docs/evidence/phase9/review-00-phase8-recovery/frames/12-anatomical-extraction.png",
+    "docs/evidence/phase9/review-00-phase8-recovery/frames/13-foundation-formation.png",
+    "docs/evidence/phase9/review-00-phase8-recovery/frames/14-ending-identity.png",
+    "docs/evidence/phase9/review-00-phase8-recovery/frames/14-ending-fear.png",
+    "docs/evidence/phase9/review-00-phase8-recovery/frames/14-ending-hope.png",
+    "docs/evidence/phase9/review-00-phase8-recovery/mobile/01-fear-impact-mobile.png",
+    "docs/evidence/phase9/review-00-phase8-recovery/mobile/02-hope-growth-mobile.png",
+    "docs/evidence/phase9/review-00-phase8-recovery/mobile/03-hope-ending-mobile.png"
+  ],
+  "videos": []
+}

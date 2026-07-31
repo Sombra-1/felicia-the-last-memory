@@ -85,7 +85,7 @@ test('signature transformation stays below the investigated draw-call boundary',
   await page.evaluate(() => {
     window.__FELICIA_EVIDENCE__?.holdSignature(['fear', 'identity', 'hope'], 0.76)
   })
-  await expect(page.getByText(/forming from fear, inside outward/i)).toBeVisible()
+  await expect(page.getByText(/field is reforming under fear/i)).toBeVisible()
   await page.waitForTimeout(400)
   const drawCalls = Number(
     await page.locator('html').getAttribute('data-scene-draw-calls'),

@@ -1,0 +1,18 @@
+{
+  "baseURL": "http://127.0.0.1:5173",
+  "capturedAt": "2026-07-30T15:57:06.739Z",
+  "consoleProblems": [],
+  "frames": [
+    "docs/evidence/phase8-first-pass/frames/01-opening-hero.png",
+    "docs/evidence/phase8-first-pass/frames/02-identity-implemented.png",
+    "docs/evidence/phase8-first-pass/frames/04-reconstruction-synchronization.png",
+    "docs/evidence/phase8-first-pass/frames/05-reconstruction-formation.png",
+    "docs/evidence/phase8-first-pass/frames/06-identity-ending-profile.png",
+    "docs/evidence/phase8-first-pass/frames/03-identity-transition-midpoint.png",
+    "docs/evidence/phase8-first-pass/frames/07-reconstruction-sequence-midpoint.png"
+  ],
+  "videos": [
+    "docs/evidence/phase8-first-pass/video/identity-material-transition.webm",
+    "docs/evidence/phase8-first-pass/video/anatomy-first-reconstruction.webm"
+  ]
+}

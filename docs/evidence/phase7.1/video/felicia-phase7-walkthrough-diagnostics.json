@@ -4,137 +4,137 @@
   "milestones": [
     {
       "name": "intro-understood",
-      "elapsedSeconds": 3.95
+      "elapsedSeconds": 5.9
     },
     {
       "name": "felicia-first-pulse",
-      "elapsedSeconds": 8.44
+      "elapsedSeconds": 10.61
     },
     {
       "name": "awakening-settled",
-      "elapsedSeconds": 18.23
+      "elapsedSeconds": 20.45
     },
     {
       "name": "fear-departure",
-      "elapsedSeconds": 23.3
+      "elapsedSeconds": 26.12
     },
     {
       "name": "trial-active",
-      "elapsedSeconds": 26.95
+      "elapsedSeconds": 29.25
     },
     {
       "name": "fear-arrival",
-      "elapsedSeconds": 26.95
+      "elapsedSeconds": 29.25
     },
     {
       "name": "fear-beat-1",
-      "elapsedSeconds": 27.17
+      "elapsedSeconds": 29.46
     },
     {
       "name": "fear-beat-2",
-      "elapsedSeconds": 34.84
+      "elapsedSeconds": 43.57
     },
     {
       "name": "fear-beat-3",
-      "elapsedSeconds": 41.43
+      "elapsedSeconds": 52.8
     },
     {
       "name": "fear-completion",
-      "elapsedSeconds": 49.61
+      "elapsedSeconds": 63.62
     },
     {
       "name": "fear-return",
-      "elapsedSeconds": 51.41
+      "elapsedSeconds": 65.39
     },
     {
       "name": "hope-departure",
-      "elapsedSeconds": 59.11
+      "elapsedSeconds": 73.34
     },
     {
       "name": "trial-active",
-      "elapsedSeconds": 62.41
+      "elapsedSeconds": 76.52
     },
     {
       "name": "hope-arrival",
-      "elapsedSeconds": 62.41
+      "elapsedSeconds": 76.52
     },
     {
       "name": "hope-beat-1",
-      "elapsedSeconds": 62.41
+      "elapsedSeconds": 76.71
     },
     {
       "name": "hope-beat-2",
-      "elapsedSeconds": 71.73
+      "elapsedSeconds": 83.55
     },
     {
       "name": "hope-beat-3",
-      "elapsedSeconds": 78.6
+      "elapsedSeconds": 90.37
     },
     {
       "name": "hope-completion",
-      "elapsedSeconds": 85.65
+      "elapsedSeconds": 97.17
     },
     {
       "name": "hope-return",
-      "elapsedSeconds": 86.47
+      "elapsedSeconds": 98.38
     },
     {
       "name": "identity-departure",
-      "elapsedSeconds": 94.14
+      "elapsedSeconds": 106.33
     },
     {
       "name": "trial-active",
-      "elapsedSeconds": 97.36
+      "elapsedSeconds": 108.97
     },
     {
       "name": "identity-arrival",
-      "elapsedSeconds": 97.36
+      "elapsedSeconds": 108.97
     },
     {
       "name": "identity-beat-1",
-      "elapsedSeconds": 97.58
+      "elapsedSeconds": 109.18
     },
     {
       "name": "identity-beat-2",
-      "elapsedSeconds": 104.63
+      "elapsedSeconds": 115.78
     },
     {
       "name": "identity-beat-3",
-      "elapsedSeconds": 111.69
+      "elapsedSeconds": 122.34
     },
     {
       "name": "identity-completion",
-      "elapsedSeconds": 118.8
+      "elapsedSeconds": 129.11
     },
     {
       "name": "identity-return",
-      "elapsedSeconds": 120
+      "elapsedSeconds": 130.86
     },
     {
       "name": "memory-set-complete",
-      "elapsedSeconds": 122.27
+      "elapsedSeconds": 133.04
     },
     {
       "name": "reconstruction-synchronizing",
-      "elapsedSeconds": 124.61
+      "elapsedSeconds": 135.62
     },
     {
       "name": "synchronization-complete",
-      "elapsedSeconds": 142.66
+      "elapsedSeconds": 155.06
     },
     {
       "name": "ending",
-      "elapsedSeconds": 155.94
+      "elapsedSeconds": 167.89
     },
     {
       "name": "ending-explored-and-explained",
-      "elapsedSeconds": 180.83
+      "elapsedSeconds": 191.88
     }
   ],
   "consoleIssues": [],
-  "activeInteractionSeconds": 107.96,
-  "passiveAnimationSeconds": 13.28,
-  "audioStartOffsetSeconds": 8.85,
-  "passiveAnimationStartSeconds": 142.66,
-  "durationSeconds": 184.25
+  "activeInteractionSeconds": 114.97,
+  "passiveAnimationSeconds": 12.83,
+  "audioStartOffsetSeconds": 11.02,
+  "passiveAnimationStartSeconds": 155.06,
+  "durationSeconds": 194.94
 }

@@ -746,7 +746,7 @@ function HopeWorld() {
           }
         />
       </mesh>
-      <group ref={canopy}>
+      <group ref={canopy} position={[0, 0, -1.15]}>
         {branches.map((curve, index) => (
           <mesh key={index}>
             <tubeGeometry args={[curve, 52, index % 3 === 0 ? 0.035 : 0.022, 6, false]} />
@@ -816,10 +816,10 @@ function HopeWorld() {
   )
 }
 
-export function TrialWorlds() {
+export function TrialWorlds({ includeIdentity = true }: { includeIdentity?: boolean }) {
   return (
     <group name="memory-trial-worlds">
-      <IdentityWorld />
+      {includeIdentity && <IdentityWorld />}
       <FearWorld />
       <HopeWorld />
     </group>

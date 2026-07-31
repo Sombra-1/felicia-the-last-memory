@@ -54,6 +54,9 @@ declare global {
         progress?: number,
       ) => void
       holdEnding: (order: [FragmentId, FragmentId, FragmentId]) => void
+      playTrialTransition: (fragment: FragmentId, order?: FragmentId[]) => void
+      playTrialReturn: (fragment: FragmentId, order?: FragmentId[]) => void
+      playReconstruction: (order: [FragmentId, FragmentId, FragmentId]) => void
       releaseToReady: () => void
       inspectRuntime: () => {
         trial: typeof trialRuntime
@@ -286,6 +289,71 @@ export function installEvidenceBridge() {
         inputLocked: false,
       })
     },
+    playTrialTransition: (fragment, order = []) => {
+      resetReconstructionRuntime()
+      resetTrialRuntime()
+      reconstructionRuntime.evidenceHold = false
+      trialRuntime.evidenceHold = false
+      useExperienceStore.setState({
+        phase: 'chamber',
+        collectedFragments: [...order],
+        collectionOrder: [...order],
+        activeFragment: null,
+        chamberCameraRestored: true,
+        entranceComplete: true,
+        memorySetComplete: order.length === 3,
+        inputLocked: false,
+      })
+      useExperienceStore.getState().requestFragment(fragment)
+    },
+    playTrialReturn: (fragment, order = []) => {
+      resetReconstructionRuntime()
+      resetTrialRuntime(fragment)
+      reconstructionRuntime.evidenceHold = false
+      trialRuntime.evidenceHold = false
+      trialRuntime.anticipation = 1
+      trialRuntime.departure = 1
+      trialRuntime.passage = 1
+      trialRuntime.arrival = 1
+      trialRuntime.completion = 1
+      trialRuntime.chamberSuppression = 1
+      useExperienceStore.setState({
+        phase: 'trial-returning',
+        collectedFragments: [...order],
+        collectionOrder: [...order],
+        activeFragment: fragment,
+        entranceComplete: true,
+        trialBeat: 3,
+        inputLocked: true,
+        chamberCameraRestored: false,
+        fragmentTextVisible: false,
+      })
+    },
+    playReconstruction: (order) => {
+      resetReconstructionRuntime()
+      resetTrialRuntime()
+      reconstructionRuntime.evidenceHold = false
+      trialRuntime.evidenceHold = false
+      trialRuntime.syncVisual = 0.84
+      trialRuntime.syncInstability = 0.2
+      useExperienceStore.setState({
+        phase: 'reconstruction-synchronizing',
+        collectedFragments: [...order],
+        collectionOrder: [...order],
+        activeFragment: null,
+        reconstructionInitiated: true,
+        memorySetComplete: true,
+        reconstructionSync: 0.84,
+        reconstructionHolding: false,
+        endingProfileId: order[0],
+        reconstructionMemoryIndex: 2,
+        finalTextStep: 0,
+        replayAvailable: false,
+        finalCameraSettled: false,
+        endingExplorationReady: false,
+        inputLocked: false,
+      })
+    },
     releaseToReady: () => {
       resetReconstructionRuntime()
       useExperienceStore.setState({
@@ -298,7 +366,7 @@ export function installEvidenceBridge() {
       })
     },
     inspectRuntime: () => ({
-      trial: { ...trialRuntime },
+      trial: trialRuntime,
       state: useExperienceStore.getState(),
     }),
     startAudioCapture: () => {

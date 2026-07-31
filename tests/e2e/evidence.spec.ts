@@ -29,11 +29,11 @@ test('the evidence bridge holds every required Phase 7 review composition', asyn
   await holdChamber(page, ['identity', 'fear', 'hope'])
   await expect(page.locator('.memory-progress')).toHaveAttribute('aria-valuenow', '3')
   await holdSynchronization(page, ['fear', 'hope', 'identity'])
-  await expect(page.getByText(/active reconstruction ritual/i)).toBeVisible()
+  await expect(page.getByText(/^active reconstruction$/i)).toBeVisible()
   await page.evaluate(() => {
     window.__FELICIA_EVIDENCE__?.holdSignature(['fear', 'hope', 'identity'], 0.76)
   })
-  await expect(page.getByText(/forming from fear/i)).toBeVisible()
+  await expect(page.getByText(/field is reforming under fear/i)).toBeVisible()
   await holdEnding(page, ['fear', 'hope', 'identity'])
   await expect(page.getByText(/fear became the foundation/i)).toBeVisible()
   expect(problems).toEqual([])

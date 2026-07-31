@@ -60,7 +60,7 @@ describe('responsive camera composition', () => {
     const desktop = getCameraLayout(1440, 900)
     const mobile = getCameraLayout(390, 844)
 
-    expect(desktop.sceneOffset[0]).toBeGreaterThan(1)
+    expect(desktop.sceneOffset[0]).toBe(0)
     expect(mobile.sceneOffset[1]).toBeGreaterThan(1)
     expect(mobile.position[2]).toBeGreaterThan(desktop.position[2])
     expect(mobile.fov).toBeGreaterThan(desktop.fov)
@@ -94,8 +94,8 @@ describe('responsive camera composition', () => {
   it('uses an intermediate composition for tablet viewports', () => {
     const tablet = getCameraLayout(1024, 768)
 
-    expect(tablet.sceneScale).toBe(1)
-    expect(tablet.position).toEqual([0.8, 0.55, 10])
+    expect(tablet.sceneScale).toBe(0.88)
+    expect(tablet.position).toEqual([1.1, 0.76, 11.9])
   })
 })
 

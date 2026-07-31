@@ -16,14 +16,17 @@ test('a first-time judge can explain goal, active trial, order, and consequence'
     viewport: { width: 1440, height: 900 },
   })
   await expect(page.getByText(/choose which memory becomes my foundation/i)).toBeVisible()
-  await expect(page.getByText(/central consciousness/i)).toBeVisible()
+  await expect(page.locator('.fragment-control')).toHaveCount(3)
 
   await page.evaluate(() => {
     window.__FELICIA_EVIDENCE__?.holdTrial('hope', 'interaction', 1, ['fear'])
   })
   await expect(page.getByText(/beat 2 \/ 3/i)).toBeVisible()
   await expect(page.getByText(/no one instructed me to/i)).toBeVisible()
-  await expect(page.getByText(/fear foundation active/i)).toBeVisible()
+  await expect(page.locator('.experience-shell')).toHaveAttribute(
+    'data-memory-order',
+    'fear',
+  )
 
   await holdChamber(page, ['fear', 'hope'])
   await expect(page.locator('.memory-order li').nth(0)).toContainText(/fear/i)
