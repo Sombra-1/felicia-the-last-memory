@@ -53,7 +53,7 @@ function Consequence({
   useFrame(({ clock }, delta) => {
     if (!group.current) return
     const index = Math.max(0, order.indexOf(fragment))
-    const dominance = index === 0 ? 1.28 : index === 1 ? 0.98 : 0.82
+    const dominance = index === 0 ? 1.08 : index === 1 ? 0.74 : 0.58
     const detach =
       reconstructionRuntime.recognition * (1 - reconstructionRuntime.collapse) +
       Math.sin(
@@ -120,7 +120,7 @@ function IdentityConsequence() {
           variation={0.06}
         />
       </instancedMesh>
-      <mesh position={[0, 0, 0.44]} scale={[0.026, 1.82, 0.026]}>
+      <mesh position={[0, 0.08, 0.44]} scale={[0.026, 1.05, 0.026]}>
         <capsuleGeometry args={[1, 0.55, 5, 10]} />
         <EnergyFilamentMaterial
           color="#88939a"

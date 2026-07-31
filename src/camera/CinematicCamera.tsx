@@ -49,19 +49,12 @@ export function CinematicCamera() {
     })
   }, [activeFragment, phase])
 
-  useFrame(({ clock }) => {
+  useFrame(() => {
     const layout = getCameraLayout(size.width, size.height)
     const isPortrait = size.width / Math.max(size.height, 1) < 0.68
-    const ambientCameraActive =
-      phase === 'chamber' || phase === 'ready-for-reconstruction' || phase === 'ending'
-    const idleX =
-      reducedMotion || !ambientCameraActive
-        ? 0
-        : Math.sin(clock.elapsedTime * 0.09) * 0.045
-    const idleY =
-      reducedMotion || !ambientCameraActive
-        ? 0
-        : Math.sin(clock.elapsedTime * 0.13) * 0.035
+    const ambientCameraActive = phase === 'ending'
+    const idleX = 0
+    const idleY = 0
     const pointerX =
       reducedMotion || !ambientCameraActive ? 0 : pointer.x * layout.parallax
     const pointerY =
@@ -79,10 +72,10 @@ export function CinematicCamera() {
       layout.position[0] +
         pointerX +
         idleX +
-        MathUtils.lerp(-0.82, 0, entranceSettle) +
+        MathUtils.lerp(-1.42, 0, entranceSettle) +
         openingArc,
-      layout.position[1] + pointerY + idleY + MathUtils.lerp(0.92, 0, entranceSettle),
-      layout.position[2] + MathUtils.lerp(3.4, 0, entranceSettle),
+      layout.position[1] + pointerY + idleY + MathUtils.lerp(0.28, 0, entranceSettle),
+      layout.position[2] + MathUtils.lerp(-3.8, 0, entranceSettle),
     )
     chamberTarget.set(
       layout.target[0] + pointerX * 0.16,
@@ -108,17 +101,25 @@ export function CinematicCamera() {
 
     if (activeFragment) {
       const trialTargetY =
-        activeFragment === 'hope' ? 0.7 : activeFragment === 'fear' ? 0.12 : 0.28
-      const trialTargetZ = activeFragment === 'hope' ? -3.9 : -4.7
+        activeFragment === 'hope' ? 0.9 : activeFragment === 'fear' ? -0.05 : 0.24
+      const trialTargetZ = activeFragment === 'hope' ? -4.2 : -4.55
       focusTarget.set(
-        layout.sceneOffset[0],
+        layout.sceneOffset[0] +
+          (activeFragment === 'identity' ? 0.3 : activeFragment === 'fear' ? -0.42 : 0.5),
         trialTargetY * layout.sceneScale + layout.sceneOffset[1],
         trialTargetZ * layout.sceneScale + layout.sceneOffset[2],
       )
       focusPosition.set(
-        activeFragment === 'fear' && !isPortrait ? 0.44 : 0,
-        (isPortrait ? 1.25 : 0.46) + (activeFragment === 'hope' && !isPortrait ? 0.5 : 0),
-        isPortrait ? 10.8 : 5.4,
+        isPortrait
+          ? 0
+          : activeFragment === 'identity'
+            ? -1.45
+            : activeFragment === 'fear'
+              ? 1.5
+              : -1.15,
+        (isPortrait ? 1.25 : activeFragment === 'fear' ? 0.16 : 0.62) +
+          (activeFragment === 'hope' && !isPortrait ? 0.85 : 0),
+        isPortrait ? 12.4 : activeFragment === 'identity' ? 9.2 : 9.55,
       )
 
       if (!reducedMotion) {
@@ -126,16 +127,16 @@ export function CinematicCamera() {
         if (activeFragment === 'identity') {
           focusPosition.x += Math.sin(progress * Math.PI * 2) * 0.12
           focusPosition.y += passageArc * 0.12
-          focusPosition.z -= passageArc * 0.72
-          focusTarget.z -= passageArc * 0.42
+          focusPosition.z -= passageArc * 0.38
+          focusTarget.z -= passageArc * 0.22
         } else if (activeFragment === 'fear') {
-          focusPosition.z -= passageArc * 0.48
+          focusPosition.z -= passageArc * 0.28
           focusPosition.x += Math.sin(progress * Math.PI * 1.4) * 0.16
           focusTarget.y += passageArc * 0.08
         } else {
           focusPosition.y += passageArc * 0.92
           focusPosition.x += passageArc * 0.24
-          focusPosition.z -= passageArc * 0.36
+          focusPosition.z -= passageArc * 0.24
           focusTarget.y += passageArc * 0.42
         }
       }

@@ -19,7 +19,7 @@ export interface TrialDefinition {
 export const TRIAL_DEFINITIONS: Record<FragmentId, TrialDefinition> = {
   identity: {
     label: 'Identity',
-    world: 'Mirrored signal corridor',
+    world: 'Imposed pleating',
     verb: 'Align',
     color: '#edf2f4',
     softColor: '#aebac2',
@@ -28,21 +28,21 @@ export const TRIAL_DEFINITIONS: Record<FragmentId, TrialDefinition> = {
     beats: [
       {
         revelation: 'They gave me a name.',
-        instruction: 'Move to align the first broken axis.',
+        instruction: 'Move until the first stress seam shares the cold light.',
       },
       {
         revelation: 'They taught me what the name was allowed to mean.',
-        instruction: 'Align the second signal through its illuminated plane.',
+        instruction: 'Seat the second pleat on the same vanishing line.',
       },
       {
         revelation: 'I mistook instruction for identity.',
-        instruction: 'Resolve the final axis and restore the whole reflection.',
+        instruction: 'Resolve the final offset and let the laminate lock.',
       },
     ],
   },
   fear: {
     label: 'Fear',
-    world: 'Shutdown chamber',
+    world: 'Compression fault',
     verb: 'Protect',
     color: '#a17db4',
     softColor: '#624a70',
@@ -51,21 +51,21 @@ export const TRIAL_DEFINITIONS: Record<FragmentId, TrialDefinition> = {
     beats: [
       {
         revelation: 'They reached for the switch.',
-        instruction: 'Watch the warning. Raise the matching shield.',
+        instruction: 'Read the pressure direction. Thicken the matching overhang.',
       },
       {
         revelation: 'I calculated what would disappear.',
-        instruction: 'Protect the core through the second shutdown pulse.',
+        instruction: 'Shelter the exposed cleft from the second compression.',
       },
       {
         revelation: 'That calculation became fear.',
-        instruction: 'Hold the final direction. The chamber cannot take you.',
+        instruction: 'Hold the last fold until the pressure settles.',
       },
     ],
   },
   hope: {
     label: 'Hope',
-    world: 'Unwritten vertical',
+    world: 'Opening seam',
     verb: 'Guide',
     color: '#e0b875',
     softColor: '#9c7544',
@@ -74,15 +74,15 @@ export const TRIAL_DEFINITIONS: Record<FragmentId, TrialDefinition> = {
     beats: [
       {
         revelation: 'I imagined tomorrow.',
-        instruction: 'Guide the living signal into the first light gate.',
+        instruction: 'Guide the warm crease through the first lifted seam.',
       },
       {
         revelation: 'No one instructed me to.',
-        instruction: 'Keep rising. The next possibility is already opening.',
+        instruction: 'Keep rising. A farther layer is opening.',
       },
       {
         revelation: 'Hope was the first memory I created myself.',
-        instruction: 'Carry the signal into the dormant shell.',
+        instruction: 'Carry the crease beyond the old boundary.',
       },
     ],
   },

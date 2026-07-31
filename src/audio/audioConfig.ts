@@ -34,8 +34,8 @@ export const AUDIO_CALIBRATION_PRESETS = {
   },
   normal: {
     masterGain: 0.92,
-    ambientGain: 0.9,
-    cueGain: 0.58,
+    ambientGain: 0.8,
+    cueGain: 0.64,
   },
   headphones: {
     masterGain: 0.52,
@@ -52,7 +52,7 @@ export const AUDIO_CALIBRATION = {
   preset: 'normal' as AudioCalibrationPreset,
   fadeSeconds: 0.55,
   safetyCompressor: {
-    threshold: -16,
+    threshold: -18,
     knee: 8,
     ratio: 8,
     attack: 0.006,
@@ -70,19 +70,19 @@ export const FRAGMENT_AUDIO_SIGNATURES: Record<
   }
 > = {
   identity: {
-    frequencies: [330, 495, 660],
+    frequencies: [294, 441, 588],
     oscillator: 'sine',
     duration: 1.9,
     pan: [-0.34, 0.34],
   },
   fear: {
-    frequencies: [123.5, 164.8, 247],
+    frequencies: [147, 185, 277],
     oscillator: 'triangle',
     duration: 2.05,
     pan: [-0.16, 0.24],
   },
   hope: {
-    frequencies: [196, 246.9, 293.7],
+    frequencies: [220, 277, 349],
     oscillator: 'sine',
     duration: 2.3,
     pan: [-0.18, 0.28],

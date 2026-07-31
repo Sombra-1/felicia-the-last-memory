@@ -80,7 +80,7 @@ export function ExperienceCanvas() {
           aria-hidden={ready}
         >
           <LoadingScreen
-            label="Opening sacred archive"
+            label="Unfolding the last memory"
             progress={ready ? 100 : undefined}
           />
         </div>

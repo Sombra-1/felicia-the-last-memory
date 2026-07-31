@@ -74,7 +74,7 @@ function ChamberInterface() {
         </div>
       )}
 
-      {phase === 'chamber' && entranceComplete && (
+      {phase === 'chamber' && entranceComplete && progress < 3 && (
         <div className="fragment-selector">
           <div className="selection-guidance">
             <p>
@@ -279,10 +279,10 @@ function TrialInterface() {
             {phase === 'trial-completing'
               ? `${definition.label} · ${assisted ? 'assisted resonance' : score >= 94 ? 'resonant' : 'stable'}`
               : fragment === 'identity'
-                ? 'The corridor is compressing into a silver axis'
+                ? 'The pleating law is settling into FELICIA'
                 : fragment === 'fear'
-                  ? 'The chamber is folding into a permanent shield'
-                  : 'The living signal is becoming an upward filament'}
+                  ? 'The compression scar is becoming a permanent shelter'
+                  : 'The opened seam is becoming a path beyond FELICIA'}
           </strong>
         </div>
       )}
@@ -308,7 +308,7 @@ function ReconstructionInterface() {
         <MemoryOrder compact />
         <p>
           {foundation?.label} is FELICIA’s foundation.
-          <span> Prepare to synchronize all three streams.</span>
+          <span> Prepare to steady the crease that will govern her form.</span>
         </p>
         <i aria-hidden="true" />
       </div>
@@ -319,11 +319,11 @@ function ReconstructionInterface() {
     const role = index === 0 ? 'Foundation' : index === 1 ? 'Secondary' : 'Final accent'
     return (
       <div className="synchronization-interface" aria-live="polite">
-        <span>Active reconstruction ritual</span>
+        <span>Active reconstruction</span>
         <strong>
           {role} — {active?.label}
         </strong>
-        <p>Hold to draw the memory streams through FELICIA.</p>
+        <p>Hold to steady the travelling crease as the world turns through FELICIA.</p>
         <button
           type="button"
           className={holding ? 'is-holding' : ''}
@@ -345,7 +345,7 @@ function ReconstructionInterface() {
             state.setReconstructionSync(state.reconstructionSync + 0.035)
           }}
         >
-          <span>{holding ? 'Synchronizing' : 'Hold to synchronize'}</span>
+          <span>{holding ? 'Holding the fold' : 'Hold to steady the fold'}</span>
           <i style={{ '--sync': sync } as React.CSSProperties} />
         </button>
         <div
@@ -367,18 +367,18 @@ function ReconstructionInterface() {
       className={`reconstruction-status${index === 0 ? ' is-foundation' : ''}`}
       aria-live="assertive"
     >
-      <span>Reconstruction · synchronized by the player</span>
+      <span>Reconstruction · the world is turning inside out</span>
       <strong>
         {phase === 'reconstruction-initiating'
           ? `Foundation — ${foundation?.label ?? ''}`
           : phase === 'reconstruction-collapse'
-            ? `${foundation?.label ?? ''} architecture bending into memory matter`
+            ? `${foundation?.label ?? ''} is imposing the first folding law`
             : phase === 'reconstruction-void'
-              ? 'Persistent consequences detached · streams continuous'
+              ? 'The old surface has released'
               : phase === 'reconstruction-recall'
                 ? `${index === 0 ? 'Foundation' : index === 1 ? 'Secondary' : 'Final accent'} — ${active?.label ?? ''}`
                 : phase === 'reconstruction-rebuilding'
-                  ? `Forming from ${foundation?.label ?? ''}, inside outward`
+                  ? `The field is reforming under ${foundation?.label ?? ''}`
                   : 'Living consciousness resolved'}
       </strong>
       <div className="reconstruction-status__order">

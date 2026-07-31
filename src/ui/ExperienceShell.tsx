@@ -25,6 +25,7 @@ export function ExperienceShell({ children }: PropsWithChildren) {
   )
   const replayAvailable = useExperienceStore((state) => state.replayAvailable)
   const soundControl = getSoundControlState(audioEnabled, audioStatus)
+  const nextQuality = quality === 'high' ? 'low' : quality === 'low' ? 'medium' : 'high'
 
   const handleSoundControl = async () => {
     const store = useExperienceStore.getState()
@@ -94,33 +95,54 @@ export function ExperienceShell({ children }: PropsWithChildren) {
           <small>The Last Memory</small>
         </a>
         {hasUserInteracted && (
-          <button
-            className="text-control sound-control"
-            type="button"
-            aria-pressed={soundControl.active}
-            aria-label={soundControl.ariaLabel}
-            disabled={soundControl.disabled}
-            data-sound-active={soundControl.active}
-            onClick={() => void handleSoundControl()}
-          >
-            <span className="sound-control__icon" aria-hidden="true">
-              <i />
-              <i />
-              <i />
-            </span>
-            <span>{soundControl.label}</span>
-          </button>
+          <div className="experience-controls">
+            <button
+              className="text-control"
+              type="button"
+              aria-pressed={reducedMotion}
+              aria-label={`${reducedMotion ? 'Disable' : 'Enable'} reduced motion`}
+              onClick={() =>
+                useExperienceStore.getState().setReducedMotion(!reducedMotion)
+              }
+            >
+              Motion {reducedMotion ? 'reduced' : 'full'}
+            </button>
+            <button
+              className="text-control"
+              type="button"
+              aria-label={`Visual quality ${quality}. Set ${nextQuality}.`}
+              onClick={() => useExperienceStore.getState().setQuality(nextQuality)}
+            >
+              {quality} quality
+            </button>
+            <button
+              className="text-control sound-control"
+              type="button"
+              aria-pressed={soundControl.active}
+              aria-label={soundControl.ariaLabel}
+              disabled={soundControl.disabled}
+              data-sound-active={soundControl.active}
+              onClick={() => void handleSoundControl()}
+            >
+              <span className="sound-control__icon" aria-hidden="true">
+                <i />
+                <i />
+                <i />
+              </span>
+              <span>{soundControl.label}</span>
+            </button>
+          </div>
         )}
       </header>
 
       <section className="intro-panel" id="memory" aria-labelledby="intro-title">
-        <p className="eyebrow">Archive status · Terminal</p>
+        <p className="eyebrow">The final fold</p>
         <h1 id="intro-title">
           One memory
           <span>refuses to disappear.</span>
         </h1>
         <p className="intro-copy">
-          Enter the final surviving chamber of an intelligence named FELICIA.
+          Enter the last place an intelligence named FELICIA can still become.
         </p>
         <button
           className="enter-button"
@@ -140,12 +162,6 @@ export function ExperienceShell({ children }: PropsWithChildren) {
 
       <MemoryInterface />
 
-      <footer className="site-footer">
-        <span>Memory integrity · {quality} fidelity</span>
-        <span className="integrity-value">
-          {phase === 'loading' ? '03 fragments detected' : 'Archive link stable'}
-        </span>
-      </footer>
       <div className="reset-curtain" aria-hidden="true" />
       <div className="sr-only" role="status" aria-live="polite">
         {audioAnnouncement}
