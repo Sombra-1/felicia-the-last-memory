@@ -4,144 +4,131 @@
 
 - Public website: <https://felicia-the-last-memory.ayx1.chatgpt.site>
 - Public repository: <https://github.com/Sombra-1/felicia-the-last-memory>
-- Deployment platform: OpenAI Sites, Cloudflare-backed
-- Integration merge commit: `3a35048`
-- Production source commit: `160cd47b1951eef19f64ca7aa601d56e4a00f535`
-- Sites version: 6
-- Deployment completed: 2026-07-28 14:41:40 UTC
+- Phase 8 recovery source: `33ec43ea3f04d95f48cd2fc01375cac077a38125`
+- Phase 9 release commit: `2e22030191d8efa7da67d7f3709cb3641b02e6e5`
+- Phase 9 main merge: `9cbd76498c0f2ee1d24ba8c281929ea5ae6b0273`
+- Sites production-source commit: `c91a090620411851a10462db1e2dbe388095a644`
+- Sites version: 8
+- Deployment ID: `appgdep_6a6bec3c052c8191a004d9705ba6cf0c`
+- Deployment completed: 2026-07-31 00:28:54 UTC
 - Deployment status: succeeded
-- Browser coverage: Chromium and Firefox passed; WebKit/Safari unverified
-- Devpost status: draft copy only; no project was created or submitted
+- Rollback version: Sites version 7 at
+  `b8dff2c3a47ff3de057b3a363b13ed9792882747`
 
 ## Validation results
 
-### Local approved source
+### Local release source
 
-- Unit and integration: 52/52 passed
-- Chromium core visual and interaction suite: 20/20 passed
-- Reconstruction matrix: 5/5 passed, including all six orders
-- Reliability and stress: 22/22 passed, including twenty independent journeys, competing
-  input/resize, and three same-page replay cycles
-- Local Chromium and Firefox complete journeys: 2/2 passed
-- Merged-main Chromium and Firefox critical journeys: 2/2 passed
-- ESLint: zero warnings
-- Prettier: passed
-- Production build: passed
-- Dependency audit: zero vulnerabilities
-- Secret scan: no findings
-- Production diagnostics-string scan: clean
-- Production source maps: absent
+- Unit and integration: 53/53 passed.
+- Complete Chromium suite: 32/32 passed in 421.674 seconds.
+- Complete Firefox journey: 1/1 passed in 5.074 seconds.
+- Dedicated mobile touch journey: 1/1 passed in 23.724 seconds.
+- All six memory orders: passed.
+- Keyboard-only, touch, reduced motion, low quality, inactivity assistance, interrupted
+  transitions, rapid input, visibility restoration, resize/orientation recovery, three
+  replay cycles, audio lifecycle, duplicate-loop, and renderer-failure checks: passed.
+- TypeScript: clean.
+- ESLint: clean with zero warnings.
+- Prettier: clean.
+- Production build: passed.
+- Dependency audit: zero vulnerabilities.
+- Secret scan: no findings.
+- Production source maps: absent.
+- Evidence bridge, scene diagnostics, and diagnostic markers: absent from production bundles.
 
 ### Public production
 
-- Chromium complete journey, audio lifecycle, focus, reconstruction, and replay: passed
-- Firefox complete journey, audio lifecycle, focus, reconstruction, and replay: passed
-- Seven public desktop, tablet, and mobile viewport checks: passed
-- Public reduced-motion and low-quality rendering: passed
-- Public keyboard fragment activation and focus behavior: passed
-- Public visibility suspension/restoration during reconstruction: passed
-- Live Identity, Fear, and Hope reveal/ending capture journeys: passed
-- Enter audio activation, truthful sound state, fragment cues, reconstruction, replay, and
-  one ambience start after replay: passed
-- Direct refresh and extensionless SPA fallback: passed
-- HTTPS, canonical metadata, Open Graph image, favicon, manifest, and hashed assets: passed
-- Mixed content: none observed
-- Application console errors: none
-- Development diagnostics: absent
+The production-safe validator completed four real-input journeys without development state
+mutation:
 
-WebKit could not launch on the release Linux host because `libicu74`, `libxml2`, and
-`libflite1` are unavailable. Safari/WebKit is therefore not claimed as tested.
+| Browser  | Order                  | Viewport | Mode                    | Result |
+| -------- | ---------------------- | -------- | ----------------------- | ------ |
+| Chromium | Identity → Fear → Hope | 1440×900 | desktop, direct refresh | passed |
+| Chromium | Fear → Hope → Identity | 1366×768 | desktop                 | passed |
+| Chromium | Hope → Identity → Fear | 390×844  | touch, mobile, low      | passed |
+| Firefox  | Hope → Fear → Identity | 1024×768 | desktop                 | passed |
 
-## Lighthouse
+Every journey completed all three trials, active reconstruction, its ending, audio startup,
+and replay. Each retained one ambient loop, excluded production diagnostics, and produced
+zero application console problems. The root-page direct refresh passed. Canonical, Open
+Graph, Twitter, favicon, manifest, social-preview, and hashed-asset requests returned
+successfully.
 
-Lighthouse 13.4.1 tested the deployed URL with its simulated mobile profile:
+The general local Playwright suite is intentionally not a production harness: eighteen of
+its inspection cases call the development-only evidence bridge. Those cases correctly find
+that bridge absent on the live release. Fifteen environment-safe cases passed in that broad
+public run; the separate production-safe journeys above cover the complete public behavior.
+
+## Performance
+
+### Scene
+
+| State          | Desktop calls | Mobile calls | Desktop triangles | Mobile triangles |
+| -------------- | ------------: | -----------: | ----------------: | ---------------: |
+| Opening        |            23 |           23 |            60,454 |           60,454 |
+| Identity       |            23 |           30 |            60,454 |           69,594 |
+| Fear           |            30 |           27 |            69,594 |           66,798 |
+| Hope           |            30 |           29 |            69,594 |           70,604 |
+| Reconstruction |            24 |           24 |            67,338 |           67,338 |
+| Endings        |            24 |           24 |            67,338 |           67,338 |
+
+All measured states use three active lights, zero shadow maps, no decorative particle field,
+and no imported model, texture, font, or audio payload.
+
+### Production payload
+
+| Asset      |       Raw |      Gzip |
+| ---------- | --------: | --------: |
+| HTML       |   2.24 kB |   0.77 kB |
+| CSS        |  41.38 kB |   8.73 kB |
+| Main JS    | 290.27 kB |  95.89 kB |
+| Loading JS | 396.00 kB | 109.11 kB |
+| Lazy 3D JS | 626.27 kB | 167.48 kB |
+
+### Public Lighthouse
 
 | Category       | Score |
 | -------------- | ----: |
-| Performance    |    63 |
+| Performance    |    62 |
 | Accessibility  |   100 |
 | Best Practices |    81 |
 | SEO            |   100 |
 
-- First Contentful Paint: 1.4 seconds
-- Largest Contentful Paint: 1.5 seconds
-- Cumulative Layout Shift: 0.001
-- Speed Index: 6.6 seconds
+- First Contentful Paint: 1.9 seconds.
+- Largest Contentful Paint: 2.0 seconds.
+- Cumulative Layout Shift: 0.001.
+- Speed Index: 6.3 seconds.
 
-The previous Performance reference was 69. The six-point decline is accepted for the
-approved material and silhouette depth; accessibility, best-practices, SEO, and layout
-stability did not regress. Synthetic Total Blocking Time remains dominated by the
-continuously rendered WebGL canvas.
+The throttled Total Blocking Time is dominated by the deliberately continuous WebGL canvas.
+The performance score is within one point of the previous public release while geometry and
+material depth increased substantially.
 
-## Production payload
+## Final media
 
-| Asset      |       Raw |      Gzip |
-| ---------- | --------: | --------: |
-| HTML       |   2.16 kB |   0.74 kB |
-| CSS        |  19.75 kB |   4.98 kB |
-| Main JS    | 300.73 kB |  99.18 kB |
-| Lazy 3D JS | 990.70 kB | 262.66 kB |
+- Complete walkthrough: 202.8 seconds, browser audio, Fear → Hope → Identity.
+- Trailer: 84.92 seconds.
+- Audio: stereo 48 kHz; −26.4 LUFS integrated; 9.3 LU range; −7.0 dBFS true peak; no
+  clipping.
+- Final desktop and mobile frame grids:
+  `docs/evidence/phase9/final/screenshots/`.
+- Public deployment frame grid:
+  `docs/evidence/phase9/public/public-contact-sheet.png`.
 
-The deployed asset names are content-hashed. The current Sites edge response revalidates
-these assets with `max-age=0, must-revalidate` rather than exposing the worker's requested
-immutable cache header.
+## Devpost
 
-## Scene metrics
+- Project: <https://devpost.com/software/felicia-the-last-memory>
+- State: public project page; not entered into a hackathon submission.
+- Hackathon registration: already registered for `3d-websites-hackathon`.
+- Title, tagline, full description, technology list, live site, source, trailer, and
+  walkthrough links: filled.
+- Thumbnail: uploaded from the Phase 9 opening hero.
+- Screenshot requirement: three production images are embedded in the project description.
+- Demo video: optional; the 84.92-second trailer is linked directly.
+- No eligibility, ownership, rules, or terms attestation was accepted by this release work.
+- The project was not submitted to the hackathon.
 
-| State                  | Draw calls | Triangles |
-| ---------------------- | ---------: | --------: |
-| Initial chamber        |         61 |    31,472 |
-| All memories recovered |         48 |    23,104 |
-| Reconstruction peak    |         55 |    27,908 |
-| Identity ending        |         55 |    27,908 |
-| Fear ending            |         54 |    27,836 |
-| Hope ending            |         58 |    30,992 |
+## Remaining personal legal action
 
-All measured states use three lights and zero shadow maps.
-
-## Audio evidence
-
-- Final walkthrough: 53.16 seconds, 1440 × 900
-- Audio: stereo Opus, 48 kHz
-- Integrated loudness: −25.19 LUFS
-- True peak: −9.11 dBTP
-- Console issues: none
-- Ambience starts after replay: one
-
-Walkthrough:
-`docs/submission/video/felicia-final-walkthrough-with-browser-audio.webm`
-
-## Selected screenshots
-
-Primary submission set:
-
-1. `docs/submission/screenshots/initial-chamber.png`
-2. `docs/submission/screenshots/fear-ending.png`
-3. `docs/submission/screenshots/hope-ending.png`
-
-Supporting production frames:
-
-- `identity-reveal.png`
-- `fear-reveal.png`
-- `hope-reveal.png`
-- `identity-ending.png`
-- `mobile-hope-ending.png`
-
-All eight frames were recaptured from the deployed production site without browser chrome or
-development diagnostics.
-
-## Remaining participant actions
-
-- Listen through real laptop speakers.
-- Listen through headphones.
-- Listen through a phone speaker.
-- Inspect near-black separation and brightness on a physical laptop.
-- Inspect framing, brightness, notch, and browser chrome on a physical phone.
-- Optionally test Safari on macOS and Safari/iOS.
-- Optionally test VoiceOver and TalkBack on physical devices.
-- Review the Devpost draft personally.
-- Confirm hackathon eligibility personally.
-- Accept any required legal terms personally.
-- Create and make the final Devpost submission personally.
-
-No eligibility claim or legal acceptance has been made by this release process.
+Ayhm must personally review and affirm any eligibility, ownership, official-rules, and
+Devpost-terms attestations shown by the final submission form, then click the final submit
+control.

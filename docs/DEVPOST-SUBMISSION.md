@@ -146,5 +146,24 @@ and sound.
   `docs/evidence/phase9/final/walkthrough/felicia-phase9-complete-walkthrough.mp4`
 - 85-second trailer: `docs/evidence/phase9/final/felicia-phase9-trailer-85s.mp4`
 
-This is a draft for participant review. It has not been submitted and no eligibility or legal
-terms have been accepted.
+## Production screenshots
+
+![Opening — FELICIA as the unresolved fold](https://raw.githubusercontent.com/Sombra-1/felicia-the-last-memory/main/docs/evidence/phase9/final/screenshots/frames/01-opening-hero.png)
+
+![Identity-first consciousness](https://raw.githubusercontent.com/Sombra-1/felicia-the-last-memory/main/docs/evidence/phase9/final/screenshots/frames/14-ending-identity.png)
+
+![Fear-first consciousness](https://raw.githubusercontent.com/Sombra-1/felicia-the-last-memory/main/docs/evidence/phase9/final/screenshots/frames/14-ending-fear.png)
+
+![Hope-first consciousness](https://raw.githubusercontent.com/Sombra-1/felicia-the-last-memory/main/docs/evidence/phase9/final/screenshots/frames/14-ending-hope.png)
+
+## Connected project status
+
+- Devpost project: <https://devpost.com/software/felicia-the-last-memory>
+- State: public project page; hackathon submission not created
+- Hackathon: 3D Websites Hackathon
+- Registration: already registered
+- Thumbnail: uploaded from the Phase 9 opening hero
+- Final submit: intentionally not performed
+
+No eligibility, ownership, official-rules, or legal-terms attestation was accepted by this
+release work. Ayhm must personally review those attestations and perform the final submit.

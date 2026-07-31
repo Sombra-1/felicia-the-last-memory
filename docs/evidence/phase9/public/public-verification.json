@@ -1,0 +1,74 @@
+{
+  "baseURL": "https://felicia-the-last-memory.ayx1.chatgpt.site",
+  "version": 8,
+  "runs": [
+    {
+      "browser": "chromium",
+      "order": ["identity", "fear", "hope"],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "touch": false,
+      "lowQuality": false,
+      "audioStatus": "running",
+      "ambientStarts": 1,
+      "replayPassed": true,
+      "refreshPassed": true,
+      "diagnosticsExcluded": true,
+      "durationSeconds": 97.39,
+      "consoleProblems": []
+    },
+    {
+      "browser": "chromium",
+      "order": ["fear", "hope", "identity"],
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "touch": false,
+      "lowQuality": false,
+      "audioStatus": "running",
+      "ambientStarts": 1,
+      "replayPassed": true,
+      "refreshPassed": false,
+      "diagnosticsExcluded": true,
+      "durationSeconds": 97.23,
+      "consoleProblems": []
+    },
+    {
+      "browser": "chromium",
+      "order": ["hope", "identity", "fear"],
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "touch": true,
+      "lowQuality": true,
+      "audioStatus": "running",
+      "ambientStarts": 1,
+      "replayPassed": true,
+      "refreshPassed": false,
+      "diagnosticsExcluded": true,
+      "durationSeconds": 68.18,
+      "consoleProblems": []
+    },
+    {
+      "browser": "firefox",
+      "order": ["hope", "fear", "identity"],
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "touch": false,
+      "lowQuality": false,
+      "audioStatus": "running",
+      "ambientStarts": 1,
+      "replayPassed": true,
+      "refreshPassed": false,
+      "diagnosticsExcluded": true,
+      "durationSeconds": 60.57,
+      "consoleProblems": []
+    }
+  ]
+}

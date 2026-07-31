@@ -166,7 +166,8 @@ Detailed commands and coverage are in [TESTING.md](docs/TESTING.md) and
 - [Performance](docs/PERFORMANCE.md)
 - [Asset attribution](docs/ASSET-ATTRIBUTION.md)
 - [Deployment](docs/DEPLOYMENT.md)
-- [Devpost draft](docs/DEVPOST-SUBMISSION.md)
+- [Devpost submission copy](docs/DEVPOST-SUBMISSION.md)
+- [Devpost project](https://devpost.com/software/felicia-the-last-memory)
 
 ## Assets and licenses
 

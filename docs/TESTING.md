@@ -82,18 +82,15 @@ Against the deployed URL, verify:
 9. No application console warnings or network failures.
 10. WebGL failure fallback through the dedicated automated route/mocking test.
 
-All six orders are exhaustively covered locally; production smoke testing uses representative
-orders to avoid redundant public traffic.
+All six orders are exhaustively covered locally. The Phase 9 public gate then completes
+three Chromium profiles—including mobile touch and low quality—and a complete Firefox
+journey through the real production UI. Development state mutation is not used.
 
-Run the committed production journey against both installed engines:
+The general Playwright suite includes inspection cases that intentionally depend on the
+development-only evidence bridge. Do not interpret those cases as production checks: the
+release gate requires that bridge to be absent from built assets. Use the production-safe
+journey driver and the resulting record under `docs/evidence/phase9/public/`.
 
-```bash
-PLAYWRIGHT_BASE_URL=https://example.com \
-  npx playwright test -c playwright.production.config.ts
-```
-
-Capture the five final submission frames from the actual deployment:
-
-```bash
-PLAYWRIGHT_BASE_URL=https://example.com node scripts/capture-production.mjs
-```
+The final public record covers Identity-first, Fear-first, Hope-first, all three trials,
+active reconstruction, three endings, audio startup, one-loop replay, direct refresh,
+diagnostics exclusion, Chromium, Firefox, touch, mobile, reduced motion, and low quality.

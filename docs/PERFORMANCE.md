@@ -55,15 +55,15 @@ its simulated Moto G Power mobile profile:
 
 | Category       | Score |
 | -------------- | ----: |
-| Performance    |    63 |
+| Performance    |    62 |
 | Accessibility  |   100 |
 | Best Practices |    81 |
 | SEO            |   100 |
 
-- First Contentful Paint: 1.4 seconds
-- Largest Contentful Paint: 1.5 seconds
+- First Contentful Paint: 1.9 seconds
+- Largest Contentful Paint: 2.0 seconds
 - Cumulative Layout Shift: 0.001
-- Speed Index: 6.6 seconds
+- Speed Index: 6.3 seconds
 
 The continuously rendered WebGL canvas produces a high throttled Total Blocking Time in the
 synthetic trace. Best Practices deductions also include deprecated APIs in Cloudflare's
