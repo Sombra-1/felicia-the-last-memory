@@ -1,0 +1,60 @@
+{
+  "baseURL": "http://127.0.0.1:4173",
+  "order": ["fear", "hope", "identity"],
+  "milestones": [
+    {
+      "name": "chamber",
+      "elapsedSeconds": 7.84
+    },
+    {
+      "name": "opening-instruction-understood",
+      "elapsedSeconds": 8.05
+    },
+    {
+      "name": "fear-recorded-1",
+      "elapsedSeconds": 16.42
+    },
+    {
+      "name": "chamber",
+      "elapsedSeconds": 21.73
+    },
+    {
+      "name": "hope-recorded-2",
+      "elapsedSeconds": 28.81
+    },
+    {
+      "name": "chamber",
+      "elapsedSeconds": 33.9
+    },
+    {
+      "name": "identity-recorded-3",
+      "elapsedSeconds": 40.73
+    },
+    {
+      "name": "ready-for-reconstruction",
+      "elapsedSeconds": 46.33
+    },
+    {
+      "name": "completion-payoff-visible",
+      "elapsedSeconds": 46.57
+    },
+    {
+      "name": "reconstruction-initiating",
+      "elapsedSeconds": 48.34
+    },
+    {
+      "name": "foundation-causality-visible",
+      "elapsedSeconds": 48.61
+    },
+    {
+      "name": "ending",
+      "elapsedSeconds": 62.76
+    },
+    {
+      "name": "ending-explanation-visible",
+      "elapsedSeconds": 67.26
+    }
+  ],
+  "consoleIssues": [],
+  "durationSeconds": 71.5
+}

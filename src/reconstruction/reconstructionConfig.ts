@@ -24,7 +24,7 @@ const STANDARD_DURATIONS: ReconstructionDurations = {
   reveal: 1.7,
   firstLineDelay: 0.9,
   secondLineDelay: 1.35,
-  tableauHold: 2.4,
+  tableauHold: 11.5,
   reset: 0.65,
 }
 
@@ -38,7 +38,7 @@ const REDUCED_DURATIONS: ReconstructionDurations = {
   reveal: 0.5,
   firstLineDelay: 0.4,
   secondLineDelay: 0.65,
-  tableauHold: 0.9,
+  tableauHold: 2.2,
   reset: 0.32,
 }
 
@@ -59,30 +59,30 @@ export const RECONSTRUCTION_CAMERA_STAGES: Record<
   ReconstructionCameraStage
 > = {
   recognition: {
-    desktopPosition: [1.3, 0.6, 9.4],
-    mobilePosition: [0, 1.9, 13.15],
-    target: [0, 0.15, -0.3],
-    desktopFov: 40,
+    desktopPosition: [3.15, 0.34, 7.05],
+    mobilePosition: [0.4, 1.8, 12.9],
+    target: [-0.38, 0.24, -0.2],
+    desktopFov: 34,
     mobileFov: 47,
   },
   collapse: {
-    desktopPosition: [0.4, 0.25, 7.25],
-    mobilePosition: [0, 1.2, 11.6],
-    target: [0, 0.2, -0.4],
-    desktopFov: 36,
+    desktopPosition: [-1.85, 0.16, 5.65],
+    mobilePosition: [-0.3, 1.1, 11.4],
+    target: [0.22, 0.48, -0.42],
+    desktopFov: 30,
     mobileFov: 43,
   },
   void: {
-    desktopPosition: [0.2, 0.25, 5.55],
+    desktopPosition: [0.4, 0.48, 4.9],
     mobilePosition: [0, 1.05, 10.8],
-    target: [0, 0.45, -0.25],
-    desktopFov: 32,
+    target: [0.08, 0.42, -0.18],
+    desktopFov: 28,
     mobileFov: 41,
   },
 }
 
 export const RECALL_COLORS: Record<FragmentId, string> = {
-  identity: '#e6e8eb',
-  fear: '#846696',
-  hope: '#d4a96d',
+  identity: '#dfe8e9',
+  fear: '#68466f',
+  hope: '#b9823f',
 }

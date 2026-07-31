@@ -9,13 +9,13 @@ import { QUALITY_PROFILES } from '../scene/config/quality'
 import { PALETTE, VISUAL_CALIBRATION } from '../scene/config/visual'
 import { useExperienceStore } from '../state/experienceStore'
 
-const baseLightColor = new Color(PALETTE.white)
-const identityLightColor = new Color('#eef2f6')
-const fearLightColor = new Color('#89729b')
-const hopeLightColor = new Color('#e0be89')
+const baseLightColor = new Color('#d8d6cd')
+const identityLightColor = new Color('#dfe8e9')
+const fearLightColor = new Color('#68466f')
+const hopeLightColor = new Color('#d3a45e')
 const baseFogColor = new Color(PALETTE.void)
-const fearFogColor = new Color('#110d16')
-const hopeFogColor = new Color('#100e0b')
+const fearFogColor = new Color('#09070b')
+const hopeFogColor = new Color('#0a0907')
 
 export function SceneLighting() {
   const keyLight = useRef<SpotLight>(null)
@@ -28,7 +28,7 @@ export function SceneLighting() {
   const collectionOrder = useExperienceStore((state) => state.collectionOrder)
   const ending = deriveEndingConfiguration(collectionOrder)
 
-  useFrame(({ clock, scene }, delta) => {
+  useFrame(({ scene }, delta) => {
     if (!keyLight.current || !rimLight.current || !ambient.current) return
     const reveal = activeFragment
       ? Math.max(
@@ -69,15 +69,34 @@ export function SceneLighting() {
     )
     const awakeningPulse = Math.sin(entranceRuntime.pulse * Math.PI)
     const lightSweep = MathUtils.smootherstep(entranceRuntime.sweep, 0, 1)
-    keyLight.current.position.x = MathUtils.lerp(-6.8, -3.8, lightSweep)
-    keyLight.current.position.y = MathUtils.lerp(3.2, 7.2, lightSweep)
+    const threatX =
+      activeFragment === 'fear'
+        ? trialRuntime.fearDirection === 'left'
+          ? -6.4
+          : trialRuntime.fearDirection === 'right'
+            ? 6.4
+            : 0.2
+        : activeFragment === 'identity'
+          ? -6.2
+          : activeFragment === 'hope'
+            ? 0.4
+            : -4.8
+    const threatY =
+      activeFragment === 'fear' && trialRuntime.fearDirection === 'up'
+        ? 7.4
+        : activeFragment === 'hope'
+          ? -0.8
+          : 4.8
+    keyLight.current.position.x = MathUtils.lerp(-7.2, threatX, lightSweep + reveal * 0.2)
+    keyLight.current.position.y = MathUtils.lerp(2.4, threatY, lightSweep + reveal * 0.2)
+    keyLight.current.position.z =
+      activeFragment === 'hope' ? 2.2 : activeFragment === 'fear' ? 3.1 : 4.6
     keyLight.current.intensity =
       (VISUAL_CALIBRATION.keyLightIntensity +
-        reveal * (activeFragment === 'identity' ? 8 : activeFragment === 'hope' ? 5 : 3) +
-        awakeningPulse * (reducedMotion ? 9 : 22) +
-        (reducedMotion ? 0 : Math.sin(clock.elapsedTime * 0.31) * 1.3)) *
+        reveal * (activeFragment === 'identity' ? 9 : activeFragment === 'hope' ? 7 : 4) +
+        awakeningPulse * (reducedMotion ? 8 : 19)) *
         MathUtils.lerp(1, 0.018, darkness) +
-      rebuilt * 21
+      rebuilt * 18
     keyLight.current.intensity *= 0.055 + entranceRuntime.architecture * 0.945
     ambient.current.intensity =
       MathUtils.lerp(
@@ -85,14 +104,22 @@ export function SceneLighting() {
         0.025,
         darkness,
       ) +
-      rebuilt * 0.34
+      rebuilt * 0.28
     ambient.current.intensity *= 0.1 + entranceRuntime.progress * 0.9
-    rimLight.current.position.x = MathUtils.lerp(5.8, 3.4, lightSweep)
-    rimLight.current.position.y = MathUtils.lerp(-0.4, 1.8, lightSweep)
+    rimLight.current.position.x = MathUtils.lerp(
+      5.8,
+      activeFragment === 'hope' ? -1.2 : 3.4,
+      lightSweep + reveal * 0.18,
+    )
+    rimLight.current.position.y = MathUtils.lerp(
+      -0.8,
+      activeFragment === 'hope' ? 1.2 : 1.8,
+      lightSweep + reveal * 0.18,
+    )
     rimLight.current.intensity =
       (1.4 + lightSweep * 4 + awakeningPulse * (reducedMotion ? 5 : 12)) *
         MathUtils.lerp(1, 0.04, darkness) +
-      rebuilt * 3.25
+      rebuilt * 2.8
 
     if (scene.fog instanceof Fog) {
       scene.fog.color.lerp(targetFog, colorEase * Math.max(0.12, reveal))
@@ -103,7 +130,7 @@ export function SceneLighting() {
     <>
       <ambientLight
         ref={ambient}
-        color="#777181"
+        color="#596064"
         intensity={
           VISUAL_CALIBRATION.ambientIntensity * QUALITY_PROFILES[quality].readabilityBoost
         }
@@ -122,8 +149,8 @@ export function SceneLighting() {
       <pointLight
         ref={rimLight}
         position={[3.4, 1.8, -3.6]}
-        color="#776384"
-        intensity={5.4}
+        color="#6d7474"
+        intensity={4.6}
         distance={12}
         decay={2}
       />

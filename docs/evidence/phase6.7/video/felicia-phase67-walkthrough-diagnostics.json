@@ -1,0 +1,86 @@
+{
+  "baseURL": "http://127.0.0.1:4174",
+  "consoleIssues": [],
+  "audioCheckpoints": [
+    {
+      "label": "awakening-complete",
+      "phase": "chamber",
+      "audioStatus": "running",
+      "audioEnabled": "true",
+      "audioEvent": "entry-activation",
+      "ambientStarts": "1"
+    },
+    {
+      "label": "identity-returned",
+      "phase": "chamber",
+      "audioStatus": "running",
+      "audioEnabled": "true",
+      "audioEvent": "fragment-identity",
+      "ambientStarts": "1"
+    },
+    {
+      "label": "fear-returned",
+      "phase": "chamber",
+      "audioStatus": "running",
+      "audioEnabled": "true",
+      "audioEvent": "fragment-fear",
+      "ambientStarts": "1"
+    },
+    {
+      "label": "hope-returned",
+      "phase": "ready-for-reconstruction",
+      "audioStatus": "running",
+      "audioEnabled": "true",
+      "audioEvent": "fragment-hope",
+      "ambientStarts": "1"
+    },
+    {
+      "label": "collapse",
+      "phase": "reconstruction-collapse",
+      "audioStatus": "running",
+      "audioEnabled": "true",
+      "audioEvent": "reconstruction-collapse",
+      "ambientStarts": "1"
+    },
+    {
+      "label": "void",
+      "phase": "reconstruction-void",
+      "audioStatus": "running",
+      "audioEnabled": "true",
+      "audioEvent": "reconstruction-void",
+      "ambientStarts": "1"
+    },
+    {
+      "label": "rebuilding",
+      "phase": "reconstruction-rebuilding",
+      "audioStatus": "running",
+      "audioEnabled": "true",
+      "audioEvent": "reconstruction-rebuilding",
+      "ambientStarts": "1"
+    },
+    {
+      "label": "tableau",
+      "phase": "ending",
+      "audioStatus": "running",
+      "audioEnabled": "true",
+      "audioEvent": "ending-identity",
+      "ambientStarts": "1"
+    },
+    {
+      "label": "replay-available",
+      "phase": "ending",
+      "audioStatus": "running",
+      "audioEnabled": "true",
+      "audioEvent": "ending-identity",
+      "ambientStarts": "1"
+    },
+    {
+      "label": "replayed",
+      "phase": "chamber",
+      "audioStatus": "running",
+      "audioEnabled": "true",
+      "audioEvent": "ending-identity",
+      "ambientStarts": "1"
+    }
+  ]
+}

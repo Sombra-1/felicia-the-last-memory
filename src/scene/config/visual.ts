@@ -1,13 +1,13 @@
 export const PALETTE = {
-  void: '#08080c',
-  graphite: '#191920',
-  metal: '#32313a',
-  silver: '#c9c5d2',
-  white: '#eeeaf2',
-  violet: '#71627f',
-  violetDark: '#3e324a',
-  hope: '#c9a875',
-  hopeSoft: '#ead8b4',
+  void: '#030506',
+  graphite: '#11181b',
+  metal: '#273036',
+  silver: '#aebbc0',
+  white: '#d8d6cd',
+  violet: '#68466f',
+  violetDark: '#211823',
+  hope: '#b9823f',
+  hopeSoft: '#ead9b9',
 } as const
 
 export const SCENE_CHARACTERISTICS = {
@@ -23,15 +23,15 @@ export const SCENE_CHARACTERISTICS = {
 } as const
 
 export const VISUAL_CALIBRATION = {
-  keyLightIntensity: 40,
-  ambientIntensity: 0.66,
-  fogNear: 9,
-  fogFar: 24,
-  bloomIntensity: 0.24,
-  bloomThreshold: 0.9,
-  bloomSmoothing: 0.18,
-  vignetteOffset: 0.24,
-  vignetteDarkness: 0.44,
-  particleOpacity: 0.46,
+  keyLightIntensity: 34,
+  ambientIntensity: 0.42,
+  fogNear: 10,
+  fogFar: 28,
+  bloomIntensity: 0.18,
+  bloomThreshold: 1.02,
+  bloomSmoothing: 0.14,
+  vignetteOffset: 0.2,
+  vignetteDarkness: 0.38,
+  particleOpacity: 0,
   criticalLineOpacity: 0.32,
 } as const

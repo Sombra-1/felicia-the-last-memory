@@ -1,0 +1,114 @@
+{
+  "baseURL": "http://127.0.0.1:5173",
+  "output": "/home/ayx/felicia-the-last-memory/docs/evidence/phase7",
+  "captures": [
+    "01-awakening-hero.png",
+    "02-identity-arrival.png",
+    "03-identity-interaction.png",
+    "04-fear-arrival.png",
+    "05-fear-interaction.png",
+    "06-hope-arrival.png",
+    "07-hope-interaction.png",
+    "08-chamber-all-consequences.png",
+    "09-active-synchronization.png",
+    "10-signature-transformation.png",
+    "11-identity-consciousness.png",
+    "12-fear-consciousness.png",
+    "13-hope-consciousness.png",
+    "14-mobile-hope-trial.png",
+    "15-mobile-ending.png"
+  ],
+  "metrics": [
+    {
+      "filename": "01-awakening-hero.png",
+      "phase": "chamber",
+      "drawCalls": 51,
+      "triangles": 22162
+    },
+    {
+      "filename": "02-identity-arrival.png",
+      "phase": "trial-arrival",
+      "drawCalls": 53,
+      "triangles": 21762
+    },
+    {
+      "filename": "03-identity-interaction.png",
+      "phase": "trial-active",
+      "drawCalls": 55,
+      "triangles": 21782
+    },
+    {
+      "filename": "04-fear-arrival.png",
+      "phase": "trial-arrival",
+      "drawCalls": 58,
+      "triangles": 25724
+    },
+    {
+      "filename": "05-fear-interaction.png",
+      "phase": "trial-active",
+      "drawCalls": 57,
+      "triangles": 24892
+    },
+    {
+      "filename": "06-hope-arrival.png",
+      "phase": "trial-arrival",
+      "drawCalls": 57,
+      "triangles": 24344
+    },
+    {
+      "filename": "07-hope-interaction.png",
+      "phase": "trial-active",
+      "drawCalls": 69,
+      "triangles": 24344
+    },
+    {
+      "filename": "08-chamber-all-consequences.png",
+      "phase": "chamber",
+      "drawCalls": 51,
+      "triangles": 17778
+    },
+    {
+      "filename": "09-active-synchronization.png",
+      "phase": "reconstruction-synchronizing",
+      "drawCalls": 57,
+      "triangles": 21330
+    },
+    {
+      "filename": "10-signature-transformation.png",
+      "phase": "reconstruction-rebuilding",
+      "drawCalls": 70,
+      "triangles": 24686
+    },
+    {
+      "filename": "11-identity-consciousness.png",
+      "phase": "ending",
+      "drawCalls": 56,
+      "triangles": 18010
+    },
+    {
+      "filename": "12-fear-consciousness.png",
+      "phase": "ending",
+      "drawCalls": 55,
+      "triangles": 17974
+    },
+    {
+      "filename": "13-hope-consciousness.png",
+      "phase": "ending",
+      "drawCalls": 59,
+      "triangles": 20278
+    },
+    {
+      "filename": "14-mobile-hope-trial.png",
+      "phase": "trial-active",
+      "drawCalls": 73,
+      "triangles": 25648
+    },
+    {
+      "filename": "15-mobile-ending.png",
+      "phase": "ending",
+      "drawCalls": 58,
+      "triangles": 20270
+    }
+  ],
+  "consoleIssues": []
+}

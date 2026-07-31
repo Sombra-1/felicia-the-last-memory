@@ -1,0 +1,42 @@
+{
+  "baseURL": "http://127.0.0.1:5173",
+  "capturedAt": "2026-07-30T21:00:53.812Z",
+  "consoleProblems": [],
+  "frames": [
+    "docs/evidence/phase8-recovery-full-review/frames/01-opening-hero.png",
+    "docs/evidence/phase8-recovery-full-review/frames/02-identity-alignment.png",
+    "docs/evidence/phase8-recovery-full-review/frames/03-fear-arrival.png",
+    "docs/evidence/phase8-recovery-full-review/frames/04-fear-incoming.png",
+    "docs/evidence/phase8-recovery-full-review/frames/05-fear-impact.png",
+    "docs/evidence/phase8-recovery-full-review/frames/06-fear-completion.png",
+    "docs/evidence/phase8-recovery-full-review/frames/07-hope-arrival.png",
+    "docs/evidence/phase8-recovery-full-review/frames/08-hope-growth.png",
+    "docs/evidence/phase8-recovery-full-review/frames/09-hope-completion.png",
+    "docs/evidence/phase8-recovery-full-review/frames/10-integrated-anatomy.png",
+    "docs/evidence/phase8-recovery-full-review/frames/11-synchronization-node.png",
+    "docs/evidence/phase8-recovery-full-review/frames/12-anatomical-extraction.png",
+    "docs/evidence/phase8-recovery-full-review/frames/13-foundation-formation.png",
+    "docs/evidence/phase8-recovery-full-review/frames/14-ending-identity.png",
+    "docs/evidence/phase8-recovery-full-review/frames/14-ending-fear.png",
+    "docs/evidence/phase8-recovery-full-review/frames/14-ending-hope.png",
+    "docs/evidence/phase8-recovery-full-review/mobile/01-fear-impact-mobile.png",
+    "docs/evidence/phase8-recovery-full-review/mobile/02-hope-growth-mobile.png",
+    "docs/evidence/phase8-recovery-full-review/mobile/03-hope-ending-mobile.png",
+    "docs/evidence/phase8-recovery-full-review/frames/15-identity-departure-midpoint.png",
+    "docs/evidence/phase8-recovery-full-review/frames/16-identity-return-midpoint.png",
+    "docs/evidence/phase8-recovery-full-review/frames/17-fear-departure-midpoint.png",
+    "docs/evidence/phase8-recovery-full-review/frames/18-fear-return-midpoint.png",
+    "docs/evidence/phase8-recovery-full-review/frames/19-hope-departure-midpoint.png",
+    "docs/evidence/phase8-recovery-full-review/frames/20-hope-return-midpoint.png"
+  ],
+  "videos": [
+    "docs/evidence/phase8-recovery-full-review/video/identity-departure-raw.webm",
+    "docs/evidence/phase8-recovery-full-review/video/identity-return-raw.webm",
+    "docs/evidence/phase8-recovery-full-review/video/fear-departure-raw.webm",
+    "docs/evidence/phase8-recovery-full-review/video/fear-return-raw.webm",
+    "docs/evidence/phase8-recovery-full-review/video/hope-departure-raw.webm",
+    "docs/evidence/phase8-recovery-full-review/video/hope-return-raw.webm",
+    "docs/evidence/phase8-recovery-full-review/video/full-reconstruction-browser-audio.webm",
+    "docs/evidence/phase8-recovery-full-review/video/full-reconstruction-raw.webm"
+  ]
+}

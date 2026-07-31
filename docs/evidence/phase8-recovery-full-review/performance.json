@@ -1,0 +1,103 @@
+{
+  "capturedAt": "2026-07-30T21:15:22.121Z",
+  "baseURL": "http://127.0.0.1:5173",
+  "desktop": {
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "opening": {
+      "drawCalls": 45,
+      "triangles": 24849,
+      "quality": "high"
+    },
+    "identity": {
+      "drawCalls": 54,
+      "triangles": 27939,
+      "quality": "high"
+    },
+    "fear": {
+      "drawCalls": 54,
+      "triangles": 27939,
+      "quality": "high"
+    },
+    "hope": {
+      "drawCalls": 54,
+      "triangles": 27939,
+      "quality": "high"
+    },
+    "reconstruction": {
+      "drawCalls": 48,
+      "triangles": 27207,
+      "quality": "high"
+    },
+    "identityEnding": {
+      "drawCalls": 48,
+      "triangles": 27207,
+      "quality": "high"
+    },
+    "fearEnding": {
+      "drawCalls": 48,
+      "triangles": 27207,
+      "quality": "high"
+    },
+    "hopeEnding": {
+      "drawCalls": 42,
+      "triangles": 23595,
+      "quality": "high"
+    },
+    "consoleProblems": []
+  },
+  "mobile": {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "opening": {
+      "drawCalls": 48,
+      "triangles": 24961,
+      "quality": "medium"
+    },
+    "identity": {
+      "drawCalls": 48,
+      "triangles": 24961,
+      "quality": "medium"
+    },
+    "fear": {
+      "drawCalls": 54,
+      "triangles": 27939,
+      "quality": "medium"
+    },
+    "hope": {
+      "drawCalls": 58,
+      "triangles": 31423,
+      "quality": "medium"
+    },
+    "reconstruction": {
+      "drawCalls": 48,
+      "triangles": 27207,
+      "quality": "medium"
+    },
+    "identityEnding": {
+      "drawCalls": 42,
+      "triangles": 23595,
+      "quality": "medium"
+    },
+    "fearEnding": {
+      "drawCalls": 42,
+      "triangles": 23595,
+      "quality": "medium"
+    },
+    "hopeEnding": {
+      "drawCalls": 42,
+      "triangles": 23595,
+      "quality": "medium"
+    },
+    "consoleProblems": []
+  },
+  "notes": [
+    "These are stable scene-complexity measurements, not SwiftShader frame-rate estimates.",
+    "No shadow maps or physical transmission are used.",
+    "Only the active trial world is visible."
+  ]
+}

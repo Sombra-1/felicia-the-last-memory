@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { MathUtils } from 'three'
 import { useExperienceStore } from '../state/experienceStore'
-import { TRIAL_DEFINITIONS } from './trialConfig'
+import { FOUNDATION_INFLUENCE, TRIAL_DEFINITIONS } from './trialConfig'
 import { selectFearShield, setReconstructionHold, setTrialPointer } from './trialControls'
 import { resetTrialBeat, trialRuntime } from './trialRuntime'
 
@@ -59,12 +59,14 @@ export function TrialGameplayCoordinator() {
       }
     }
     const releaseHold = () => setReconstructionHold(false)
+    window.addEventListener('pointerdown', onPointer)
     window.addEventListener('pointermove', onPointer)
     window.addEventListener('keydown', onKey)
     window.addEventListener('keyup', onKeyUp)
     window.addEventListener('pointerup', releaseHold)
     window.addEventListener('pointercancel', releaseHold)
     return () => {
+      window.removeEventListener('pointerdown', onPointer)
       window.removeEventListener('pointermove', onPointer)
       window.removeEventListener('keydown', onKey)
       window.removeEventListener('keyup', onKeyUp)
@@ -93,11 +95,17 @@ export function TrialGameplayCoordinator() {
         committedBeat.current !== state.trialBeat
       ) {
         const definition = TRIAL_DEFINITIONS[state.activeFragment]
+        const foundation = state.collectionOrder[0]
+        const foundationTiming =
+          foundation && foundation !== state.activeFragment
+            ? FOUNDATION_INFLUENCE[foundation].timing
+            : 1
         trialRuntime.beatElapsed += delta
         trialRuntime.inputEnergy = Math.max(0, trialRuntime.inputEnergy - delta * 0.8)
-        const minimum = reducedMotion
-          ? Math.min(5.2, definition.beatMinimumSeconds)
-          : definition.beatMinimumSeconds
+        const minimum =
+          (reducedMotion
+            ? Math.min(3.4, definition.beatMinimumSeconds)
+            : definition.beatMinimumSeconds) * foundationTiming
         const elapsedRatio = MathUtils.clamp(trialRuntime.beatElapsed / minimum, 0, 1)
         let interactionRatio: number
 
@@ -140,7 +148,7 @@ export function TrialGameplayCoordinator() {
             elapsedRatio,
           )
           const proximity =
-            1 - MathUtils.clamp(Math.abs(trialRuntime.hopeSignalX - targetX), 0, 1)
+            1 - MathUtils.clamp(Math.abs(trialRuntime.hopeSignalX - targetX) * 0.5, 0, 1)
           interactionRatio =
             proximity * elapsedRatio * (0.34 + trialRuntime.inputEnergy * 0.66)
         }

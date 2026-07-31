@@ -1,0 +1,24 @@
+{
+  "baseURL": "http://127.0.0.1:5173",
+  "capturedAt": "2026-07-30T19:48:24.997Z",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "consoleProblems": [],
+  "frames": [
+    "docs/evidence/phase8-recovery-gate/frames/01-recovered-opening-hero.png",
+    "docs/evidence/phase8-recovery-gate/frames/02-identity-arrival.png",
+    "docs/evidence/phase8-recovery-gate/frames/03-identity-active.png",
+    "docs/evidence/phase8-recovery-gate/frames/04-anatomy-first-reconstruction-closeup.png",
+    "docs/evidence/phase8-recovery-gate/frames/05-identity-foundation-formation.png",
+    "docs/evidence/phase8-recovery-gate/frames/06-identity-final-profile.png",
+    "docs/evidence/phase8-recovery-gate/frames/07-identity-transition-midpoint.png"
+  ],
+  "videos": [
+    "docs/evidence/phase8-recovery-gate/video/identity-material-transition-raw.webm",
+    "docs/evidence/phase8-recovery-gate/video/anatomy-first-reconstruction-raw.webm",
+    "docs/evidence/phase8-recovery-gate/video/recovery-gate-review-40s.mp4"
+  ],
+  "reviewVideoDurationSeconds": 39.84
+}

@@ -369,6 +369,7 @@ export function FeliciaCore() {
       (activeFragment === 'identity' ? trialRuntime.alignmentHold * 0.1 : 0) +
       (first === 'identity' ? firstStrength * 0.06 : 0) +
       (profile?.id === 'identity' ? formation * 0.09 : 0)
+    const identityClosure = profile?.id === 'identity' ? formation * 0.16 : 0
     const fearGuard = profile?.id === 'fear' ? formation : 0
     const breathRate = first === 'identity' ? 1.45 : first === 'fear' ? 0.82 : 1.05
     const breathWidth =
@@ -441,7 +442,7 @@ export function FeliciaCore() {
     leftShell.current.position.set(
       MathUtils.damp(
         leftShell.current.position.x,
-        -0.34 - opening - identityOrder * 0.03 + fearGuard * 0.12,
+        -0.34 - opening - identityOrder * 0.03 + fearGuard * 0.12 + identityClosure,
         2,
         delta,
       ),
@@ -456,7 +457,7 @@ export function FeliciaCore() {
     rightShell.current.position.set(
       MathUtils.damp(
         rightShell.current.position.x,
-        0.34 + opening + identityOrder * 0.03 - fearGuard * 0.02,
+        0.34 + opening + identityOrder * 0.03 - fearGuard * 0.02 - identityClosure,
         2,
         delta,
       ),

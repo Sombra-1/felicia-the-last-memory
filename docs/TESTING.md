@@ -23,6 +23,7 @@ npm test
 Coverage protects the experience state machine, all six collection orders, ending-profile
 derivation, reconstruction guards, replay/reset, responsive camera and quality
 configuration, procedural-audio lifecycle, mute behavior, and the accessible WebGL fallback.
+The Phase 9 release gate contains 53 unit and integration tests.
 
 ## Browser journeys
 
@@ -35,6 +36,9 @@ The browser suite exercises fragment selection, keyboard and touch-sized control
 orders and ending profiles, repeated input, reduced motion, low quality, visibility recovery,
 real Web Audio initialization, replay, renderer failure, seven viewport sizes, screenshots,
 and console cleanliness.
+
+Renderer-heavy browser journeys run with one worker so multiple headless WebGL contexts do
+not starve one another on shared CI GPUs.
 
 WebKit is isolated because its Linux runtime requires additional host libraries:
 

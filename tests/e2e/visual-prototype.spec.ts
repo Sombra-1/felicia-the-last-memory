@@ -38,7 +38,8 @@ for (const viewport of [
 
     await expect(page.locator('canvas')).toBeVisible()
     await expect(page.locator('.canvas-loading')).toHaveClass(/canvas-loading--hidden/)
-    await expect(page.locator('.fragment-label')).toHaveCount(3)
+    await expect(page.locator('.intro-panel')).toBeVisible()
+    await expect(page.getByRole('button', { name: /enter memory/i })).toBeVisible()
     const safeAreaVariables = await page.evaluate(() => {
       const styles = getComputedStyle(document.documentElement)
       return [
@@ -49,16 +50,6 @@ for (const viewport of [
       ]
     })
     expect(safeAreaVariables.every((value) => value.trim().length > 0)).toBe(true)
-
-    for (const label of await page.locator('.fragment-label').all()) {
-      await expect(label).toBeVisible()
-      const bounds = await label.boundingBox()
-      expect(bounds).not.toBeNull()
-      expect(bounds!.x + bounds!.width).toBeGreaterThan(0)
-      expect(bounds!.x).toBeLessThan(viewport.width)
-      expect(bounds!.y + bounds!.height).toBeGreaterThan(0)
-      expect(bounds!.y).toBeLessThan(viewport.height)
-    }
 
     await page.waitForTimeout(900)
     const drawCallsValue = await page

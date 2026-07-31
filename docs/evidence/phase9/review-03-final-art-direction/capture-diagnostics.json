@@ -1,0 +1,27 @@
+{
+  "baseURL": "http://127.0.0.1:5173",
+  "capturedAt": "2026-07-30T23:09:54.469Z",
+  "consoleProblems": [],
+  "frames": [
+    "docs/evidence/phase9/review-03-final-art-direction/frames/01-opening-hero.png",
+    "docs/evidence/phase9/review-03-final-art-direction/frames/02-identity-alignment.png",
+    "docs/evidence/phase9/review-03-final-art-direction/frames/03-fear-arrival.png",
+    "docs/evidence/phase9/review-03-final-art-direction/frames/04-fear-incoming.png",
+    "docs/evidence/phase9/review-03-final-art-direction/frames/05-fear-impact.png",
+    "docs/evidence/phase9/review-03-final-art-direction/frames/06-fear-completion.png",
+    "docs/evidence/phase9/review-03-final-art-direction/frames/07-hope-arrival.png",
+    "docs/evidence/phase9/review-03-final-art-direction/frames/08-hope-growth.png",
+    "docs/evidence/phase9/review-03-final-art-direction/frames/09-hope-completion.png",
+    "docs/evidence/phase9/review-03-final-art-direction/frames/10-integrated-anatomy.png",
+    "docs/evidence/phase9/review-03-final-art-direction/frames/11-synchronization-node.png",
+    "docs/evidence/phase9/review-03-final-art-direction/frames/12-anatomical-extraction.png",
+    "docs/evidence/phase9/review-03-final-art-direction/frames/13-foundation-formation.png",
+    "docs/evidence/phase9/review-03-final-art-direction/frames/14-ending-identity.png",
+    "docs/evidence/phase9/review-03-final-art-direction/frames/14-ending-fear.png",
+    "docs/evidence/phase9/review-03-final-art-direction/frames/14-ending-hope.png",
+    "docs/evidence/phase9/review-03-final-art-direction/mobile/01-fear-impact-mobile.png",
+    "docs/evidence/phase9/review-03-final-art-direction/mobile/02-hope-growth-mobile.png",
+    "docs/evidence/phase9/review-03-final-art-direction/mobile/03-hope-ending-mobile.png"
+  ],
+  "videos": []
+}

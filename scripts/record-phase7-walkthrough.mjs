@@ -4,6 +4,7 @@ import { resolve } from 'node:path'
 
 const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://127.0.0.1:5173'
 const output = resolve(process.env.PHASE7_VIDEO_DIR ?? 'docs/evidence/phase7/video')
+const basename = process.env.WALKTHROUGH_BASENAME ?? 'felicia-phase7'
 const order = ['fear', 'hope', 'identity']
 const report = {
   baseURL,
@@ -257,19 +258,19 @@ const audioBase64 = await page.evaluate(
   () => window.__FELICIA_EVIDENCE__?.stopAudioCapture() ?? Promise.resolve(''),
 )
 await writeFile(
-  resolve(output, 'felicia-phase7-browser-audio.webm'),
+  resolve(output, `${basename}-browser-audio.webm`),
   Buffer.from(audioBase64, 'base64'),
 )
 const video = page.video()
 await context.close()
-await video?.saveAs(resolve(output, 'felicia-phase7-first-time-walkthrough-video.webm'))
+await video?.saveAs(resolve(output, `${basename}-first-time-walkthrough-video.webm`))
 await browser.close()
 
 report.durationSeconds = elapsed()
 report.activeInteractionSeconds = Number(report.activeInteractionSeconds.toFixed(2))
 report.passiveAnimationSeconds = Number(report.passiveAnimationSeconds.toFixed(2))
 await writeFile(
-  resolve(output, 'felicia-phase7-walkthrough-diagnostics.json'),
+  resolve(output, `${basename}-walkthrough-diagnostics.json`),
   JSON.stringify(report, null, 2),
 )
 console.log(JSON.stringify(report, null, 2))

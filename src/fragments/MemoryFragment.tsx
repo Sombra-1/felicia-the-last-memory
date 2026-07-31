@@ -1,4 +1,3 @@
-import { Html } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { useEffect, useRef, useState } from 'react'
 import { Group, MathUtils } from 'three'
@@ -7,31 +6,7 @@ import { trialRuntime } from '../trials/trialRuntime'
 import { entranceRuntime } from '../experience/entranceRuntime'
 import { reconstructionRuntime } from '../reconstruction/reconstructionRuntime'
 import { useExperienceStore } from '../state/experienceStore'
-import { FearFragment } from './FearFragment'
-import { HopeFragment } from './HopeFragment'
-import { IdentityFragment } from './IdentityFragment'
-
-const collectedColors = {
-  identity: '#dce2e7',
-  fear: '#826792',
-  hope: '#d3ad74',
-} as const
-
-function CollectedMemorySeal({ id }: { id: FragmentPrototype['id'] }) {
-  return (
-    <group scale={0.72}>
-      <mesh rotation={[Math.PI / 4, Math.PI / 4, 0]}>
-        <octahedronGeometry args={[0.42, 0]} />
-        <meshBasicMaterial
-          color={collectedColors[id]}
-          transparent
-          opacity={0.46}
-          wireframe
-        />
-      </mesh>
-    </group>
-  )
-}
+import { RecoveryMemoryOrgan } from './RecoveryMemoryOrgan'
 
 export function MemoryFragment({ fragment }: { fragment: FragmentPrototype }) {
   const container = useRef<Group>(null)
@@ -60,6 +35,8 @@ export function MemoryFragment({ fragment }: { fragment: FragmentPrototype }) {
 
   useFrame((_, delta) => {
     if (!container.current) return
+    container.current.visible = !(active && trialRuntime.passage > 0.995) && !collected
+    if (!container.current.visible) return
     const activeScale = active
       ? 1.08 + Math.max(trialRuntime.anticipation, trialRuntime.departure) * 0.2
       : 1
@@ -93,8 +70,8 @@ export function MemoryFragment({ fragment }: { fragment: FragmentPrototype }) {
     container.current.scale.setScalar(scale)
     container.current.rotation.y = MathUtils.damp(
       container.current.rotation.y,
-      collected && !active ? -0.28 : 0,
-      3,
+      active ? -0.12 : 0,
+      4,
       delta,
     )
   })
@@ -121,46 +98,7 @@ export function MemoryFragment({ fragment }: { fragment: FragmentPrototype }) {
         <sphereGeometry args={[1.28, 12, 8]} />
         <meshBasicMaterial transparent opacity={0} depthWrite={false} />
       </mesh>
-      {collected && !active ? (
-        <CollectedMemorySeal id={fragment.id} />
-      ) : (
-        <>
-          {fragment.id === 'identity' && (
-            <IdentityFragment hovered={hovered} active={active} collected={collected} />
-          )}
-          {fragment.id === 'fear' && (
-            <FearFragment hovered={hovered} active={active} collected={collected} />
-          )}
-          {fragment.id === 'hope' && (
-            <HopeFragment hovered={hovered} active={active} collected={collected} />
-          )}
-        </>
-      )}
-      <Html
-        position={[0, fragment.id === 'hope' ? -1.16 : -1.1, 0.72]}
-        center
-        distanceFactor={8}
-        style={{
-          pointerEvents: 'none',
-          opacity:
-            active || phase.startsWith('reconstruction-') || phase === 'ending' ? 0 : 1,
-        }}
-      >
-        <div
-          className={[
-            'fragment-label',
-            `fragment-label--${fragment.id}`,
-            active && 'fragment-label--active',
-            collected && 'fragment-label--collected',
-            suppressed && 'fragment-label--suppressed',
-          ]
-            .filter(Boolean)
-            .join(' ')}
-        >
-          <span>{fragment.index}</span>
-          <strong>{collected ? `${fragment.label} · recovered` : fragment.label}</strong>
-        </div>
-      </Html>
+      <RecoveryMemoryOrgan fragment={fragment.id} hovered={hovered} active={active} />
     </group>
   )
 }

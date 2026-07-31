@@ -101,7 +101,7 @@ test('all procedural trial worlds and synchronization tableau render without con
   await page.evaluate(() => {
     window.__FELICIA_EVIDENCE__?.holdSynchronization(['fear', 'hope', 'identity'], 0.62)
   })
-  await expect(page.getByText(/active reconstruction ritual/i)).toBeVisible()
+  await expect(page.getByText(/^active reconstruction$/i)).toBeVisible()
   await expect(page.getByText(/secondary — hope/i)).toBeVisible()
   await page.waitForTimeout(400)
 

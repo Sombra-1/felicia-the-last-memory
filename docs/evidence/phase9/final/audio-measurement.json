@@ -1,0 +1,15 @@
+{
+  "source": "walkthrough/felicia-phase9-complete-walkthrough.mp4",
+  "codec": "AAC LC",
+  "sampleRateHz": 48000,
+  "channels": 2,
+  "integratedLoudnessLufs": -26.4,
+  "loudnessRangeLu": 9.3,
+  "truePeakDbfs": -7.0,
+  "clipping": false,
+  "notes": [
+    "Measured with FFmpeg ebur128 after browser capture and final mux.",
+    "The mix is midrange-led and limiter-protected for laptop speakers.",
+    "No duplicate ambience or console issues were recorded."
+  ]
+}

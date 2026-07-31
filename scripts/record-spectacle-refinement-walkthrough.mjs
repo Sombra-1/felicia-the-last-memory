@@ -56,10 +56,7 @@ function startAudioCapture() {
   child.stderr.on('data', (chunk) => {
     errorOutput += chunk.toString()
   })
-  return {
-    child,
-    error: () => errorOutput,
-  }
+  return { child, error: () => errorOutput }
 }
 
 async function waitForCanvas(page) {

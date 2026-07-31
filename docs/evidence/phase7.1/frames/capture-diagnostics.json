@@ -33,116 +33,116 @@
     {
       "filename": "02-identity-arrival.png",
       "phase": "trial-arrival",
-      "drawCalls": 66,
-      "triangles": 24386
+      "drawCalls": 53,
+      "triangles": 21762
     },
     {
       "filename": "03-identity-active-alignment.png",
       "phase": "trial-active",
-      "drawCalls": 68,
-      "triangles": 24406
+      "drawCalls": 55,
+      "triangles": 21782
     },
     {
       "filename": "04-identity-completion.png",
       "phase": "trial-completing",
-      "drawCalls": 70,
-      "triangles": 24426
+      "drawCalls": 57,
+      "triangles": 21802
     },
     {
       "filename": "05-fear-arrival.png",
       "phase": "trial-arrival",
-      "drawCalls": 70,
-      "triangles": 27732
+      "drawCalls": 57,
+      "triangles": 26356
     },
     {
       "filename": "06-incoming-shutdown-pulse.png",
       "phase": "trial-active",
-      "drawCalls": 63,
-      "triangles": 26260
+      "drawCalls": 56,
+      "triangles": 24884
     },
     {
       "filename": "07-shield-impact.png",
       "phase": "trial-active",
-      "drawCalls": 65,
-      "triangles": 27732
+      "drawCalls": 58,
+      "triangles": 26356
     },
     {
       "filename": "08-fear-completion.png",
       "phase": "trial-completing",
-      "drawCalls": 65,
-      "triangles": 27732
+      "drawCalls": 58,
+      "triangles": 26356
     },
     {
       "filename": "09-hope-arrival.png",
       "phase": "trial-arrival",
-      "drawCalls": 78,
-      "triangles": 30832
+      "drawCalls": 67,
+      "triangles": 24328
     },
     {
       "filename": "10-guided-signal-trail.png",
       "phase": "trial-active",
-      "drawCalls": 78,
-      "triangles": 30832
+      "drawCalls": 67,
+      "triangles": 24328
     },
     {
       "filename": "11-organic-gate-opening.png",
       "phase": "trial-active",
-      "drawCalls": 78,
-      "triangles": 30832
+      "drawCalls": 67,
+      "triangles": 24328
     },
     {
       "filename": "12-hope-completion.png",
       "phase": "trial-completing",
-      "drawCalls": 78,
-      "triangles": 30832
+      "drawCalls": 67,
+      "triangles": 24328
     },
     {
       "filename": "13-chamber-integrated-consequences.png",
       "phase": "chamber",
-      "drawCalls": 78,
-      "triangles": 17778
+      "drawCalls": 48,
+      "triangles": 17754
     },
     {
       "filename": "14-active-synchronization.png",
       "phase": "reconstruction-synchronizing",
-      "drawCalls": 57,
-      "triangles": 21330
+      "drawCalls": 54,
+      "triangles": 21306
     },
     {
       "filename": "15-signature-transformation.png",
       "phase": "reconstruction-rebuilding",
-      "drawCalls": 70,
-      "triangles": 24686
+      "drawCalls": 67,
+      "triangles": 24662
     },
     {
       "filename": "16-identity-consciousness.png",
       "phase": "ending",
-      "drawCalls": 56,
-      "triangles": 18010
+      "drawCalls": 53,
+      "triangles": 17986
     },
     {
       "filename": "17-fear-consciousness.png",
       "phase": "ending",
-      "drawCalls": 55,
-      "triangles": 17974
+      "drawCalls": 52,
+      "triangles": 17950
     },
     {
       "filename": "18-hope-consciousness.png",
       "phase": "ending",
-      "drawCalls": 59,
-      "triangles": 20278
+      "drawCalls": 56,
+      "triangles": 20254
     },
     {
       "filename": "19-mobile-trial.png",
       "phase": "trial-active",
-      "drawCalls": 82,
-      "triangles": 32136
+      "drawCalls": 72,
+      "triangles": 25640
     },
     {
       "filename": "20-mobile-ending.png",
       "phase": "ending",
-      "drawCalls": 67,
-      "triangles": 26758
+      "drawCalls": 56,
+      "triangles": 20254
     }
   ],
   "consoleIssues": []
